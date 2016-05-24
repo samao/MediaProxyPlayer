@@ -1,0 +1,6 @@
+/bin/*.js
+/bin/*.html
+/bin/history/
+/html-template/
+/.actionScriptProperties
+/.project
