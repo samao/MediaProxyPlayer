@@ -1,5 +1,7 @@
 package
 {
+	import com.vhall.app.common.controller.MessageController;
+	import com.vhall.app.net.MediaAJMessage;
 	import com.vhall.framework.app.App;
 	import com.vhall.framework.app.manager.StageManager;
 	
@@ -21,6 +23,7 @@ package
 		{
 			removeEventListener(Event.COMPLETE, onInited);
 			StageManager.stage.addEventListener(Event.RESIZE,onResize);
+			new MessageController();
 		}
 		
 		protected function onResize(event:Event):void
