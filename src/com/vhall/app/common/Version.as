@@ -1,4 +1,4 @@
-package com.vhall.app
+package com.vhall.app.common
 {
 	/**
 	 * 版本信息 

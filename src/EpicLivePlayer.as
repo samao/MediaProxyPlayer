@@ -1,6 +1,7 @@
 package
 {
 	import com.vhall.app.common.controller.MessageController;
+	import com.vhall.app.load.ResourceLoadingView;
 	import com.vhall.app.net.MediaAJMessage;
 	import com.vhall.framework.app.App;
 	import com.vhall.framework.app.manager.StageManager;
@@ -24,6 +25,9 @@ package
 			removeEventListener(Event.COMPLETE, onInited);
 			StageManager.stage.addEventListener(Event.RESIZE,onResize);
 			new MessageController();
+			
+			// load main.swf
+			ResourceLoadingView.show("Main.swf",onMainLoadComplete);
 		}
 		
 		protected function onResize(event:Event):void
@@ -31,6 +35,11 @@ package
 			var obj:DisplayObject = this.getChildAt(0);
 			obj.width = StageManager.stageWidth;
 			obj.height = StageManager.stageHeight;
+		}
+		
+		protected function onMainLoadComplete(display:DisplayObject):void
+		{
+			addChild(display);
 		}
 	}
 }
