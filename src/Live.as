@@ -18,7 +18,7 @@ package
 	 * @author Sol
 	 * @date 2016-05-24 21:25:26
 	 */	
-	public class Main extends UIComponent implements IResponder
+	public class Live extends UIComponent implements IResponder
 	{
 		// 整个视频层
 		public var videoLayer:Layer;
@@ -31,7 +31,7 @@ package
 		// 弹框层
 		public var popupLayer:Layer;
 		
-		public function Main(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
+		public function Live(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super(parent, xpos, ypos);
 			new ResponderMediator(this);

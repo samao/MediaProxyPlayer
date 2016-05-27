@@ -26,8 +26,8 @@ package
 			StageManager.stage.addEventListener(Event.RESIZE,onResize);
 			new MessageController();
 			
-			// load main.swf
-			ResourceLoadingView.show("Main.swf",onMainLoadComplete);
+			// load live.swf
+			ResourceLoadingView.show("Live.swf",onMainLoadComplete);
 		}
 		
 		protected function onResize(event:Event):void
