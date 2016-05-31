@@ -10,7 +10,7 @@ package com.vhall.app.common
 		/**
 		 *	产品名称， live,vod,doc等 
 		 */		
-		public static const App:String = "live";
+		public static const App:String = "Live";
 		
 		/**
 		 *	主版本号 
@@ -38,7 +38,7 @@ package com.vhall.app.common
 		 */		
 		public static function get ver():String
 		{
-			return App + " V" + Major + "." + Minor + "." + Patch + "." + Build;
+			return "[" + App + "]V" + Major + "." + Minor + "." + Patch + "." + Build;
 		}
 	}
 }
