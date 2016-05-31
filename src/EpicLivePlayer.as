@@ -1,5 +1,6 @@
 package
 {
+	import com.vhall.app.common.controller.MenuController;
 	import com.vhall.app.common.controller.MessageController;
 	import com.vhall.app.load.ResourceLoadingView;
 	import com.vhall.framework.app.App;
@@ -24,6 +25,7 @@ package
 		{
 			removeEventListener(Event.COMPLETE, onInited);
 			StageManager.stage.addEventListener(Event.RESIZE,onResize);
+			new MenuController();
 			new MessageController();
 			
 			// load live.swf
