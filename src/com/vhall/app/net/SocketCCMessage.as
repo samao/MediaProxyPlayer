@@ -20,7 +20,7 @@ package com.vhall.app.net
 		
 		private function onConnect(data:Object):void
 		{
-//			trace(data);
+			
 		}
 		
 		private function onIOError(data:Object):void

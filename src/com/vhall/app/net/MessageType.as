@@ -7,13 +7,9 @@ package com.vhall.app.net
 		public static const IOERROR:String =  "ioError";
 		public static const CLOSE:String = "close";
 		public static const SECURITY_ERROR:String = "securityError";
+		public static const SOCKET_DATA:String = "socketData";
 		
 		public static const Init:String = "*init";
-		
-		public static const setDoc:String = "*setDoc";
-		
-		public static const Died:String = "*died";
-		
 		
 		/** 开始推流*/		
 		public static const JA_PUBLISH:String = "*publish";
@@ -47,5 +43,31 @@ package com.vhall.app.net
 		public static const AJ_GET_BUFFERLENGTH:String = "*getBufferLength";
 		/** 发送视频buffer*/		
 		public static const AJ_SEND_BUFFER_LENGTH:String = "*sendBufferLength";
+		
+		
+		//-----------------------------------------------------------------------
+		//								小助手相关消息
+		//-----------------------------------------------------------------------
+		/**	启动小助手*/
+		public static const AC_START_ENGINE:String = "startEngine";
+		/**	停止小助手*/
+		public static const AC_STOP_ENGINE:String = "stopEngine";
+		/**	查询小助手状态*/
+		public static const AC_QUERY_ENGINE:String = "queryEngine";
+		
+		public static const CA_CLOSE_STREAM:String = "closeStream";
+		
+		public static const CA_PUBLISH_SUCCESS:String = "publishSuccess";
+		
+		public static const CA_PUBLISH_FAILED:String = "publishFailed";
+		
+		public static const CA_PUBLISH_STOPED:String = "publishStoped";
+		
+		public static const CA_HELPER_LIVE:String = "helperLive";
+		
+		public static const CA_HELPER_DIED:String = "helperDied";
+		
+		
+		
 	}
 }
