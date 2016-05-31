@@ -42,6 +42,15 @@ package com.vhall.app.model
 			return I;
 		}
 		
+		/**
+		 *用户信息 
+		 * @return 
+		 * 
+		 */		
+		public static function get userInfo():UserInfo{
+			return Me().userInfo;
+		}
+		
 		public function Model()
 		{
 			if(I)

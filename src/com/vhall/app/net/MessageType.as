@@ -15,6 +15,23 @@ package com.vhall.app.net
 		
 		public static const Died:String = "*died";
 		
+		/************************************************ WEB AS2JS ***************************************/
+		/**
+		 *上报mic静音 
+		 */		
+		public static var AJ_MICMUTEVOLUME:String = "*micMuteVolume";
+		/**
+		 *上报mic安静 
+		 */		
+		public static var AJ_MICQUITEVOLUME:String = "*micQuiteVolume";
+		
+		/**
+		 *上报mic噪音
+		 */		
+		public static var AJ_MICNOISEVOLUME:String = "*micNoiseVolume";
+		
+		/************************************************ WEB-AS2JS-END***************************************/
+		
 		/************************************************ WEB JS2AS ***************************************/
 		/**
 		 *弹幕消息 
@@ -50,7 +67,7 @@ package com.vhall.app.net
 		 *全屏交互 
 		 */		
 		public static var JA_FULLSCREEN:String = "*fullscreen";
-		/************************************************ WEB JS2AS ***************************************/		
+		/************************************************ WEB-JS2AS-END***************************************/		
 		
 
 		/** 开始推流*/		

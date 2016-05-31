@@ -56,7 +56,11 @@ package com.vhall.app.net
 		private function onActivedPres():void
 		{
 			// TODO Auto Generated method stub
-			
+			if(!Model.userInfo.is_pres){
+				if(!Model.userInfo.is_guest){
+					dispatch(Actions_UI.SHOWWARN_SWITCHINGPRESPIC);
+				}
+			}
 		}
 		/**
 		 *会议结束 
@@ -66,8 +70,8 @@ package com.vhall.app.net
 		{
 			// TODO Auto Generated method stub
 			Model.Me().meetingInfo.is_over = true;
-			NResponder.dispatch(Actions_UI.SHOW_OVER_PIC);
-			NResponder.dispatch(Actions_Report2JS.JS_TELL_TO_CLOSEREPEAT);
+			dispatch(Actions_UI.SHOWWARN_OVER_PIC);
+			dispatch(Actions_Report2JS.JS_CLOS_VOLUME_REEPEAT);
 		}
 	}
 }
