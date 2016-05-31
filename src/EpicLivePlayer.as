@@ -2,13 +2,13 @@ package
 {
 	import com.vhall.app.common.controller.MessageController;
 	import com.vhall.app.load.ResourceLoadingView;
-	import com.vhall.app.net.MediaAJMessage;
 	import com.vhall.framework.app.App;
 	import com.vhall.framework.app.manager.StageManager;
+	import com.vhall.framework.load.ResourceLibrary;
 	
 	import flash.display.DisplayObject;
-	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.system.ApplicationDomain;
 	
 	[SWF(width="960",height="640",backgroundColor="0xC0C0C0")]
 	public class EpicLivePlayer extends App
@@ -27,7 +27,10 @@ package
 			new MessageController();
 			
 			// load live.swf
-			ResourceLoadingView.show("Live.swf",onMainLoadComplete);
+			var arr:Array = [];
+			arr.push({id:"live",url:"Live.swf"});
+			arr.push({id:"ui",url:"ui.swf"});
+			ResourceLoadingView.show(arr,itemComplete,progress,allComplete);
 		}
 		
 		protected function onResize(event:Event):void
@@ -37,9 +40,28 @@ package
 			obj.height = StageManager.stageHeight;
 		}
 		
-		protected function onMainLoadComplete(display:DisplayObject):void
+		protected function itemComplete(item:Object, content:Object, domain:ApplicationDomain):void
 		{
-			addChild(display);
+			switch(item.id)
+			{
+				case "ui":
+					ResourceLibrary.addLibrary("ui",content.getAssets());
+					break;
+				case "live":
+					addChild(content as DisplayObject);
+					break;
+			}
+				
+		}
+		
+		protected function progress(totalCount:int, loadedCount:int, bytesTotal:Number, bytesLoaded:Number, currentItem:Object):void
+		{
+			
+		}
+		
+		protected function allComplete():void
+		{
+			
 		}
 	}
 }

@@ -2,15 +2,10 @@ package com.vhall.app.load
 {
 	import com.vhall.framework.app.App;
 	import com.vhall.framework.app.manager.StageManager;
+	import com.vhall.framework.load.QueueLoader;
 	
 	import flash.display.DisplayObject;
-	import flash.display.Loader;
 	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.ProgressEvent;
-	import flash.net.URLRequest;
-	import flash.system.ApplicationDomain;
-	import flash.system.LoaderContext;
 	import flash.utils.getDefinitionByName;
 	
 	/**
@@ -20,24 +15,27 @@ package com.vhall.app.load
 	 */	
 	public class ResourceLoadingView extends Sprite
 	{
-		
-		private static var loader:ResourceLoadingView = new ResourceLoadingView();
-		private var l:Loader;
-		private var ctx:LoaderContext
+		protected var ql:QueueLoader;
+		private static var instanceCache:Array;
 		
 		public function ResourceLoadingView()
 		{
 			super();
-			
-			l = new Loader();
-			ctx = new LoaderContext(false,ApplicationDomain.currentDomain);
-			l.contentLoaderInfo.addEventListener(Event.COMPLETE, loaderCompleteHandler);
-			l.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, loaderProgressHandler);
 		}
 		
-		public static function show(url:String, complete:Function, progress:Function = null):void
+		public static function show(urls:Array, complete:Function, progress:Function = null, allComplete:Function = null):ResourceLoadingView
 		{
-			loader.show(url, complete, progress);
+			var instance:ResourceLoadingView;
+			if (instanceCache && instanceCache.length > 0)
+			{
+				instance=instanceCache.pop();
+			}
+			else
+			{
+				instance=new ResourceLoadingView;
+			}
+			instance.show(urls, complete, progress, allComplete);
+			return instance;
 		}
 		
 		private function createAndConfigUI():void
@@ -59,14 +57,25 @@ package com.vhall.app.load
 			addChild(dis);
 		}
 		
-		private function show(url:String, complete:Function, progress:Function = null):void
+		private function show(urls:Array, complete:Function, progress:Function = null, allComplete:Function = null):void
 		{
 			createAndConfigUI();
 			App.app.stage.addChild(this);
-			var req:URLRequest = new URLRequest(url);
+			ql = new QueueLoader();
 			this.complete = complete;
 			this.progress = progress;
-			l.load(req,ctx);
+			this.allComplete = allComplete;
+			ql.startQueue(urls,complete,innerAllComplete,innerOnProgress,null);
+			function innerAllComplete():void
+			{
+				allComplete && allComplete();
+				hide();
+			}
+			
+			function innerOnProgress(totalCount:int, loadedCount:int, bytesTotal:Number, bytesLoaded:Number, currentItem:Object):void
+			{
+				progress && progress(totalCount, loadedCount, bytesTotal, bytesLoaded, currentItem);
+			}
 		}
 		
 		private function hide():void
@@ -76,23 +85,6 @@ package com.vhall.app.load
 		
 		private var complete:Function = null;
 		private var progress:Function = null;
-		
-		protected function loaderProgressHandler(event:ProgressEvent):void
-		{
-			if(this.progress != null)
-			{
-				progress(event.bytesTotal,event.bytesLoaded);
-			}
-		}
-		
-		protected function loaderCompleteHandler(event:Event):void
-		{
-			if(this.complete != null)
-			{
-				complete(l.content);
-			}
-			
-			hide();
-		}
+		private var allComplete:Function = null;
 	}
 }
