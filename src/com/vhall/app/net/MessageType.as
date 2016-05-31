@@ -11,6 +11,48 @@ package com.vhall.app.net
 		
 		public static const Init:String = "*init";
 		
+		public static const setDoc:String = "*setDoc";
+		
+		public static const Died:String = "*died";
+		
+		/************************************************ WEB JS2AS ***************************************/
+		/**
+		 *弹幕消息 
+		 */		
+		public static var JA_BARRAGE_CHAT:String = "*chat";
+		/**
+		 *主持人退出，结束会议 
+		 */		
+		public static var JA_METTING_OVER:String = "*over";
+		/**
+		 *显示正在切换嘉宾
+		 */		
+		public static var JA_ACTIVEDPRES:String = "*activedpres";
+		/**
+		 *获取初始化参数
+		 */		
+		public static var JA_GET_INITPARAMS:String = "*getInitParams";
+		
+		/**
+		 *设施是否正在演讲
+		 */		
+		public static var JA_SET_ISPRES:String = "*setIsPres";
+		
+		/**
+		 *通知直播助手数据代码去打开直播助手 
+		 */		
+		public static var JA_OPENAST:String = "*openAst";
+		/**
+		 *声音设置 
+		 */		
+		public static var JA_VOLUME:String = "*volume";
+		/**
+		 *全屏交互 
+		 */		
+		public static var JA_FULLSCREEN:String = "*fullscreen";
+		/************************************************ WEB JS2AS ***************************************/		
+		
+
 		/** 开始推流*/		
 		public static const JA_PUBLISH:String = "*publish";
 		/** 停止推流 */		
