@@ -13,7 +13,14 @@ package com.vhall.app.model
 		public static const GUEST:String = "guest";
 
 		public static const ASSISTANT:String = "assistant";
-
+		/**
+		 *是否正在演讲 
+		 */		
+		public var is_pres:Boolean;
+		/**
+		 *是否会议嘉宾 
+		 */		
+		public var is_guest:Boolean;
 		/**	当前角色*/
 		public var role:String;
 		
@@ -22,10 +29,5 @@ package com.vhall.app.model
 			super();
 		}
 		
-		public function get is_pres():Boolean
-		{
-			//String(flashvars["is_pres"])=="0" ? false : true;
-			return false;
-		}
 	}
 }

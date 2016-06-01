@@ -9,6 +9,7 @@ package
 	
 	import flash.display.DisplayObject;
 	import flash.events.Event;
+	import flash.events.ProgressEvent;
 	import flash.system.ApplicationDomain;
 	
 	[SWF(width="960",height="640",backgroundColor="0xC0C0C0")]
