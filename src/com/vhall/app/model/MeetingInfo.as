@@ -7,6 +7,21 @@ package com.vhall.app.model
 			super();
 		}
 		private var _is_over:Boolean;
+		private var _pid:String;
+
+		/*** 会议代码*/
+		public function get pid():String
+		{
+			return _pid;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set pid(value:String):void
+		{
+			_pid = value;
+		}
 
 		/**
 		 *是否结束会议 

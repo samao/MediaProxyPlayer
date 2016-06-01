@@ -72,6 +72,10 @@ package com.vhall.app.net
 		 *全屏交互 
 		 */		
 		public static var JA_FULLSCREEN:String = "*fullscreen";
+		/**
+		 *全屏交互 
+		 */		
+		public static var JA_BITRATE:String = "*bitrate";
 		/************************************************ WEB-JS2AS-END***************************************/		
 		
 		

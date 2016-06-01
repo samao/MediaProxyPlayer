@@ -13,7 +13,7 @@ package com.vhall.app.view.warn
 		
 		override protected function init():void{
 			super.init();
-			this.graphics.beginFill(0x000000);
+			this.graphics.beginFill(0x111111);
 			this.graphics.drawRect(0,0,320,240);
 			this.graphics.endFill();
 		}

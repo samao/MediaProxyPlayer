@@ -43,23 +43,20 @@ package
 			super.createChildren();
 			
 			videoLayer = new VideoLayer(this);
-			videoLayer.setSize(StageManager.stageWidth,StageManager.stageHeight);
-			
 			controlLayer = new ControlLayer(this);
 			controlLayer.height = 35;
 			controlLayer.bottom = 0;
 			barrageLayer = new BarrageLayer(this);
 			effectLayer = new EffectLayer(this);
 			popupLayer = new PopupLayer(this);
-			setSize(StageManager.stageWidth,StageManager.stageHeight);
 			LayerManager.initLayer(this);
 		}
 		
 		/**	感兴趣 的消息*/
 		public function careList():Array
 		{
-			var arr:Array = [];
-			
+			var arr:Array = [
+			];
 			return arr;
 		}
 		
@@ -78,7 +75,7 @@ package
 			_height = StageManager.stageHeight;
 			_width = StageManager.stageWidth;
 			controlLayer.width = StageManager.stageWidth;
-			videoLayer.setSize(StageManager.stageWidth,StageManager.stageHeight);
+			popupLayer.setSize(StageManager.stageWidth,StageManager.stageHeight);
 		}
 	}
 }
