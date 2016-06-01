@@ -47,6 +47,10 @@ package com.vhall.app.net
 		/**
 		 *切换给来宾 
 		 */		
-		public static const UI_SHOWWARN_SWITCHTOGUEST:String = UI+"switchToGuest"
+		public static const UI_SHOWWARN_SWITCHTOGUEST:String = UI+"switchToGuest";
+		/**
+		 * 窗口缩放
+		 */		
+		public static const UI_WINDOW_RESIZE:String = UI+"windowResize";
 	}
 }
