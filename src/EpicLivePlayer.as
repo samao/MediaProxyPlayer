@@ -9,7 +9,6 @@ package
 	
 	import flash.display.DisplayObject;
 	import flash.events.Event;
-	import flash.events.ProgressEvent;
 	import flash.system.ApplicationDomain;
 	
 	[SWF(width="960",height="640",backgroundColor="0xC0C0C0")]
@@ -29,10 +28,13 @@ package
 			new MenuController();
 			new MessageController();
 			
+			
+			
 			// load live.swf
+			
 			var arr:Array = [];
 			arr.push({id:"ui",url:"ui.swf"});
-			arr.push({id:"live",url:"Live.swf"});
+//			arr.push({id:"live",url:"Live.swf"});
 			ResourceLoadingView.show(arr,itemComplete,progress,allComplete);
 		}
 		
