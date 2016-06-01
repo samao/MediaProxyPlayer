@@ -30,6 +30,11 @@ package com.vhall.app.net
 		 */		
 		public static var AJ_MICNOISEVOLUME:String = "*micNoiseVolume";
 		
+		/**
+		 *上报mic噪音
+		 */		
+		public static var AJ_INITPARAMS:String = "*initParams";
+		
 		/************************************************ WEB-AS2JS-END***************************************/
 		
 		/************************************************ WEB JS2AS ***************************************/
