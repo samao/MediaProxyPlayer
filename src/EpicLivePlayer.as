@@ -25,14 +25,14 @@ package
 		{
 			removeEventListener(Event.COMPLETE, onInited);
 			StageManager.stage.addEventListener(Event.RESIZE,onResize);
-			new MenuController();
+			//new MenuController();
 			new MessageController();
 			
 			// load live.swf
 			var arr:Array = [];
 			arr.push({id:"ui",url:"ui.swf"});
 			arr.push({id:"live",url:"Live.swf"});
-			ResourceLoadingView.show(arr,itemComplete,progress,allComplete);
+			//ResourceLoadingView.show(arr,itemComplete,progress,allComplete);
 		}
 		
 		protected function onResize(event:Event):void

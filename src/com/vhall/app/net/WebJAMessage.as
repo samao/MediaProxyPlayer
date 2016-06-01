@@ -2,8 +2,6 @@ package com.vhall.app.net
 {
 	import com.vhall.framework.app.net.AbsMsgReceiver;
 	
-	import flash.utils.Dictionary;
-	
 	/**
 	 * web端传过来的js消息 js to as 
 	 * @author Sol
@@ -11,6 +9,7 @@ package com.vhall.app.net
 	 */	
 	public class WebJAMessage extends AbsMsgReceiver
 	{
+		
 		override protected function collectionObservers():void
 		{
 			

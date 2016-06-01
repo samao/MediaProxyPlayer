@@ -2,8 +2,6 @@ package com.vhall.app.net
 {
 	import com.vhall.framework.app.net.AbsMsgReceiver;
 	
-	import flash.utils.Dictionary;
-	
 	/**
 	 *	js推给as的消息， 流媒体相关 
 	 * @author Sol
@@ -13,7 +11,6 @@ package com.vhall.app.net
 	{
 		override protected function collectionObservers():void
 		{
-			
 		}
 	}
 }

@@ -21,5 +21,11 @@ package com.vhall.app.model
 		{
 			super();
 		}
+		
+		public function get is_pres():Boolean
+		{
+			//String(flashvars["is_pres"])=="0" ? false : true;
+			return false;
+		}
 	}
 }
