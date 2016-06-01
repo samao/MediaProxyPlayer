@@ -3,6 +3,7 @@ package
 	import com.vhall.app.common.controller.MenuController;
 	import com.vhall.app.common.controller.MessageController;
 	import com.vhall.app.load.ResourceLoadingView;
+	import com.vhall.app.net.AppCMD;
 	import com.vhall.framework.app.App;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.load.ResourceLibrary;
@@ -10,6 +11,8 @@ package
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.system.ApplicationDomain;
+	
+	import appkit.responders.NResponder;
 	
 	[SWF(width="960",height="640",backgroundColor="0xC0C0C0")]
 	public class EpicLivePlayer extends App
@@ -32,10 +35,11 @@ package
 			
 			// load live.swf
 			
-			//var arr:Array = [];
-			///arr.push({id:"ui",url:"ui.swf"});
-			////arr.push({id:"live",url:"L1231ive1.swf"});
-			//ResourceLoadingView.show(arr,itemComplete,progress,allComplete);
+
+			var arr:Array = [];
+			arr.push({id:"ui",url:"ui.swf"});
+			arr.push({id:"live",url:"Live.swf"});
+			ResourceLoadingView.show(arr,itemComplete,progress,allComplete);
 		}
 		
 		protected function onResize(event:Event):void
@@ -43,6 +47,7 @@ package
 			var obj:DisplayObject = this.getChildAt(0);
 			obj.width = StageManager.stageWidth;
 			obj.height = StageManager.stageHeight;
+			NResponder.dispatch(AppCMD.UI_WINDOW_RESIZE,[obj]);
 		}
 		
 		protected function itemComplete(item:Object, content:Object, domain:ApplicationDomain):void

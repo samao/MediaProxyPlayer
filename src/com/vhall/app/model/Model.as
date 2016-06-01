@@ -32,7 +32,16 @@ package com.vhall.app.model
 		
 		/**服务器选择器的数据源**/
 		public var cdnServers:String;
+		/**
+		 * 获取初始化的摄像头和麦克风等信息并上报给页面
+		 */
+		public var scanHardwareLock:Boolean;
 		
+		/*** 推流时传递给服务器的验证码*/
+		public var streamToken:String;
+		
+		/*** 推起流的名称*/
+		public var stream_name:String;
 		public static function Me():Model
 		{
 			if(!I)

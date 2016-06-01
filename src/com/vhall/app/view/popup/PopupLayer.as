@@ -1,8 +1,9 @@
 package com.vhall.app.view.popup
 {
-	import com.vhall.app.actions.Actions_UI;
 	import com.vhall.app.common.Layer;
+	import com.vhall.app.net.AppCMD;
 	import com.vhall.framework.app.mvc.IResponder;
+	import com.vhall.framework.log.Logger;
 	
 	import flash.display.DisplayObjectContainer;
 	
@@ -20,34 +21,35 @@ package com.vhall.app.view.popup
 		public function careList():Array
 		{
 			return [
-				Actions_UI.SHOWWARN_OVER_PIC,
-				Actions_UI.SHOWWARN_SWITCHINGPRESPIC
+				AppCMD.SHOWWARN_OVER_PIC,
+				AppCMD.SWITCHINGPRES
 			];
 		}
 		
-	public function handleCare(msg:String, ...parameters):void
+		public function handleCare(msg:String, ...parameters):void
 		{
+			Logger.getLogger("PopupLayer").info("handleCare Enter MSG:"+msg);
 			switch(msg)
 			{
-				case Actions_UI.SHOWWARN_OVER_PIC:
+				case AppCMD.SHOWWARN_OVER_PIC:
 				{
 					ShowOver();
 					break;
 				}
 					
-				case Actions_UI.SHOWWARN_SWITCHINGPRESPIC:
+				case AppCMD.SWITCHINGPRES:
 				{
 					showSwitchPres();
 					break;
 				}
 					
-				case Actions_UI.SHOWWARN_SWTICHTOYOU:
+				case AppCMD.SWTICHTOYOU:
 				{
 					showSwitchYou();
 					break;
 				}
 					
-				case Actions_UI.SHOWWARN_SWITCHTOGUEST:
+				case AppCMD.SWITCHTOGUEST:
 				{
 					showSwitchGuest();
 					break;
@@ -65,8 +67,9 @@ package com.vhall.app.view.popup
 		 * 
 		 */		
 		protected function ShowOver():void{
-			this.addChild(warn);
+			hideWarn();
 			warn.showOverPic();
+			this.addChild(warn);
 		}
 		
 		/**
@@ -74,8 +77,9 @@ package com.vhall.app.view.popup
 		 * 
 		 */		
 		protected function showSwitchPres():void{
-			this.addChild(warn);
+			hideWarn();
 			warn.showSwitchPres();
+			this.addChild(warn);
 		}
 		
 		/**
@@ -83,18 +87,29 @@ package com.vhall.app.view.popup
 		 * 
 		 */		
 		protected function showSwitchYou():void{
-			this.addChild(warn);
+			hideWarn();
 			warn.showSwitchToYou();
+			this.addChild(warn); 
 		}
 		/**
 		 *显示切换给嘉宾 
 		 * 
 		 */		
 		protected function showSwitchGuest():void{
-			this.addChild(warn);
+			hideWarn();
 			warn.showSwitchToGuest();
+			this.addChild(warn);
 		}
 		
+		/**
+		 *隐藏 
+		 * 
+		 */		
+		protected function hideWarn():void{
+			if(warnPop && warnPop.parent){
+				this.removeChild(warnPop);
+			}
+		}
 		
 		/**
 		 *快捷获取提示框 

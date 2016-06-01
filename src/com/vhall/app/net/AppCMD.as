@@ -34,6 +34,10 @@ package com.vhall.app.net
 		public static const REPORT_START_MIC_REPEAT:String = REPORT+"startMicRepeat";
 		
 		/**
+		 *ui相关 
+		 */		
+		public static const UI:String = "ui_"
+		/**
 		 显示结束播放图 
 		 */		
 		public static const SHOWWARN_OVER_PIC:String = "showOverPic";
@@ -49,5 +53,9 @@ package com.vhall.app.net
 		 *切换来宾 
 		 */		
 		public static const SWITCHTOGUEST:String = "switchToGuest"
+		/**
+		 * 窗口缩放
+		 */		
+		public static const UI_WINDOW_RESIZE:String = UI+"windowResize";
 	}
 }

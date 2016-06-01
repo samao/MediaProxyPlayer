@@ -2,6 +2,7 @@ package
 {
 	import com.vhall.app.common.Layer;
 	import com.vhall.app.manager.LayerManager;
+	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.view.barrage.BarrageLayer;
 	import com.vhall.app.view.control.ControlLayer;
 	import com.vhall.app.view.effect.EffectLayer;
@@ -13,6 +14,8 @@ package
 	import com.vhall.framework.ui.container.Box;
 	
 	import flash.display.DisplayObjectContainer;
+	
+	import appkit.responders.NResponder;
 	
 	/**
 	 * 主类 
@@ -49,15 +52,14 @@ package
 			barrageLayer = new BarrageLayer(this);
 			effectLayer = new EffectLayer(this);
 			popupLayer = new PopupLayer(this);
-			setSize(StageManager.stageWidth,StageManager.stageHeight);
 			LayerManager.initLayer(this);
 		}
 		
 		/**	感兴趣 的消息*/
 		public function careList():Array
 		{
-			var arr:Array = [];
-			
+			var arr:Array = [
+			];
 			return arr;
 		}
 		
@@ -76,6 +78,7 @@ package
 			_height = StageManager.stageHeight;
 			_width = StageManager.stageWidth;
 			controlLayer.width = StageManager.stageWidth;
+			popupLayer.setSize(StageManager.stageWidth,StageManager.stageHeight);
 		}
 	}
 }
