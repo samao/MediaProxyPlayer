@@ -26,7 +26,7 @@ package
 		{
 			removeEventListener(Event.COMPLETE, onInited);
 			StageManager.stage.addEventListener(Event.RESIZE,onResize);
-			//new MenuController();
+			new MenuController();
 			new MessageController();
 			
 			// load live.swf
