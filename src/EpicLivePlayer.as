@@ -34,7 +34,7 @@ package
 			
 			var arr:Array = [];
 			arr.push({id:"ui",url:"ui.swf"});
-//			arr.push({id:"live",url:"Live.swf"});
+//			arr.push({id:"live",url:"Live2.swf"});
 			ResourceLoadingView.show(arr,itemComplete,progress,allComplete);
 		}
 		
