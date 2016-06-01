@@ -6,24 +6,30 @@ package com.vhall.app.view.popup
 	
 	public class WarnPop extends Box
 	{
+		public var warn_logo:WarnLogoPanel;
+		public var warnPanel:WarnPanel;
+		
 		public function WarnPop()
 		{
 			super();
+			verticalCenter = 0;
+			horizontalCenter = 0;
 		}
-		public var warn_logo:WarnLogoPanel;
-		public var warnPanel:WarnPanel;
+		
+		override protected function createChildren():void
+		{
+			warn_logo = new WarnLogoPanel();
+			warnPanel = new WarnPanel();
+		}
 		
 		/**
 		 *显示结束 
 		 * 
 		 */		
 		public function showOverPic():void{
-			removeAll();
-			if(warn_logo == null){
-				warn_logo = new WarnLogoPanel();
-				warn_logo.setLabel("直播结束，感谢您的参与！");
-			}
-			this.addChild(warn_logo);
+			removeAllChild();
+			warn_logo.setLabel("直播结束，感谢您的参与！");
+			addChild(warn_logo);
 		}
 		
 		/**
@@ -31,12 +37,9 @@ package com.vhall.app.view.popup
 		 * 
 		 */		
 		public function showSwitchPres():void{
-			removeAll();
-			if(warnPanel == null){
-				warnPanel = new  WarnPanel();
-				warnPanel.setLabel("正在切换主讲人，请稍候...");
-			}
-			this.addChild(warnPanel);
+			removeAllChild();
+			warnPanel.setLabel("正在切换主讲人，请稍候...");
+			addChild(warnPanel);
 		}
 		
 		/**
@@ -44,12 +47,9 @@ package com.vhall.app.view.popup
 		 * 
 		 */		
 		public function showSwitchToGuest():void{
-			removeAll();
-			if(warnPanel == null){
-				warnPanel = new  WarnPanel();
-				warnPanel.setLabel("正在将主讲权限切换给嘉宾,请稍候...");
-			}
-			this.addChild(warnPanel);
+			removeAllChild();
+			warnPanel.setLabel("正在将主讲权限切换给嘉宾,请稍候...");
+			addChild(warnPanel);
 		}
 		
 		/**
@@ -57,26 +57,17 @@ package com.vhall.app.view.popup
 		 * 
 		 */		
 		public function showSwitchToYou():void{
-			removeAll();
-			if(warnPanel == null){
-				warnPanel = new  WarnPanel();
-				warnPanel.setLabel("正在将主讲权限切换给您，请稍候...");
-			}
+			removeAllChild();
+			warnPanel.setLabel("正在将主讲权限切换给您，请稍候...");
 			this.addChild(warnPanel);
 		}
 		
-		/**
-		 *移除所有 
-		 * 
-		 */		
-		public function removeAll():void{
-			if(warn_logo && warn_logo.parent){
-				this.removeChild(warn_logo);
-			}
-			
-			if(warnPanel && warnPanel.parent){
-				this.removeChild(warnPanel);
-			}
+		public function showSwitchAssistant():void
+		{
+			removeAllChild();
+			warn_logo.setLabel("您正在使用小助手");
+			this.addChild(warn_logo);
 		}
+		
 	}
 }

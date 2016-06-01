@@ -12,7 +12,13 @@ package com.vhall.app.net
 		private static const VIDEO:String = "video_";
 		public static const VIDEO_INITED:String = VIDEO + "INITED";
 		
+		public static const VIDEO_SET_BITRATE:String = "video_set_bitrate";
 		
+		
+		/**
+		 *发送弹幕 
+		 */		
+		public static const ADD_BARRAGE:String = "add_barrage";
 		
 		/**上报 相关*/
 		private static const REPORT:String = "report_";
@@ -27,7 +33,6 @@ package com.vhall.app.net
 		 */		
 		public static const REPORT_START_MIC_REPEAT:String = REPORT+"startMicRepeat";
 		
-		
 		/**
 		 *ui相关 
 		 */		
@@ -35,18 +40,25 @@ package com.vhall.app.net
 		/**
 		 显示结束播放图 
 		 */		
-		public static const UI_SHOWWARN_OVER_PIC:String = UI+"showOverPic";
+		public static const SHOWWARN_OVER_PIC:String = "showOverPic";
 		/**
-		 *显示切换中 
+		 *切换中 
 		 */		
-		public static const UI_SHOWWARN_SWITCHINGPRESPIC:String = UI+"switchingPres";
+		public static const SWITCHINGPRES:String = "switchingPres";
 		/**
-		 *切换给你 
+		 *给你 
 		 */		
-		public static const UI_SHOWWARN_SWTICHTOYOU:String = UI+"swtichToYou";
+		public static const SWTICHTOYOU:String = "swtichToYou";
 		/**
-		 *切换给来宾 
+		 *切换来宾 
 		 */		
-		public static const UI_SHOWWARN_SWITCHTOGUEST:String = UI+"switchToGuest";
+		public static const SWITCHTOGUEST:String = "switchToGuest"
+		
+		/**	显示当前正在使用小助手直播*/
+		public static const SWITCH_TO_ASSISTANT:String = UI + "switchToAssistant";
+		/**
+		 * 窗口缩放
+		 */		
+		public static const UI_WINDOW_RESIZE:String = UI+"windowResize";
 	}
 }

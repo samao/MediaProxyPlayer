@@ -46,7 +46,7 @@ package
 			videoLayer.setSize(StageManager.stageWidth,StageManager.stageHeight);
 			
 			controlLayer = new ControlLayer(this);
-			controlLayer.setSize(StageManager.stageWidth, 35);
+			controlLayer.height = 35;
 			controlLayer.bottom = 0;
 			barrageLayer = new BarrageLayer(this);
 			effectLayer = new EffectLayer(this);

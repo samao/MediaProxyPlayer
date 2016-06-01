@@ -1,7 +1,11 @@
 package
 {
+	import appkit.responders.NResponder;
+	
+	import com.vhall.app.common.controller.MenuController;
 	import com.vhall.app.common.controller.MessageController;
 	import com.vhall.app.load.ResourceLoadingView;
+	import com.vhall.app.net.AppCMD;
 	import com.vhall.framework.app.App;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.load.ResourceLibrary;
@@ -24,10 +28,8 @@ package
 		{
 			removeEventListener(Event.COMPLETE, onInited);
 			StageManager.stage.addEventListener(Event.RESIZE,onResize);
-			//new MenuController();
+			new MenuController();
 			new MessageController();
-			
-			
 			
 			// load live.swf
 			
@@ -42,6 +44,7 @@ package
 			var obj:DisplayObject = this.getChildAt(0);
 			obj.width = StageManager.stageWidth;
 			obj.height = StageManager.stageHeight;
+			NResponder.dispatch(AppCMD.UI_WINDOW_RESIZE,[obj]);
 		}
 		
 		protected function itemComplete(item:Object, content:Object, domain:ApplicationDomain):void
