@@ -43,6 +43,7 @@ package
 			super.createChildren();
 			
 			videoLayer = new VideoLayer(this);
+			
 			controlLayer = new ControlLayer(this);
 			controlLayer.height = 35;
 			controlLayer.bottom = 0;
@@ -76,6 +77,7 @@ package
 			_width = StageManager.stageWidth;
 			controlLayer.width = StageManager.stageWidth;
 			popupLayer.setSize(StageManager.stageWidth,StageManager.stageHeight);
+			videoLayer.setSize(StageManager.stageWidth,StageManager.stageHeight);
 		}
 	}
 }
