@@ -26,7 +26,7 @@ package com.vhall.app.net
 
 		private function onHelperDied(data:Object):void
 		{
-
+			trace("hello");
 		}
 
 		private function onPublishSuccess(data:Object):void
