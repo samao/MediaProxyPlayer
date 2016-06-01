@@ -43,6 +43,8 @@ package
 			super.createChildren();
 			
 			videoLayer = new VideoLayer(this);
+			videoLayer.setSize(StageManager.stageWidth,StageManager.stageHeight);
+			
 			controlLayer = new ControlLayer(this);
 			controlLayer.setSize(StageManager.stageWidth, 35);
 			controlLayer.bottom = 0;
@@ -76,6 +78,7 @@ package
 			_height = StageManager.stageHeight;
 			_width = StageManager.stageWidth;
 			controlLayer.width = StageManager.stageWidth;
+			videoLayer.setSize(StageManager.stageWidth,StageManager.stageHeight);
 		}
 	}
 }

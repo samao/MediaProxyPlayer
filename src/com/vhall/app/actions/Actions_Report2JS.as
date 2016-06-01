@@ -16,5 +16,10 @@ package com.vhall.app.actions
 		 *关闭上报 
 		 */		
 		public static const START_MIC_REPEAT:String = "startMicRepeat";
+		
+		/**
+		 * 发送bufferlength 
+		 */		
+		public static const BUFFER_LENGTH:String = "bufferLength";;
 	}
 }
