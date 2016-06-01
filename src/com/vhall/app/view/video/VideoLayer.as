@@ -3,6 +3,7 @@ package com.vhall.app.view.video
 	import com.vhall.app.common.Layer;
 	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.net.MediaAJMessage;
+	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.media.provider.MediaProxyStates;
 	import com.vhall.framework.media.provider.MediaProxyType;
@@ -95,6 +96,7 @@ package com.vhall.app.view.video
 					break;
 				case MouseEvent.DOUBLE_CLICK:
 					//全屏切换
+					StageManager.toggleFullscreen(e);
 					break;
 			}
 		}
