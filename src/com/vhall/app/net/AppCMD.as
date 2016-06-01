@@ -53,6 +53,9 @@ package com.vhall.app.net
 		 *切换来宾 
 		 */		
 		public static const SWITCHTOGUEST:String = "switchToGuest"
+		
+		/**	显示当前正在使用小助手直播*/
+		public static const SWITCH_TO_ASSISTANT:String = UI + "switchToAssistant";
 		/**
 		 * 窗口缩放
 		 */		

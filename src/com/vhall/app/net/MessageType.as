@@ -78,7 +78,10 @@ package com.vhall.app.net
 		public static var JA_BITRATE:String = "*bitrate";
 		/************************************************ WEB-JS2AS-END***************************************/		
 		
-
+		
+		//-----------------------------------------------------------------------
+		//								视频相关消息
+		//-----------------------------------------------------------------------
 		/** 开始推流*/		
 		public static const JA_PUBLISH:String = "*publish";
 		/** 停止推流 */		
@@ -89,6 +92,8 @@ package com.vhall.app.net
 		public static const JA_GET_MICPHONES:String = "*getMicphones";
 		/** 获取视频buffer*/
 		public static const JA_GET_BUFFER_LENGTH:String = "*getBufferLength";
+		/** 观看端接受页面消息，主播推流开始*/
+		public static const JA_PUBLISH_START:String = "*publishStart";
 		
 		/** 服务器不存在对应的流*/
 		public static const AJ_STREAM_NOT_FOUND:String = "*StreamNotFound";
@@ -109,7 +114,7 @@ package com.vhall.app.net
 		public static const AJ_MICPHONE_LIST:String = "*micphoneList";
 		/** 发送视频buffer*/		
 		public static const AJ_SEND_BUFFER_LENGTH:String = "*sendBufferLength";
-		/** 推流开始*/
+		/** 主播推流开始通知*/
 		public static const AJ_PUBLISH_START:String = "*publishStart";
 		
 		
