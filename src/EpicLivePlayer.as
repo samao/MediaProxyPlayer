@@ -32,10 +32,10 @@ package
 			
 			// load live.swf
 			
-			var arr:Array = [];
-			arr.push({id:"ui",url:"ui.swf"});
-			arr.push({id:"live",url:"Live1.swf"});
-			ResourceLoadingView.show(arr,itemComplete,progress,allComplete);
+			//var arr:Array = [];
+			///arr.push({id:"ui",url:"ui.swf"});
+			////arr.push({id:"live",url:"L1231ive1.swf"});
+			//ResourceLoadingView.show(arr,itemComplete,progress,allComplete);
 		}
 		
 		protected function onResize(event:Event):void
