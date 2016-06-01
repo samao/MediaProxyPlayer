@@ -7,9 +7,10 @@ package
 	import com.vhall.app.view.effect.EffectLayer;
 	import com.vhall.app.view.popup.PopupLayer;
 	import com.vhall.app.view.video.VideoLayer;
+	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.app.mvc.ResponderMediator;
-	import com.vhall.framework.ui.controls.UIComponent;
+	import com.vhall.framework.ui.container.Box;
 	
 	import flash.display.DisplayObjectContainer;
 	
@@ -18,7 +19,7 @@ package
 	 * @author Sol
 	 * @date 2016-05-24 21:25:26
 	 */	
-	public class Live extends UIComponent implements IResponder
+	public class Live extends Box implements IResponder
 	{
 		// 整个视频层
 		public var videoLayer:Layer;
@@ -43,9 +44,12 @@ package
 			
 			videoLayer = new VideoLayer(this);
 			controlLayer = new ControlLayer(this);
+			controlLayer.setSize(StageManager.stageWidth, 35);
+			controlLayer.bottom = 0;
 			barrageLayer = new BarrageLayer(this);
 			effectLayer = new EffectLayer(this);
 			popupLayer = new PopupLayer(this);
+			setSize(StageManager.stageWidth,StageManager.stageHeight);
 			LayerManager.initLayer(this);
 		}
 		
@@ -65,9 +69,13 @@ package
 				
 			}
 		}
-		
-		
-		private function onTest():void{
+
+		override protected function sizeChanged():void
+		{
+			super.sizeChanged();
+			_height = StageManager.stageHeight;
+			_width = StageManager.stageWidth;
+			controlLayer.width = StageManager.stageWidth;
 		}
 	}
 }
