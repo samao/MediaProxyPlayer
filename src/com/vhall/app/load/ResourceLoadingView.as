@@ -56,7 +56,7 @@ package com.vhall.app.load
 				removeChildAt(0);
 			}
 			
-			var logo:Class = getDefinitionByName("logo") as Class;
+			var logo:Class = getDefinitionByName("logo4") as Class;
 			var dis:DisplayObject = new logo();
 			dis.x = StageManager.stageWidth - dis.width >> 1;
 			dis.y = StageManager.stageHeight - dis.height >> 1;
@@ -75,6 +75,7 @@ package com.vhall.app.load
 			function innerAllComplete():void
 			{
 				allComplete && allComplete();
+				
 				hide();
 			}
 			
