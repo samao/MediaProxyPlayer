@@ -1,9 +1,5 @@
 package com.vhall.app.view.control
 {
-	import appkit.responders.NResponder;
-	
-	import com.vhall.app.net.AppCMD;
-	import com.vhall.framework.app.manager.RenderManager;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.app.mvc.ResponderMediator;
@@ -14,8 +10,6 @@ package com.vhall.app.view.control
 	import com.vhall.framework.ui.controls.ToggleButton;
 	
 	import flash.display.DisplayObjectContainer;
-	import flash.display.StageDisplayState;
-	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
 	import flash.events.MouseEvent;
@@ -50,7 +44,7 @@ package com.vhall.app.view.control
 			bg.source = "assets/ui/bg.png";
 			
 			hb = new HBox(this);
-			hb.setSize(width,height);
+			hb.setSize(width / 2,height);
 			hb.verticalAlign = "center";
 			hb.horizontalAlign = "right";
 			
@@ -74,7 +68,8 @@ package com.vhall.app.view.control
 		
 		protected function onFull(e:FullScreenEvent):void
 		{
-			btnFullscreen.selected = e.fullScreen;
+			trace(e.fullScreen);
+			btnFullscreen.setSelected(e.fullScreen);
 		}
 		
 		protected function onToggleClickHandler(e:MouseEvent):void

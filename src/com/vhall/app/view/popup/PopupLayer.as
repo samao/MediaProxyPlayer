@@ -22,7 +22,8 @@ package com.vhall.app.view.popup
 		{
 			return [
 				AppCMD.SHOWWARN_OVER_PIC,
-				AppCMD.SWITCHINGPRES
+				AppCMD.SWITCHINGPRES,
+				AppCMD.SWITCH_TO_ASSISTANT
 			];
 		}
 		
@@ -32,33 +33,22 @@ package com.vhall.app.view.popup
 			switch(msg)
 			{
 				case AppCMD.SHOWWARN_OVER_PIC:
-				{
 					ShowOver();
 					break;
-				}
-					
 				case AppCMD.SWITCHINGPRES:
-				{
 					showSwitchPres();
 					break;
-				}
-					
 				case AppCMD.SWTICHTOYOU:
-				{
 					showSwitchYou();
 					break;
-				}
-					
 				case AppCMD.SWITCHTOGUEST:
-				{
 					showSwitchGuest();
 					break;
-				}
-					
-				default:
-				{
+				case AppCMD.SWITCH_TO_ASSISTANT:
+					showSwitchAssistant();
 					break;
-				}
+				default:
+					break;
 			}
 		}
 		
@@ -101,14 +91,20 @@ package com.vhall.app.view.popup
 			this.addChild(warn);
 		}
 		
+		/**	显示小助手LOGO*/
+		protected function showSwitchAssistant():void
+		{
+			hideWarn();
+			warn.showSwitchAssistant();
+			this.addChild(warn);
+		}
+		
 		/**
 		 *隐藏 
 		 * 
 		 */		
 		protected function hideWarn():void{
-			if(warnPop && warnPop.parent){
-				this.removeChild(warnPop);
-			}
+			warnPop && warnPop.removeFromParent();
 		}
 		
 		/**

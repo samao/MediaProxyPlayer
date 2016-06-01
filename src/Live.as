@@ -2,7 +2,6 @@ package
 {
 	import com.vhall.app.common.Layer;
 	import com.vhall.app.manager.LayerManager;
-	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.view.barrage.BarrageLayer;
 	import com.vhall.app.view.control.ControlLayer;
 	import com.vhall.app.view.effect.EffectLayer;
@@ -14,8 +13,6 @@ package
 	import com.vhall.framework.ui.container.Box;
 	
 	import flash.display.DisplayObjectContainer;
-	
-	import appkit.responders.NResponder;
 	
 	/**
 	 * 主类 
@@ -47,7 +44,7 @@ package
 			
 			videoLayer = new VideoLayer(this);
 			controlLayer = new ControlLayer(this);
-			controlLayer.setSize(StageManager.stageWidth, 35);
+			controlLayer.height = 35;
 			controlLayer.bottom = 0;
 			barrageLayer = new BarrageLayer(this);
 			effectLayer = new EffectLayer(this);

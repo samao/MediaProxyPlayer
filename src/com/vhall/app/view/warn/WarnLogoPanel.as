@@ -4,43 +4,41 @@ package com.vhall.app.view.warn
 	import com.vhall.framework.ui.controls.Label;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
 	
+	import flashx.textLayout.formats.TextAlign;
+
 	public class WarnLogoPanel extends BlackLogoBox
 	{
 		private var label:Label;
-		public function WarnLogoPanel(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
+
+		public function WarnLogoPanel(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0)
 		{
 			super(parent, xpos, ypos);
-			initLabel();
 		}
-		
-		protected function initLabel():void{
-			label = new Label();
-			var df:TextFormat = label.textField.defaultTextFormat;
-			df.color = 0xFFFFFF;
-			df.size = 18;
-			df.align = TextFieldAutoSize.CENTER;
-			label.textField.defaultTextFormat = df;
-			label.x = 0;
-			label.y = 146;
-			label.width = 320;
-			label.height = 28;
-			this.addChild(label);
+
+		override protected function createChildren():void
+		{
+			super.createChildren();
+			label = new Label(this);
+			label.color = 0xFFFFFF;
+			label.fontSize = 18;
+			label.move(0, 146);
+			label.setSize(320, 28);
+			label.align = "center";
 		}
-		
-		
-		public function setLabel(value:String):void{
+
+		public function setLabel(value:String):void
+		{
 			label.text = value;
-			label.textField.width = label.textField.textWidth +4;
-			label.x = (this.width - label.textField.width)/2
 		}
-		
-		public function labelRePosition(tx:int,ty:int):void{
-			label.x = tx;
-			label.y = ty;
+
+		public function labelRePosition(tx:int, ty:int):void
+		{
+			label.move(tx, ty);
 		}
-		
+
 	}
 }

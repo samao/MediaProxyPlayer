@@ -55,13 +55,17 @@ package com.vhall.app.net
 		
 		private function onOpenAST(data:Object = null):void
 		{
-			// TODO Auto Generated method stub
-			
-			//开启小助手消息
-			AssistantACMessage.startEngine(Model.Me().meetingInfo.pid,Model.userInfo.uname,Model.Me().stream_name,Model.Me().streamToken,Model.Me().hide_powered,Model.Me().cdnServers);
-			//停止上报mic
-			dispatch(AppCMD.REPORT_JS_CLOS_VOLUME_REEPEAT);
-			
+			// 只有当前人为演讲人，才会执行以下逻辑
+			if(Model.userInfo.is_pres)
+			{
+				var self:Model = Model.Me();
+				//开启小助手消息
+				AssistantACMessage.startEngine(self.meetingInfo.pid,self.userInfo.uname,self.stream_name,self.streamToken,self.hide_powered,self.cdnServers);
+				//停止上报mic
+				dispatch(AppCMD.REPORT_JS_CLOS_VOLUME_REEPEAT);
+				// UI显示 使用小助手直播
+				dispatch(AppCMD.SWITCH_TO_ASSISTANT);
+			}
 		}
 		
 		private function onGetInitParams(data:Object = null):void
@@ -78,7 +82,6 @@ package com.vhall.app.net
 		
 		private function onFullScreen(data:Object = null):void
 		{
-			// TODO Auto Generated method stub
 			if(Boolean(data.param))
 			{
 				StageManager.stage.displayState = StageDisplayState.FULL_SCREEN;
