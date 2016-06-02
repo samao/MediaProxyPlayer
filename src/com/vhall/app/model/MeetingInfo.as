@@ -6,38 +6,10 @@ package com.vhall.app.model
 		{
 			super();
 		}
-		private var _is_over:Boolean;
-		private var _pid:String;
-
+		
+		/**	是否结束会议 */
+		public var is_over:Boolean;
 		/*** 会议代码*/
-		public function get pid():String
-		{
-			return _pid;
-		}
-
-		/**
-		 * @private
-		 */
-		public function set pid(value:String):void
-		{
-			_pid = value;
-		}
-
-		/**
-		 *是否结束会议 
-		 */
-		public function get is_over():Boolean
-		{
-			return _is_over;
-		}
-
-		/**
-		 * @private
-		 */
-		public function set is_over(value:Boolean):void
-		{
-			_is_over = value;
-		}
-
+		public var pid:String;
 	}
 }

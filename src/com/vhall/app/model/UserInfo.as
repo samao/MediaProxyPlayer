@@ -17,14 +17,15 @@ package com.vhall.app.model
 		 *是否正在演讲 
 		 */		
 		public var is_pres:Boolean;
-		/**
-		 *是否会议嘉宾 
-		 */		
+		
+		/** 是否会议嘉宾*/		
 		public var is_guest:Boolean;
-		private var _uid:String;
+		/**	用户ID*/
+		public var uid:String;
 		
 		/** 参会者名字**/
 		public var uname:String = "undefined";
+		
 		/**	当前角色*/
 		public var role:String;
 		
@@ -32,21 +33,5 @@ package com.vhall.app.model
 		{
 			super();
 		}
-		
-		/**
-		 *id 
-		 * @return 
-		 * 
-		 */		
-		public function get uid():String
-		{
-			return _uid;
-		}
-
-		public function set uid(value:String):void
-		{
-			_uid = value;
-		}
-
 	}
 }
