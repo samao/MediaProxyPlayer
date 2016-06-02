@@ -60,7 +60,7 @@ package com.vhall.app.net
 			{
 				var self:Model = Model.Me();
 				//开启小助手消息
-				AssistantACMessage.startEngine(self.meetingInfo.pid,self.userInfo.uname,self.stream_name,self.streamToken,self.hide_powered,self.cdnServers);
+				AssistantACMessage.startEngine(self.meetinginfo.pid,self.userinfo.uname,self.stream_name,self.streamToken,self.hide_powered,self.cdnServers);
 				//停止上报mic
 				dispatch(AppCMD.REPORT_JS_CLOS_VOLUME_REEPEAT);
 				// UI显示 使用小助手直播
@@ -117,7 +117,7 @@ package com.vhall.app.net
 		{
 			Logger.getLogger("WebJAMsg").info("onMettingOver Enter");
 			// TODO Auto Generated method stub
-			Model.Me().meetingInfo.is_over = true;
+			Model.Me().meetinginfo.is_over = true;
 			dispatch(AppCMD.SHOWWARN_OVER_PIC);
 			dispatch(AppCMD.REPORT_JS_CLOS_VOLUME_REEPEAT);
 		}

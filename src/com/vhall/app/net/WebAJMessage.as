@@ -68,5 +68,12 @@ package com.vhall.app.net
 			sender.sendCMDMsg(info);
 		}
 		
+		/**	通知JS 告知发布流成功*/
+		public static function sendPublishSuccess():void
+		{
+			var obj:Object = {};
+			obj.type = MessageType.AJ_PUBLISH_START;
+			sender.sendCMDMsg(obj);
+		}
 	}
 }
