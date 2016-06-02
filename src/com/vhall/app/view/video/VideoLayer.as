@@ -52,13 +52,13 @@ package com.vhall.app.view.video
 		{
 			return [Actions_Report2JS.BUFFER_LENGTH,
 				AppCMD.QUITE_SERVER,
-				AppCMD.SET_VOLUME,
-				AppCMD.SWITCH_LINE,
-				AppCMD.SWITCH_QUALITY,
-				AppCMD.PLAYER_DISPOSE,
-				AppCMD.MUTE_ALL,
-				AppCMD.MUTE_CAMERA,
-				AppCMD.MUTE_MICROPHONE
+				AppCMD.MEDIA_SET_VOLUME,
+				AppCMD.MEDIA_SWITCH_LINE,
+				AppCMD.MEDIA_SWITCH_QUALITY,
+				AppCMD.MEDIA_PLAYER_DISPOSE,
+				AppCMD.MEDIA_MUTE_ALL,
+				AppCMD.MEDIA_MUTE_CAMERA,
+				AppCMD.MEDIA_MUTE_MICROPHONE
 			];
 		}
 		
@@ -72,23 +72,23 @@ package com.vhall.app.view.video
 				case AppCMD.QUITE_SERVER:
 					_videoPlayer.attachType(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName);
 					break;
-				case AppCMD.SET_VOLUME:
+				case AppCMD.MEDIA_SET_VOLUME:
 					_videoPlayer.volume = info.volume;
 					break;
-				case AppCMD.SWITCH_LINE:
+				case AppCMD.MEDIA_SWITCH_LINE:
 					_videoPlayer.attachType(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName);
 					break;
-				case AppCMD.MUTE_ALL:
+				case AppCMD.MEDIA_MUTE_ALL:
 					_videoPlayer.cameraMuted = info.cameraMute;
 					_videoPlayer.microphoneMuted = info.microphone;
 					break;
-				case AppCMD.MUTE_CAMERA:
+				case AppCMD.MEDIA_MUTE_CAMERA:
 					_videoPlayer.cameraMuted = info.cameraMute;
 					break;
-				case AppCMD.MUTE_MICROPHONE:
+				case AppCMD.MEDIA_MUTE_MICROPHONE:
 					_videoPlayer.microphoneMuted = info.microphone;
 					break;
-				case AppCMD.PLAYER_DISPOSE:
+				case AppCMD.MEDIA_PLAYER_DISPOSE:
 					_videoPlayer.stop();
 					break;
 			}
