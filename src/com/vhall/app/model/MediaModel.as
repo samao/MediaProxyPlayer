@@ -14,6 +14,17 @@ package com.vhall.app.model
 	 */	
 	public class MediaModel
 	{
+		/** 禁止摄像头*/
+		public var cameraMute:Boolean = false;
+		/** 禁止麦克风*/
+		public var microphone:Boolean = false;
+		/** 当前播放音量*/
+		public var volume:Number = 0.68;
+		/** netconnection地址或者文件路径*/
+		public var netOrFileUrl:String = "";
+		/** 流名称*/		
+		public var streamName:String = "";
+		
 		private static var _instance:MediaModel;
 		
 		public static function me():MediaModel

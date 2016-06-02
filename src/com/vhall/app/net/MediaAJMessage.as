@@ -2,6 +2,7 @@ package com.vhall.app.net
 {
 	import com.vhall.framework.app.net.MessageManager;
 	import com.vhall.framework.app.net.WebBridge;
+	import com.vhall.framework.log.Logger;
 	import com.vhall.framework.media.provider.InfoCode;
 	
 	import flash.media.Camera;
@@ -17,33 +18,48 @@ package com.vhall.app.net
 	{
 		private static var sender:WebBridge = MessageManager.getInstance().getBridge();
 		
+		//--------页面请求返回
+		
+		/**
+		 * 发送摄像头列表
+		 */		
 		public static function getCameras():void
 		{
 			scanHardware();
 			sender.sendCMDMsg({type:MessageType.AJ_CAMERA_LIST,names:Camera.names});
 		}
 		
+		/**
+		 * 发送麦克风列表
+		 */		
 		public static function getMicrophones():void
 		{
 			scanHardware();
 			sender.sendCMDMsg({type:MessageType.AJ_MICPHONE_LIST,names:Microphone.names});
 		}
 		
-		public static function quiteServer():void
-		{
-			sender.sendCMDMsg({type:MessageType.AJ_QUITE_SERVER});
-		}
-		
+		/**
+		 * 发送当前bufferlength
+		 * @param value
+		 */		
 		public static function sendBufferLength(value:Number):void
 		{
 			sender.sendCMDMsg({content:value});
 		}
 		
-		public static function streamNotFound():void
+		//--------流信息报告
+		/**
+		 * 通知页面播放的流不存在
+		 */		
+		public static function streamNotFound(uri:String):void
 		{
 			sender.sendCMDMsg({type:MessageType.AJ_STREAM_NOT_FOUND});
+			Logger.getLogger("MediaAJ").info("不存在当前播放的流名称:",uri);
 		}
-		
+		/**
+		 * 通知页面建立服务器链接失败
+		 * @param result
+		 */		
 		public static function connectFail(result:String):void
 		{
 			switch(result)
@@ -55,8 +71,12 @@ package com.vhall.app.net
 					sender.sendCMDMsg({type:MessageType.AJ_PULL_CONNECT_FAIL});
 					break;
 			}
+			Logger.getLogger("MediaAJ").info("建立播放通道失败：",result);
 		}
-		
+		/**
+		 * 开始推流通知
+		 * @param bool
+		 */		
 		public static function publishStart(bool:Boolean):void
 		{
 			sender.sendCMDMsg({type:MessageType.AJ_PUBLISH_START,isVideoMode:bool});

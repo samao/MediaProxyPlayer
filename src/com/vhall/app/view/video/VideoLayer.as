@@ -2,6 +2,8 @@ package com.vhall.app.view.video
 {
 	import com.vhall.app.actions.Actions_Report2JS;
 	import com.vhall.app.common.Layer;
+	import com.vhall.app.model.MediaModel;
+	import com.vhall.app.model.Model;
 	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.net.MediaAJMessage;
 	import com.vhall.framework.app.manager.StageManager;
@@ -51,6 +53,12 @@ package com.vhall.app.view.video
 			return [Actions_Report2JS.BUFFER_LENGTH,
 				AppCMD.QUITE_SERVER,
 				AppCMD.SET_VOLUME,
+				AppCMD.SWITCH_LINE,
+				AppCMD.SWITCH_QUALITY,
+				AppCMD.PLAYER_DISPOSE,
+				AppCMD.MUTE_ALL,
+				AppCMD.MUTE_CAMERA,
+				AppCMD.MUTE_MICROPHONE
 			];
 		}
 		
@@ -62,15 +70,29 @@ package com.vhall.app.view.video
 					MediaAJMessage.sendBufferLength(_videoPlayer.bufferLength);
 					break;
 				case AppCMD.QUITE_SERVER:
-					MediaAJMessage.quiteServer();
-					//_videoPlayer.attachType(MediaProxyType.PUBLISH);
+					_videoPlayer.attachType(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName);
 					break;
 				case AppCMD.SET_VOLUME:
-					_videoPlayer.volume = parameters[0];
+					_videoPlayer.volume = info.volume;
+					break;
+				case AppCMD.SWITCH_LINE:
+					_videoPlayer.attachType(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName);
+					break;
+				case AppCMD.MUTE_ALL:
+					_videoPlayer.cameraMuted = info.cameraMute;
+					_videoPlayer.microphoneMuted = info.microphone;
+					break;
+				case AppCMD.MUTE_CAMERA:
+					_videoPlayer.cameraMuted = info.cameraMute;
+					break;
+				case AppCMD.MUTE_MICROPHONE:
+					_videoPlayer.microphoneMuted = info.microphone;
+					break;
+				case AppCMD.PLAYER_DISPOSE:
+					_videoPlayer.stop();
 					break;
 			}
 		}
-		
 		
 		private function videoHandler(states:String,...value):void
 		{
@@ -82,14 +104,10 @@ package com.vhall.app.view.video
 					MediaAJMessage.connectFail(value[0]);
 					break;
 				case MediaProxyStates.STREAM_NOT_FOUND:
+					MediaAJMessage.streamNotFound(value[0]);
 					break;
 				case MediaProxyStates.PUBLISH_NOTIFY:
 					MediaAJMessage.publishStart(_videoPlayer.usedCam ? false : true);
-					break;
-				case MediaProxyStates.UN_PUBLISH_NOTIFY:
-					break;
-				case MediaProxyStates.PUBLISH_BAD_NAME:
-					//重推
 					break;
 				case MediaProxyStates.STREAM_START:
 					send(AppCMD.VIDEO_START);
@@ -102,6 +120,11 @@ package com.vhall.app.view.video
 					break;
 				case MediaProxyStates.STREAM_FULL:
 					send(AppCMD.BUFFER_FULL);
+					break;
+				case MediaProxyStates.UN_PUBLISH_NOTIFY:
+					break;
+				case MediaProxyStates.PUBLISH_BAD_NAME:
+					//重推
 					break;
 			}
 		}
@@ -139,6 +162,37 @@ package com.vhall.app.view.video
 				}
 				_videoPlayer.viewPort = rect;
 			}
+		}
+		
+		/**
+		 * 根据业务逻辑和用户数据返回当前协议类型
+		 * @param uri
+		 * @return 
+		 */		
+		private function protocol(uri:String):String
+		{
+			if(uri.indexOf("rtmp://") == 0)
+			{
+				if(Model.Me().userinfo.is_pres)
+				{
+					return MediaProxyType.PUBLISH;
+				}
+				return MediaProxyType.RTMP
+			}
+			
+			const p:String = uri.replace(/\?.+/ig,"");
+			const exName:String = ".m3u8";
+			const lastIndexExName:int = p.length - exName.length;
+			if(lastIndexExName >= 0 && lastIndexExName == p.indexOf(exName)){
+				return MediaProxyType.HLS;
+			}
+			
+			return MediaProxyType.HTTP;
+		}
+		
+		private function get info():MediaModel
+		{
+			return MediaModel.me();
 		}
 		
 		private function send(action:String,param:Array = null):void
