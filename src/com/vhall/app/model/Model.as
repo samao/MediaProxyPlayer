@@ -16,7 +16,7 @@ package com.vhall.app.model
 		public var meetingInfo:MeetingInfo;
 		
 		/**	当前流数据的信息*/
-		public var streamInfo:StreamInfo;
+		public var videoInfo:VideoInfo;
 		
 		/*** 是否隐藏微吼的相关标识*/
 		public var hide_powered:Boolean;

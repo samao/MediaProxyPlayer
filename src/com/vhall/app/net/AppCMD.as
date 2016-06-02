@@ -14,6 +14,32 @@ package com.vhall.app.net
 		
 		public static const VIDEO_SET_BITRATE:String = "video_set_bitrate";
 		
+		/** 页面回调的通知从播放摄像头视频转向播放服务器视频（观看端或者切嘉宾状态） **/
+		public static const TELL_CORE_CAMERA_TO_VIDEO:String = VIDEO + "tellAsCameraToVideo";
+		
+		/** 通知已经被收回主讲权的嘉宾去终止上报 **/
+		public static const TELL_GUEST_TO_END_REPEAT:String = VIDEO + "tellGuestToEndRepeat";
+		
+		/** 更改推流服务器*/
+		public static const QUITE_SERVER:String = VIDEO + "quiteServer";
+		
+		/** 设置摄像头回显 **/
+		public static const SET_KERNEL_CAMERA:String = VIDEO + "setKernelCamera";
+		/**	填充buffer*/		
+		public static const BUFFER_LOADING:String = VIDEO + "bufferLoaing";
+		/** buffer填充完成*/
+		public static const BUFFER_FULL:String = VIDEO + "bufferFull";
+		/**设置音量*/
+		public static const SET_VOLUME:String = VIDEO +　"setVolume";
+		/**视频播放开始*/
+		public static const VIDEO_START:String = VIDEO +　"videoStart";
+		/**视频播放完毕*/
+		public static const VIDEO_FINISH:String = VIDEO + "videoFinish";
+		/** 外部控制视频暂停*/
+		public static const SET_VIDEO_PAUSE:String = VIDEO + "setVideoPause";
+		/** 播放器暂停*/
+		public static const VIDEO_PAUSE_SUCCESS:String = VIDEO + "videoPauseSuccess";
+		
 		
 		/**
 		 *发送弹幕 

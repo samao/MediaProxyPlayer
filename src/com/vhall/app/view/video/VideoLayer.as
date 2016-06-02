@@ -1,8 +1,8 @@
 package com.vhall.app.view.video
 {
-	import com.vhall.app.actions.Action_Media;
 	import com.vhall.app.actions.Actions_Report2JS;
 	import com.vhall.app.common.Layer;
+	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.net.MediaAJMessage;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
@@ -14,6 +14,8 @@ package com.vhall.app.view.video
 	import flash.display.StageDisplayState;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
+	
+	import appkit.responders.NResponder;
 	
 	public class VideoLayer extends Layer implements IResponder
 	{
@@ -30,19 +32,26 @@ package com.vhall.app.view.video
 			
 			_videoPlayer ||= VideoPlayer.create();
 			addChild(_videoPlayer);
-			_videoPlayer.connect(MediaProxyType.HLS,"http://cnhlsvodhls01.e.vhall.com/vhalllive/199811626/fulllist.m3u8");
+			_videoPlayer.connect(MediaProxyType.HTTP,"http://localhost/vod/1.mp4");
 			
 			doubleClickEnabled = true;
 			mouseChildren = false;
 			
 			addEventListener(MouseEvent.DOUBLE_CLICK,mouseHandler)
 			
-			addEventListener(MouseEvent.CLICK,mouseHandler);
+			//回放增加屏幕暂停功能
+			if(_videoPlayer.type == MediaProxyType.PUBLISH || _videoPlayer.type == MediaProxyType.RTMP)
+			{
+				addEventListener(MouseEvent.CLICK,mouseHandler);
+			}		
 		}
 		
 		public function careList():Array
 		{
-			return [Actions_Report2JS.BUFFER_LENGTH,Action_Media.QUITE_SERVER];
+			return [Actions_Report2JS.BUFFER_LENGTH,
+				AppCMD.QUITE_SERVER,
+				AppCMD.SET_VOLUME,
+			];
 		}
 		
 		public function handleCare(msg:String, ...parameters):void
@@ -52,9 +61,12 @@ package com.vhall.app.view.video
 				case Actions_Report2JS.BUFFER_LENGTH:
 					MediaAJMessage.sendBufferLength(_videoPlayer.bufferLength);
 					break;
-				case Action_Media.QUITE_SERVER:
+				case AppCMD.QUITE_SERVER:
 					MediaAJMessage.quiteServer();
 					//_videoPlayer.attachType(MediaProxyType.PUBLISH);
+					break;
+				case AppCMD.SET_VOLUME:
+					_videoPlayer.volume = parameters[0];
 					break;
 			}
 		}
@@ -80,8 +92,16 @@ package com.vhall.app.view.video
 					//重推
 					break;
 				case MediaProxyStates.STREAM_START:
+					send(AppCMD.VIDEO_START);
 					break;
 				case MediaProxyStates.STREAM_STOP:
+					send(AppCMD.VIDEO_FINISH);
+					break;
+				case MediaProxyStates.STREAM_LOADING:
+					send(AppCMD.BUFFER_LOADING);
+					break;
+				case MediaProxyStates.STREAM_FULL:
+					send(AppCMD.BUFFER_FULL);
 					break;
 			}
 		}
@@ -91,7 +111,8 @@ package com.vhall.app.view.video
 			switch(e.type)
 			{
 				case MouseEvent.CLICK:
-					//_videoPlayer.toggle();
+					_videoPlayer.toggle();
+					//_videoPlayer.isPlaying?send():send();
 					break;
 				case MouseEvent.DOUBLE_CLICK:
 					//全屏切换
@@ -118,6 +139,11 @@ package com.vhall.app.view.video
 				}
 				_videoPlayer.viewPort = rect;
 			}
+		}
+		
+		private function send(action:String,param:Array = null):void
+		{
+			NResponder.dispatch(action,param);
 		}
 	}
 }

@@ -1,6 +1,5 @@
 package com.vhall.app.net
 {
-	import com.vhall.app.actions.Action_Media;
 	import com.vhall.app.actions.Actions_Report2JS;
 	import com.vhall.app.model.Model;
 	import com.vhall.framework.app.net.AbsMsgReceiver;
@@ -28,7 +27,7 @@ package com.vhall.app.net
 				if(o.mediaServer != "flashvars.media_server")
 				{
 					//换推流服务器
-					dispatch(Action_Media.QUITE_SERVER);
+					dispatch(AppCMD.QUITE_SERVER);
 				}
 			}
 		}
@@ -38,8 +37,8 @@ package com.vhall.app.net
 			//主播开始直播
 			if(!Model.userInfo.is_pres)
 			{
-				dispatch(Action_Media.TELL_CORE_CAMERA_TO_VIDEO);
-				dispatch(Action_Media.TELL_GUEST_TO_END_REPEAT);
+				dispatch(AppCMD.TELL_CORE_CAMERA_TO_VIDEO);
+				dispatch(AppCMD.TELL_GUEST_TO_END_REPEAT);
 				var o:Object = JsonUtil.decode(value);
 				if(o["isVideoMode"])
 				{
