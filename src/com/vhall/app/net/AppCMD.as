@@ -29,8 +29,7 @@ package com.vhall.app.net
 		public static const BUFFER_LOADING:String = VIDEO + "bufferLoaing";
 		/** buffer填充完成*/
 		public static const BUFFER_FULL:String = VIDEO + "bufferFull";
-		/**设置音量*/
-		public static const SET_VOLUME:String = VIDEO +　"setVolume";
+	
 		/**视频播放开始*/
 		public static const VIDEO_START:String = VIDEO +　"videoStart";
 		/**视频播放完毕*/
@@ -40,6 +39,21 @@ package com.vhall.app.net
 		/** 播放器暂停*/
 		public static const VIDEO_PAUSE_SUCCESS:String = VIDEO + "videoPauseSuccess";
 		
+		private static const MEDIA:String = "media_";
+		/**设置音量,参数0~1*/
+		public static const SET_VOLUME:String = MEDIA +　"setVolume";
+		/**切换视频线路*/
+		public static const SWITCH_LINE:String = MEDIA + "switchLine";
+		/** 切换视频清晰度*/		
+		public static const SWITCH_QUALITY:String = MEDIA +　"switchQuality";
+		/** 关掉推流端摄像头采集*/
+		public static const MUTE_CAMERA:String = MEDIA + "muteCamera";
+		/** 关掉推流端麦克风采集*/
+		public static const MUTE_MICROPHONE:String = MEDIA + "muteMicrophone";
+		/** 关掉推流端硬件采集*/
+		public static const MUTE_ALL:String = MEDIA + "muteAll";
+		/** 清空当前播放内容*/
+		public static const PLAYER_DISPOSE:String = MEDIA + "playerDispose";
 		
 		/**
 		 *发送弹幕 
