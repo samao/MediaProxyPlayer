@@ -23,9 +23,9 @@ package com.vhall.app.model
 		/** 当前播放音量*/
 		public var volume:Number = 0.68;
 		/** netconnection地址或者文件路径*/
-		public var netOrFileUrl:String = "";
+		public var netOrFileUrl:String = "rtmp://localhost/live";
 		/** 流名称*/		
-		public var streamName:String = "";
+		public var streamName:String = "cameraFeed";
 
 		public var player:IVideoPlayer;
 		

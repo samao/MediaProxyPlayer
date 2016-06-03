@@ -40,7 +40,13 @@ package com.vhall.app.view.video
 			
 			info.player = _videoPlayer ||= VideoPlayer.create();
 			addChild(_videoPlayer);
-			_videoPlayer.connect(MediaProxyType.HTTP,"http://localhost/vod/1.mp4",null,videoHandler);
+			
+			if(Model.Me().userinfo.is_pres == true)
+			{
+				_videoPlayer.publish(null,null,info.netOrFileUrl,info.streamName,videoHandler);
+			}else{
+				_videoPlayer.connect(MediaProxyType.RTMP,info.netOrFileUrl,info.streamName,videoHandler);
+			}
 			
 			doubleClickEnabled = true;
 			mouseChildren = false;
@@ -48,7 +54,7 @@ package com.vhall.app.view.video
 			addEventListener(MouseEvent.DOUBLE_CLICK,mouseHandler)
 			
 			//回放增加屏幕暂停功能
-			if(_videoPlayer.type == MediaProxyType.PUBLISH || _videoPlayer.type == MediaProxyType.RTMP)
+			if([MediaProxyType.HLS,MediaProxyType.HTTP].indexOf(_videoPlayer.type) != -1)
 			{
 				addEventListener(MouseEvent.CLICK,mouseHandler);
 			}		
@@ -150,16 +156,22 @@ package com.vhall.app.view.video
 					MediaAJMessage.publishStart();
 					break;
 				case MediaProxyStates.STREAM_START:
-					send(AppCMD.VIDEO_CONTROL_START);
+					send(AppCMD.MEDIA_STATES_START);
+					break;
+				case MediaProxyStates.STREAM_PAUSE:
+					send(AppCMD.MEDIA_STATES_PAUSE);
+					break;
+				case MediaProxyStates.STREAM_UNPAUSE:
+					send(AppCMD.MEDIA_STATES_UNPAUSE);
 					break;
 				case MediaProxyStates.STREAM_STOP:
-					send(AppCMD.VIDEO_FINISH);
+					send(AppCMD.MEDIA_STATES_FINISH);
 					break;
 				case MediaProxyStates.STREAM_LOADING:
-					send(AppCMD.MEDIA_BUFFER_LOADING);
+					send(AppCMD.MEDIA_STATES_BUFFER_LOADING);
 					break;
 				case MediaProxyStates.STREAM_FULL:
-					send(AppCMD.MEDIA_BUFFER_FULL);
+					send(AppCMD.MEDIA_STATES_BUFFER_FULL);
 					break;
 				case MediaProxyStates.UN_PUBLISH_NOTIFY:
 					break;
@@ -171,10 +183,10 @@ package com.vhall.app.view.video
 					Logger.getLogger("VideoLayer").info("视频时长:",_videoPlayer.duration);
 					break;
 				case MediaProxyStates.SEEK_COMPLETE:
-					send(AppCMD.VIDEO_SEEK_COMPLETE);
+					send(AppCMD.MEDIA_STATES_SEEK_COMPLETE);
 					break;
 				case MediaProxyStates.SEEK_FAILED:
-					send(AppCMD.VIDEO_SEEK_FAIL);
+					send(AppCMD.MEDIA_STATES_SEEK_FAIL);
 					break;
 			}
 		}
