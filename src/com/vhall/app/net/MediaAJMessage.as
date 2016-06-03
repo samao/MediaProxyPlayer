@@ -1,5 +1,6 @@
 package com.vhall.app.net
 {
+	import com.vhall.app.model.MediaModel;
 	import com.vhall.framework.app.net.MessageManager;
 	import com.vhall.framework.app.net.WebBridge;
 	import com.vhall.framework.log.Logger;
@@ -42,19 +43,19 @@ package com.vhall.app.net
 		 * 发送当前bufferlength
 		 * @param value
 		 */		
-		public static function sendBufferLength(value:Number):void
+		public static function sendBufferLength():void
 		{
-			sender.sendCMDMsg({content:value});
+			sender.sendCMDMsg({content:MediaModel.me().player.bufferLength});
 		}
 		
 		//--------流信息报告
 		/**
 		 * 通知页面播放的流不存在
 		 */		
-		public static function streamNotFound(uri:String):void
+		public static function streamNotFound():void
 		{
 			sender.sendCMDMsg({type:MessageType.AJ_STREAM_NOT_FOUND});
-			Logger.getLogger("MediaAJ").info("不存在当前播放的流名称:",uri);
+			Logger.getLogger("MediaAJ").info("不存在当前播放的流名称:",MediaModel.me().player.uri);
 		}
 		/**
 		 * 通知页面建立服务器链接失败
@@ -77,9 +78,9 @@ package com.vhall.app.net
 		 * 开始推流通知
 		 * @param bool
 		 */		
-		public static function publishStart(bool:Boolean):void
+		public static function publishStart():void
 		{
-			sender.sendCMDMsg({type:MessageType.AJ_PUBLISH_START,isVideoMode:bool});
+			sender.sendCMDMsg({type:MessageType.AJ_PUBLISH_START,isVideoMode:MediaModel.me().player.usedCam?false:true});
 		}
 	}
 }

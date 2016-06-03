@@ -27,7 +27,7 @@ package com.vhall.app.net
 				if(o.mediaServer != "flashvars.media_server")
 				{
 					//换推流服务器
-					dispatch(AppCMD.QUITE_SERVER);
+					dispatch(AppCMD.MEDIA_QUITE_SERVER);
 				}
 			}
 		}

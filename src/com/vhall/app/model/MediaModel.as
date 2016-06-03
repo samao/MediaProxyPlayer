@@ -9,6 +9,8 @@
 
 package com.vhall.app.model
 {
+	import com.vhall.framework.media.video.IVideoPlayer;
+
 	/**
 	 * 视频相关信息
 	 */	
@@ -24,6 +26,8 @@ package com.vhall.app.model
 		public var netOrFileUrl:String = "";
 		/** 流名称*/		
 		public var streamName:String = "";
+
+		public var player:IVideoPlayer;
 		
 		private static var _instance:MediaModel;
 		
