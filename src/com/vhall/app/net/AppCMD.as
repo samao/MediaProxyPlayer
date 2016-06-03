@@ -79,10 +79,15 @@ package com.vhall.app.net
 		
 		
 		
+		private static const BARRAGE:String = "barrage_"
 		/**
 		 *发送弹幕 
 		 */		
-		public static const ADD_BARRAGE:String = "add_barrage";
+		public static const BARRAGE_ADD:String = BARRAGE + "add";
+		/**	开启弹幕功能*/
+		public static const BARRAGE_OPEN:String = BARRAGE + "open";
+		public static const BARRAGE_CLOSE:String = BARRAGE + "close"
+		
 		
 		/**上报 相关*/
 		private static const REPORT:String = "report_";
