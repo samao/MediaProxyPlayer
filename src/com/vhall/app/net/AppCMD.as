@@ -19,6 +19,8 @@ package com.vhall.app.net
 		
 		/** 通知已经被收回主讲权的嘉宾去终止上报 **/
 		public static const TELL_GUEST_TO_END_REPEAT:String = VIDEO + "tellGuestToEndRepeat";
+		/** 显示声音直播图 **/
+		public static const SHOW_AUDIOLIVE_PIC:String = VIDEO + "showAudioLivePic";
 		
 		/** 设置摄像头回显 **/
 		public static const VIDEO_KERNEL_CAMERA:String = VIDEO + "setKernelCamera";
@@ -77,7 +79,12 @@ package com.vhall.app.net
 		/** 播放头位置更新*/
 		public static const MEDIA_TIME_UPDATE:String = MEDIA + "timeUpdate";
 		
-		
+		/** 推流控制相关*/
+		private static const PUBLISH:String = "publish_";
+		/** 让推流端开始推流*/
+		public static const PUBLISH_START:String = PUBLISH + "start";
+		/** 让推流端结束推流*/
+		public static const PUBLISH_END:String = PUBLISH + "end";
 		
 		private static const BARRAGE:String = "barrage_"
 		/**

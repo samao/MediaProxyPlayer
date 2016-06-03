@@ -41,11 +41,11 @@ package com.vhall.app.view.video
 			info.player = _videoPlayer ||= VideoPlayer.create();
 			addChild(_videoPlayer);
 			
-			if(Model.Me().userinfo.is_pres == true)
+			if(false&&Model.Me().userinfo.is_pres == true)
 			{
 				_videoPlayer.publish(null,null,info.netOrFileUrl,info.streamName,videoHandler);
 			}else{
-				_videoPlayer.connect(MediaProxyType.RTMP,info.netOrFileUrl,info.streamName,videoHandler);
+				_videoPlayer.connect(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,videoHandler);
 			}
 			
 			doubleClickEnabled = true;
@@ -76,7 +76,9 @@ package com.vhall.app.view.video
 				AppCMD.VIDEO_CONTROL_TOGGLE,
 				AppCMD.VIDEO_CONTROL_SEEK,
 				AppCMD.VIDEO_CONTROL_START,
-				AppCMD.VIDEO_CONTROL_STOP
+				AppCMD.VIDEO_CONTROL_STOP,
+				AppCMD.PUBLISH_START,
+				AppCMD.PUBLISH_END
 			];
 		}
 		
@@ -135,6 +137,18 @@ package com.vhall.app.view.video
 					_videoPlayer.stop();
 					clearInterval(_id);
 					break;
+				case AppCMD.PUBLISH_START:
+					if(_videoPlayer.type == MediaProxyType.PUBLISH)
+					{
+						//开始推流
+					}
+					break;
+				case AppCMD.PUBLISH_END:
+					if(_videoPlayer.type == MediaProxyType.PUBLISH)
+					{
+						_videoPlayer.dispose();
+					}
+					break;
 			}
 		} 
 		
@@ -180,7 +194,7 @@ package com.vhall.app.view.video
 					break;
 				case MediaProxyStates.DURATION_NOTIFY:
 					send(AppCMD.MEDIA_DURATION_UPDATE,[_videoPlayer.duration]);
-					Logger.getLogger("VideoLayer").info("视频时长:",_videoPlayer.duration);
+					Logger.getLogger("VideoLayer").info("视频时长:"+_videoPlayer.duration);
 					break;
 				case MediaProxyStates.SEEK_COMPLETE:
 					send(AppCMD.MEDIA_STATES_SEEK_COMPLETE);
