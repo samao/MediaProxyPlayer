@@ -175,7 +175,10 @@ package com.vhall.app.view.video
 					break;
 				case MediaProxyStates.STREAM_START:
 					send(AppCMD.MEDIA_STATES_START);
-					send(AppCMD.UI_HIDE_LOADING);
+					if(_videoPlayer.type != MediaProxyType.PUBLISH)
+					{
+						send(AppCMD.UI_HIDE_LOADING);
+					}
 					break;
 				case MediaProxyStates.STREAM_PAUSE:
 					send(AppCMD.MEDIA_STATES_PAUSE);

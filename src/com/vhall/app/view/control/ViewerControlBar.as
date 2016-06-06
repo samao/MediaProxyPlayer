@@ -29,6 +29,10 @@ package com.vhall.app.view.control
 		
 		
 		private var volumebar:VolumeBar;
+		/**静音按钮*/
+		private var _muteBut:ToggleButton;
+		/**静音前的音量*/		
+		private var _volumeBeforeMute:Number = 1;
 		
 		private var timerLabel:TimeLabel;
 		
@@ -48,10 +52,14 @@ package com.vhall.app.view.control
 			hb.horizontalAlign = "right";
 			
 			volumebar = new VolumeBar(hb);
-			volumebar.volumeValue = MediaModel.me().volume * 100;
+			_volumeBeforeMute = volumebar.volumeValue = MediaModel.me().volume * 100;
 			
-			var btn:Button = new Button(hb);
-			btn.skin = "assets/ui/mic1.png";
+			_muteBut = new ToggleButton(hb);
+			_muteBut.skin = "assets/ui/mic2.png";
+			_muteBut.downSkin = "assets/ui/mic1.png";
+			_muteBut.tooltip = "静音";
+			_muteBut.callOut = "top";
+			_muteBut.addEventListener(MouseEvent.CLICK,muteHandler);
 			
 			btnBarrage = new ToggleButton(hb);
 			btnBarrage.skin = "assets/ui/t1.png";
@@ -64,6 +72,19 @@ package com.vhall.app.view.control
 			btnFullscreen.tooltip = "全屏";
 			btnFullscreen.callOut = "top";
 			btnFullscreen.addEventListener(MouseEvent.CLICK,onToggleClickHandler);
+		}
+		
+		protected function muteHandler(event:MouseEvent):void
+		{
+			if(_muteBut.selected)
+			{
+				_volumeBeforeMute = volumebar.volumeValue;
+				volumebar.volumeValue = 0;
+			}else{
+				volumebar.volumeValue = _volumeBeforeMute;
+			}
+			MediaModel.me().volume = volumebar.volumeValue/100;
+			NResponder.dispatch(AppCMD.MEDIA_SET_VOLUME);
 		}
 		
 		override protected function sizeChanged():void

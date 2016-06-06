@@ -34,7 +34,7 @@ package com.vhall.app.view.control.ui
 			NResponder.dispatch(AppCMD.MEDIA_SET_VOLUME,[e.percent]);
 		}
 		
-		public function set volumeValue(value:int){
+		public function set volumeValue(value:int):void{
 			volumeSlipComp.percent = value/100;
 		}
 		/**
