@@ -17,13 +17,17 @@ package com.vhall.app.view.popup
 		 *提示板 
 		 */
 		public var warnPop:WarnPop;
-		
+		public var loadingPop:LoadingPop
 		public function careList():Array
 		{
 			return [
 				AppCMD.SHOWWARN_OVER_PIC,
 				AppCMD.SWITCHINGPRES,
-				AppCMD.SWITCH_TO_ASSISTANT
+				AppCMD.SWITCH_TO_ASSISTANT,
+				AppCMD.SWITCHTOGUEST,
+				AppCMD.SWTICHTOYOU,
+				AppCMD.UI_SHOW_LOADING,
+				AppCMD.UI_SHOW_LOGOLOADING
 			];
 		}
 		
@@ -47,9 +51,37 @@ package com.vhall.app.view.popup
 				case AppCMD.SWITCH_TO_ASSISTANT:
 					showSwitchAssistant();
 					break;
+				case AppCMD.UI_SHOW_LOADING:
+					showLoading();
+					break;
+				case AppCMD.UI_SHOW_LOGOLOADING:
+					showLogoLoading();
+					break;
 				default:
 					break;
 			}
+		}
+		
+		/**
+		 *显示load 
+		 * 
+		 */		
+		protected function showLogoLoading():void{
+			load.showLogoLoading();
+		}
+		
+		/**
+		 *显示load 
+		 * 
+		 */		
+		protected function showLoading():void{
+			load.showLineLoadng();
+		}
+		
+		
+		protected function hideLoading():void
+		{
+			load.hide();
 		}
 		
 		/**
@@ -57,9 +89,7 @@ package com.vhall.app.view.popup
 		 * 
 		 */		
 		protected function ShowOver():void{
-			hideWarn();
-			warn.showOverPic();
-			this.addChild(warn);
+			warn.showLogoWarn(PopUpLable_Enum.SWITCHOVER);
 		}
 		
 		/**
@@ -67,9 +97,7 @@ package com.vhall.app.view.popup
 		 * 
 		 */		
 		protected function showSwitchPres():void{
-			hideWarn();
-			warn.showSwitchPres();
-			this.addChild(warn);
+			warn.showWarn(PopUpLable_Enum.SWITCHPRES);
 		}
 		
 		/**
@@ -77,26 +105,21 @@ package com.vhall.app.view.popup
 		 * 
 		 */		
 		protected function showSwitchYou():void{
-			hideWarn();
-			warn.showSwitchToYou();
-			this.addChild(warn); 
+			warn.showWarn(PopUpLable_Enum.SWITCHTOYOU);
 		}
 		/**
 		 *显示切换给嘉宾 
 		 * 
 		 */		
 		protected function showSwitchGuest():void{
-			hideWarn();
-			warn.showSwitchToGuest();
-			this.addChild(warn);
+			warn.showWarn(PopUpLable_Enum.SWITCHGUEST);
 		}
+		
 		
 		/**	显示小助手LOGO*/
 		protected function showSwitchAssistant():void
 		{
-			hideWarn();
-			warn.showSwitchAssistant();
-			this.addChild(warn);
+			warn.showLogoWarn(PopUpLable_Enum.SWITCHASSISTANT);
 		}
 		
 		/**
@@ -114,9 +137,17 @@ package com.vhall.app.view.popup
 		 */		
 		public function get warn():WarnPop{
 			if(warnPop == null){
-				warnPop = new WarnPop();
+				warnPop = new WarnPop(this);
 			}
 			return warnPop;
+		}
+		
+		
+		public function get load():LoadingPop{
+			if(loadingPop == null){
+				loadingPop = new LoadingPop(this);
+			}
+			return loadingPop;
 		}
 	}
 }

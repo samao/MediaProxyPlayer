@@ -1,5 +1,6 @@
 package com.vhall.app.view.control
 {
+	import com.vhall.app.view.control.ui.VolumeBar;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.app.mvc.ResponderMediator;
@@ -28,6 +29,9 @@ package com.vhall.app.view.control
 		
 		private var btnBarrage:ToggleButton;
 		
+		
+		private var volumebar:VolumeBar
+		
 		private var hb:HBox;
 		public function ControlBar(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
@@ -48,6 +52,8 @@ package com.vhall.app.view.control
 			hb.verticalAlign = "center";
 			hb.horizontalAlign = "right";
 			
+			volumebar = new VolumeBar(hb);
+			
 			var btn:Button = new Button(hb);
 			btn.skin = "assets/ui/mic1.png";
 			btn.addEventListener(Event.SELECT,onClick);
@@ -64,6 +70,7 @@ package com.vhall.app.view.control
 			btnFullscreen.addEventListener(MouseEvent.CLICK,onToggleClickHandler);
 			
 			StageManager.stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFull);
+			
 		}
 		
 		protected function onFull(e:FullScreenEvent):void

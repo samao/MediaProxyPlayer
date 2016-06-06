@@ -1,6 +1,11 @@
 package com.vhall.app.manager
 {
 	import com.vhall.app.common.Layer;
+	import com.vhall.framework.app.manager.StageManager;
+	
+	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.ui.Mouse;
 
 	/**
 	 * 
@@ -28,5 +33,6 @@ package com.vhall.app.manager
 			effectLayer = rootLayer.effectLayer;
 			popupLayer = rootLayer.popupLayer;
 		}
+		
 	}
 }

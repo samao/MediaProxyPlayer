@@ -1,14 +1,8 @@
 package com.vhall.app.view.warn
 {
-	import com.vhall.framework.ui.controls.Button;
 	import com.vhall.framework.ui.controls.Label;
 	
 	import flash.display.DisplayObjectContainer;
-	import flash.text.TextField;
-	import flash.text.TextFieldAutoSize;
-	import flash.text.TextFormat;
-	
-	import flashx.textLayout.formats.TextAlign;
 
 	public class WarnLogoPanel extends BlackLogoBox
 	{

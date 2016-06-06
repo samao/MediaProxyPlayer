@@ -76,7 +76,15 @@ package com.vhall.app.net
 		/**
 		 *ui相关 
 		 */		
-		public static const UI:String = "ui_"
+		public static const UI:String = "ui_";
+		/**
+		 *显示控制栏 
+		 */		
+		public static const UI_SHOW_CONTROLBAR:String = UI+"show_controlbar";
+		/**
+		 *隐藏控制栏 
+		 */		
+		public static const UI_HIDE_CONTROLBAR:String = UI+"hide_controlbar";
 		/**
 		 显示结束播放图 
 		 */		
@@ -100,5 +108,14 @@ package com.vhall.app.net
 		 * 窗口缩放
 		 */		
 		public static const UI_WINDOW_RESIZE:String = UI+"windowResize";
+		/**
+		 *显示 loading
+		 */		
+		public static const UI_SHOW_LOADING:String = UI+"show_loading";
+		
+		/**
+		 *显示 Logoloading
+		 */		
+		public static const UI_SHOW_LOGOLOADING:String = UI+"show_logoloading";
 	}
 }
