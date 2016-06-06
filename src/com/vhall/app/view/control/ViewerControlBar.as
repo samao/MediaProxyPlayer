@@ -1,8 +1,7 @@
 package com.vhall.app.view.control
 {
-	import appkit.responders.NResponder;
-	
 	import com.vhall.app.common.components.TimeLabel;
+	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.view.control.ui.VolumeBar;
 	import com.vhall.framework.app.manager.StageManager;
@@ -16,6 +15,8 @@ package com.vhall.app.view.control
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
 	import flash.events.MouseEvent;
+	
+	import appkit.responders.NResponder;
 
 	public class ViewerControlBar extends AbstractControlBar implements IResponder
 	{
@@ -47,6 +48,7 @@ package com.vhall.app.view.control
 			hb.horizontalAlign = "right";
 			
 			volumebar = new VolumeBar(hb);
+			volumebar.volumeValue = MediaModel.me().volume * 100;
 			
 			var btn:Button = new Button(hb);
 			btn.skin = "assets/ui/mic1.png";
