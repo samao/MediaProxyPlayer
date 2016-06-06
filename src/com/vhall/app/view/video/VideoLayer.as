@@ -8,6 +8,7 @@ package com.vhall.app.view.video
 	import com.vhall.app.net.MediaAJMessage;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
+	import com.vhall.framework.log.Logger;
 	import com.vhall.framework.media.provider.MediaProxyStates;
 	import com.vhall.framework.media.provider.MediaProxyType;
 	import com.vhall.framework.media.video.VideoPlayer;
@@ -16,12 +17,17 @@ package com.vhall.app.view.video
 	import flash.display.StageDisplayState;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
+	import flash.utils.clearInterval;
+	import flash.utils.setInterval;
 	
 	import appkit.responders.NResponder;
 	
 	public class VideoLayer extends Layer implements IResponder
 	{
 		private var _videoPlayer:VideoPlayer;
+		
+		private var _id:int;
+		private var _preTime:Number = 0;
 		
 		public function VideoLayer(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
@@ -32,9 +38,15 @@ package com.vhall.app.view.video
 		{
 			super.createChildren();
 			
-			_videoPlayer ||= VideoPlayer.create();
+			info.player = _videoPlayer ||= VideoPlayer.create();
 			addChild(_videoPlayer);
-			_videoPlayer.connect(MediaProxyType.HTTP,"http://localhost/vod/1.mp4");
+			
+			if(false&&Model.Me().userinfo.is_pres == true)
+			{
+				_videoPlayer.publish(null,null,info.netOrFileUrl,info.streamName,videoHandler);
+			}else{
+				_videoPlayer.connect(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,videoHandler);
+			}
 			
 			doubleClickEnabled = true;
 			mouseChildren = false;
@@ -42,7 +54,7 @@ package com.vhall.app.view.video
 			addEventListener(MouseEvent.DOUBLE_CLICK,mouseHandler)
 			
 			//回放增加屏幕暂停功能
-			if(_videoPlayer.type == MediaProxyType.PUBLISH || _videoPlayer.type == MediaProxyType.RTMP)
+			if([MediaProxyType.HLS,MediaProxyType.HTTP].indexOf(_videoPlayer.type) != -1)
 			{
 				addEventListener(MouseEvent.CLICK,mouseHandler);
 			}		
@@ -51,14 +63,22 @@ package com.vhall.app.view.video
 		public function careList():Array
 		{
 			return [Actions_Report2JS.BUFFER_LENGTH,
-				AppCMD.QUITE_SERVER,
+				AppCMD.MEDIA_QUITE_SERVER,
 				AppCMD.MEDIA_SET_VOLUME,
 				AppCMD.MEDIA_SWITCH_LINE,
 				AppCMD.MEDIA_SWITCH_QUALITY,
 				AppCMD.MEDIA_PLAYER_DISPOSE,
 				AppCMD.MEDIA_MUTE_ALL,
 				AppCMD.MEDIA_MUTE_CAMERA,
-				AppCMD.MEDIA_MUTE_MICROPHONE
+				AppCMD.MEDIA_MUTE_MICROPHONE,
+				AppCMD.VIDEO_CONTROL_PAUSE,
+				AppCMD.VIDEO_CONTROL_RESUME,
+				AppCMD.VIDEO_CONTROL_TOGGLE,
+				AppCMD.VIDEO_CONTROL_SEEK,
+				AppCMD.VIDEO_CONTROL_START,
+				AppCMD.VIDEO_CONTROL_STOP,
+				AppCMD.PUBLISH_START,
+				AppCMD.PUBLISH_END
 			];
 		}
 		
@@ -67,9 +87,9 @@ package com.vhall.app.view.video
 			switch(msg)
 			{
 				case Actions_Report2JS.BUFFER_LENGTH:
-					MediaAJMessage.sendBufferLength(_videoPlayer.bufferLength);
+					MediaAJMessage.sendBufferLength();
 					break;
-				case AppCMD.QUITE_SERVER:
+				case AppCMD.MEDIA_QUITE_SERVER:
 					_videoPlayer.attachType(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName);
 					break;
 				case AppCMD.MEDIA_SET_VOLUME:
@@ -77,6 +97,11 @@ package com.vhall.app.view.video
 					break;
 				case AppCMD.MEDIA_SWITCH_LINE:
 					_videoPlayer.attachType(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName);
+					break;
+				case AppCMD.MEDIA_SWITCH_QUALITY:
+					break;
+				case AppCMD.MEDIA_PLAYER_DISPOSE:
+					_videoPlayer.dispose();
 					break;
 				case AppCMD.MEDIA_MUTE_ALL:
 					_videoPlayer.cameraMuted = info.cameraMute;
@@ -88,45 +113,103 @@ package com.vhall.app.view.video
 				case AppCMD.MEDIA_MUTE_MICROPHONE:
 					_videoPlayer.microphoneMuted = info.microphone;
 					break;
-				case AppCMD.MEDIA_PLAYER_DISPOSE:
+				case AppCMD.VIDEO_CONTROL_PAUSE:
+					_videoPlayer.pause();
+					break;
+				case AppCMD.VIDEO_CONTROL_RESUME:
+					_videoPlayer.resume();
+					break;
+				case AppCMD.VIDEO_CONTROL_TOGGLE:
+					_videoPlayer.toggle();
+					break;
+				case AppCMD.VIDEO_CONTROL_SEEK:
+					if([MediaProxyType.HLS,MediaProxyType.HTTP].indexOf(_videoPlayer.type) != -1)
+					{
+						_videoPlayer.time = parameters[0];
+					}
+					break;
+				case AppCMD.VIDEO_CONTROL_START:
+					_videoPlayer.start();
+					clearInterval(_id);
+					_id = setInterval(timeCheck,1000);
+					break;
+				case AppCMD.VIDEO_CONTROL_STOP:
 					_videoPlayer.stop();
+					clearInterval(_id);
+					break;
+				case AppCMD.PUBLISH_START:
+					if(_videoPlayer.type == MediaProxyType.PUBLISH)
+					{
+						//开始推流
+					}
+					break;
+				case AppCMD.PUBLISH_END:
+					if(_videoPlayer.type == MediaProxyType.PUBLISH)
+					{
+						_videoPlayer.dispose();
+					}
 					break;
 			}
-		}
+		} 
 		
 		private function videoHandler(states:String,...value):void
 		{
 			switch(states)
 			{
 				case MediaProxyStates.CONNECT_NOTIFY:
+					Logger.getLogger("VideoLayer").info("通道建立成功");
+					_id = setInterval(timeCheck,1000);
 					break;
 				case MediaProxyStates.CONNECT_FAILED:
 					MediaAJMessage.connectFail(value[0]);
 					break;
 				case MediaProxyStates.STREAM_NOT_FOUND:
-					MediaAJMessage.streamNotFound(value[0]);
+					MediaAJMessage.streamNotFound();
 					break;
 				case MediaProxyStates.PUBLISH_NOTIFY:
-					MediaAJMessage.publishStart(_videoPlayer.usedCam ? false : true);
+					MediaAJMessage.publishStart();
 					break;
 				case MediaProxyStates.STREAM_START:
-					send(AppCMD.VIDEO_START);
+					send(AppCMD.MEDIA_STATES_START);
+					break;
+				case MediaProxyStates.STREAM_PAUSE:
+					send(AppCMD.MEDIA_STATES_PAUSE);
+					break;
+				case MediaProxyStates.STREAM_UNPAUSE:
+					send(AppCMD.MEDIA_STATES_UNPAUSE);
 					break;
 				case MediaProxyStates.STREAM_STOP:
-					send(AppCMD.VIDEO_FINISH);
+					send(AppCMD.MEDIA_STATES_FINISH);
 					break;
 				case MediaProxyStates.STREAM_LOADING:
-					send(AppCMD.BUFFER_LOADING);
+					send(AppCMD.MEDIA_STATES_BUFFER_LOADING);
 					break;
 				case MediaProxyStates.STREAM_FULL:
-					send(AppCMD.BUFFER_FULL);
+					send(AppCMD.MEDIA_STATES_BUFFER_FULL);
 					break;
 				case MediaProxyStates.UN_PUBLISH_NOTIFY:
 					break;
 				case MediaProxyStates.PUBLISH_BAD_NAME:
 					//重推
 					break;
+				case MediaProxyStates.DURATION_NOTIFY:
+					send(AppCMD.MEDIA_DURATION_UPDATE,[_videoPlayer.duration]);
+					Logger.getLogger("VideoLayer").info("视频时长:"+_videoPlayer.duration);
+					break;
+				case MediaProxyStates.SEEK_COMPLETE:
+					send(AppCMD.MEDIA_STATES_SEEK_COMPLETE);
+					break;
+				case MediaProxyStates.SEEK_FAILED:
+					send(AppCMD.MEDIA_STATES_SEEK_FAIL);
+					break;
 			}
+		}
+		
+		private function timeCheck():void
+		{
+			if(_videoPlayer.time == _preTime) return;
+			_preTime = _videoPlayer.time;
+			send(AppCMD.MEDIA_TIME_UPDATE);
 		}
 		
 		private function mouseHandler(e:MouseEvent):void

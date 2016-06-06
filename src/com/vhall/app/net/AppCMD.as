@@ -8,7 +8,7 @@ package com.vhall.app.net
 		private static const CONTROLBAR:String = "controlbar_";
 		public static const CONTROLBAR_INITED:String = CONTROLBAR + "INITED";
 		
-		/**	视频相关*/
+		/**	视频播放控制相关*/
 		private static const VIDEO:String = "video_";
 		public static const VIDEO_INITED:String = VIDEO + "INITED";
 		
@@ -19,30 +19,50 @@ package com.vhall.app.net
 		
 		/** 通知已经被收回主讲权的嘉宾去终止上报 **/
 		public static const TELL_GUEST_TO_END_REPEAT:String = VIDEO + "tellGuestToEndRepeat";
-		
-		/** 更改推流服务器*/
-		public static const QUITE_SERVER:String = VIDEO + "quiteServer";
+		/** 显示声音直播图 **/
+		public static const SHOW_AUDIOLIVE_PIC:String = VIDEO + "showAudioLivePic";
 		
 		/** 设置摄像头回显 **/
-		public static const SET_KERNEL_CAMERA:String = VIDEO + "setKernelCamera";
-		/**	填充buffer*/		
-		public static const BUFFER_LOADING:String = VIDEO + "bufferLoaing";
-		/** buffer填充完成*/
-		public static const BUFFER_FULL:String = VIDEO + "bufferFull";
-	
-		/**视频播放开始*/
-		public static const VIDEO_START:String = VIDEO +　"videoStart";
-		/**视频播放完毕*/
-		public static const VIDEO_FINISH:String = VIDEO + "videoFinish";
+		public static const VIDEO_KERNEL_CAMERA:String = VIDEO + "setKernelCamera";
+		/** 视频播放开始*/
+		public static const VIDEO_CONTROL_START:String = VIDEO +　"controlStart";
 		/** 外部控制视频暂停*/
-		public static const SET_VIDEO_PAUSE:String = VIDEO + "setVideoPause";
+		public static const VIDEO_CONTROL_RESUME:String = VIDEO + "controlResume";
 		/** 播放器暂停*/
-		public static const VIDEO_PAUSE_SUCCESS:String = VIDEO + "videoPauseSuccess";
+		public static const VIDEO_CONTROL_PAUSE:String = VIDEO + "controlPause";
+		/**切换播放器播放暂停状态*/
+		public static const VIDEO_CONTROL_TOGGLE:String = VIDEO + "controlToggle";
+		/** 回放视频seek*/
+		public static const VIDEO_CONTROL_SEEK:String = VIDEO + "controlSeek";
+		/** 回放视频停止播放*/
+		public static const VIDEO_CONTROL_STOP:String = VIDEO + "controlStop";
 		
+		/**视频播放状态通知*/
+		private static const MEDIA_STATES:String = "mediaState_";
+		/** 视频播放开始*/
+		public static const MEDIA_STATES_START:String = MEDIA_STATES + "start";
+		/** 视频播放完毕*/
+		public static const MEDIA_STATES_FINISH:String = MEDIA_STATES + "finish";
+		/** 视频播放暂停*/
+		public static const MEDIA_STATES_PAUSE:String = MEDIA_STATES + "pause";
+		/** 视频播放暂停恢复*/
+		public static const MEDIA_STATES_UNPAUSE:String = MEDIA_STATES + "unpause";
+		/** 视频seek失败*/
+		public static const MEDIA_STATES_SEEK_FAIL:String = MEDIA_STATES + "seekFail";
+		/** 视频seek成功*/
+		public static const MEDIA_STATES_SEEK_COMPLETE:String = MEDIA_STATES + "seekComplete";
+		/**	填充buffer*/		
+		public static const MEDIA_STATES_BUFFER_LOADING:String = MEDIA_STATES + "bufferLoaing";
+		/** buffer填充完成*/
+		public static const MEDIA_STATES_BUFFER_FULL:String = MEDIA_STATES + "bufferFull";
+		
+		/** 视频流数据状态相关*/
 		private static const MEDIA:String = "media_";
-		/**设置音量,参数0~1*/
+		/** 更改推流服务器*/
+		public static const MEDIA_QUITE_SERVER:String = MEDIA + "quiteServer";
+		/** 设置音量,参数0~1*/
 		public static const MEDIA_SET_VOLUME:String = MEDIA +　"setVolume";
-		/**切换视频线路*/
+		/** 切换视频线路*/
 		public static const MEDIA_SWITCH_LINE:String = MEDIA + "switchLine";
 		/** 切换视频清晰度*/		
 		public static const MEDIA_SWITCH_QUALITY:String = MEDIA +　"switchQuality";
@@ -54,11 +74,27 @@ package com.vhall.app.net
 		public static const MEDIA_MUTE_ALL:String = MEDIA + "muteAll";
 		/** 清空当前播放内容*/
 		public static const MEDIA_PLAYER_DISPOSE:String = MEDIA + "playerDispose";
+		/** 更新视频时长*/
+		public static const MEDIA_DURATION_UPDATE:String = MEDIA + "durationUpdate";
+		/** 播放头位置更新*/
+		public static const MEDIA_TIME_UPDATE:String = MEDIA + "timeUpdate";
 		
+		/** 推流控制相关*/
+		private static const PUBLISH:String = "publish_";
+		/** 让推流端开始推流*/
+		public static const PUBLISH_START:String = PUBLISH + "start";
+		/** 让推流端结束推流*/
+		public static const PUBLISH_END:String = PUBLISH + "end";
+		
+		private static const BARRAGE:String = "barrage_"
 		/**
 		 *发送弹幕 
 		 */		
-		public static const ADD_BARRAGE:String = "add_barrage";
+		public static const BARRAGE_ADD:String = BARRAGE + "add";
+		/**	开启弹幕功能*/
+		public static const BARRAGE_OPEN:String = BARRAGE + "open";
+		public static const BARRAGE_CLOSE:String = BARRAGE + "close"
+		
 		
 		/**上报 相关*/
 		private static const REPORT:String = "report_";

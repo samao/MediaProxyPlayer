@@ -1,6 +1,7 @@
 package com.vhall.app.net
 {
 	import com.vhall.app.actions.Actions_Report2JS;
+	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.model.Model;
 	import com.vhall.framework.app.net.AbsMsgReceiver;
 	import com.vhall.framework.utils.JsonUtil;
@@ -24,14 +25,20 @@ package com.vhall.app.net
 			var o:* = JsonUtil.decode(value);
 			if(o.mediaServer)
 			{
-				if(o.mediaServer != "flashvars.media_server")
+				if(o.mediaServer != MediaModel.me().netOrFileUrl)
 				{
 					//换推流服务器
-					dispatch(AppCMD.QUITE_SERVER);
+					MediaModel.me().netOrFileUrl = o.mediaServer;
+					dispatch(AppCMD.MEDIA_QUITE_SERVER);
 				}
 			}
+			dispatch(AppCMD.PUBLISH_START);
 		}
 		
+		/**
+		 * 关开用户收到开始推流消息
+		 * @param value
+		 */		
 		private function publishStart(value:*):void
 		{
 			//主播开始直播
@@ -39,15 +46,17 @@ package com.vhall.app.net
 			{
 				dispatch(AppCMD.TELL_CORE_CAMERA_TO_VIDEO);
 				dispatch(AppCMD.TELL_GUEST_TO_END_REPEAT);
+				
 				var o:Object = JsonUtil.decode(value);
-				if(o["isVideoMode"])
+				if(o.hasOwnProperty("isVideoMode"))
 				{
-					if(int(o.isVideoMode))
+					MediaModel.me().videoMode = o.isVideoMode;
+					if(!o.isVideoMode)
 					{
-						//???
-						dispatch("showAudioLivePic");
+						dispatch(AppCMD.SHOW_AUDIOLIVE_PIC);
 					}
 				}
+				
 			}
 		}
 		

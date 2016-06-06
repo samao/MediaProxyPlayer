@@ -94,9 +94,8 @@ package com.vhall.app.net
 		
 		private function onBarrage(data:Object = null):void
 		{
-			// TODO Auto Generated method stub
 			//发送弹幕
-			dispatch(AppCMD.ADD_BARRAGE,data.data);
+			dispatch(AppCMD.BARRAGE_ADD,data.data);
 		}
 		
 		private function onActivedPres(data:Object = null):void
