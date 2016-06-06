@@ -8,7 +8,6 @@ package com.vhall.app.view.control
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.app.mvc.ResponderMediator;
 	import com.vhall.framework.ui.container.HBox;
-	import com.vhall.framework.ui.controls.Button;
 	import com.vhall.framework.ui.controls.ToggleButton;
 	
 	import flash.display.DisplayObjectContainer;
