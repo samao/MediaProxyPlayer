@@ -1,5 +1,7 @@
 package
 {
+	import appkit.responders.NResponder;
+	
 	import com.vhall.app.common.Layer;
 	import com.vhall.app.common.controller.MenuController;
 	import com.vhall.app.common.controller.MessageController;
@@ -16,15 +18,6 @@ package
 	import com.vhall.framework.ui.container.Box;
 	
 	import flash.display.DisplayObjectContainer;
-	import flash.display.StageDisplayState;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.ui.Mouse;
-	import flash.utils.Timer;
-	import flash.utils.clearTimeout;
-	import flash.utils.setTimeout;
-	
-	import appkit.responders.NResponder;
 
 	/**
 	 * 主类
@@ -44,8 +37,6 @@ package
 		// 弹框层
 		public var popupLayer:Layer;
 		
-		public var checkTimer:int;
-
 		public function Live(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0)
 		{
 			super(parent, xpos, ypos);
@@ -60,11 +51,11 @@ package
 			videoLayer = new VideoLayer(this);
 			controlLayer = new ControlLayer(this);
 			controlLayer.height = 35;
+			controlLayer.bottom = 0;
 			barrageLayer = new BarrageLayer(this);
 			effectLayer = new EffectLayer(this);
 			popupLayer = new PopupLayer(this);
 			LayerManager.initLayer(this);
-			addStageListener();
 			onTest();
 		}
 
@@ -93,69 +84,6 @@ package
 			popupLayer.setSize(StageManager.stageWidth, StageManager.stageHeight);
 			videoLayer.setSize(StageManager.stageWidth, StageManager.stageHeight);
 		}
-		
-		
-		
-		public function addStageListener():void{
-			StageManager.stage.addEventListener(Event.MOUSE_LEAVE,onStageMouseLeave);
-			StageManager.stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageMouseMove);
-		}
-		
-		public function removeStageListener():void{
-			StageManager.stage.removeEventListener(Event.MOUSE_LEAVE,onStageMouseLeave);
-			StageManager.stage.removeEventListener(MouseEvent.MOUSE_MOVE,onStageMouseMove);
-		}
-		
-		protected function onStageMouseWheel(event:MouseEvent):void
-		{
-			// TODO Auto-generated method stub
-			
-		}
-		
-		protected function onStageMouseMove(event:MouseEvent):void
-		{
-			// TODO Auto-generated method stub
-			Mouse.show();
-			NResponder.dispatch(AppCMD.UI_SHOW_CONTROLBAR);
-			clearDalayCheck();
-			reStartDelayCheck();
-		}
-		
-		protected function onStageMouseLeave(event:Event):void
-		{
-			// TODO Auto-generated method stub
-			//发送显示控制栏
-			clearDalayCheck();
-			NResponder.dispatch(AppCMD.UI_HIDE_CONTROLBAR);
-		}
-		
-		/**
-		 *清理检测 
-		 * 
-		 */		
-		private function clearDalayCheck():void{
-			clearTimeout(checkTimer);
-		}
-		/**
-		 *从新开始检测 
-		 * 
-		 */		
-		protected function reStartDelayCheck():void{
-			checkTimer = setTimeout(onDelayCheckMouse,2000);
-		}
-		
-		/**
-		 *发送隐藏控制栏通知 
-		 * 
-		 */		
-		protected function onDelayCheckMouse():void{
-			if(StageManager.stage.displayState==StageDisplayState.FULL_SCREEN)
-			{
-				Mouse.hide();
-			}
-			NResponder.dispatch(AppCMD.UI_HIDE_CONTROLBAR);
-		}
-		
 		
 		public function onTest():void{
 			NResponder.dispatch(AppCMD.UI_SHOW_LOGOLOADING);
