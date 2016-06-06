@@ -1,10 +1,12 @@
 package com.vhall.app.view.control
 {
-	import appkit.responders.NResponder;
-	
 	import com.vhall.app.common.components.TimeLabel;
+	import com.vhall.app.model.Model;
+	import com.vhall.app.model.vo.DefinitionVo;
+	import com.vhall.app.model.vo.ServeLinevo;
 	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.view.control.ui.VolumeBar;
+	import com.vhall.app.view.control.ui.component.SwitchListBox;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.app.mvc.ResponderMediator;
@@ -13,9 +15,12 @@ package com.vhall.app.view.control
 	import com.vhall.framework.ui.controls.ToggleButton;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
 	import flash.events.MouseEvent;
+	
+	import appkit.responders.NResponder;
 
 	public class ViewerControlBar extends AbstractControlBar implements IResponder
 	{
@@ -26,10 +31,15 @@ package com.vhall.app.view.control
 		
 		private var btnBarrage:ToggleButton;
 		
-		
 		private var volumebar:VolumeBar;
 		
 		private var timerLabel:TimeLabel;
+		
+		private var definationBox:SwitchListBox;
+		
+		private var serverLinke:SwitchListBox;
+		
+		private var changeVideoMode:Sprite;
 		
 		public function ViewerControlBar(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0)
 		{
@@ -48,6 +58,10 @@ package com.vhall.app.view.control
 			
 			volumebar = new VolumeBar(hb);
 			
+			onInitDefination();
+			
+			onInitServerLine();
+			
 			var btn:Button = new Button(hb);
 			btn.skin = "assets/ui/mic1.png";
 			
@@ -62,6 +76,62 @@ package com.vhall.app.view.control
 			btnFullscreen.tooltip = "全屏";
 			btnFullscreen.callOut = "top";
 			btnFullscreen.addEventListener(MouseEvent.CLICK,onToggleClickHandler);
+		}
+		
+		protected function onInitDefination():void{
+//			if(Model.Me().hideQualitySwitch) return;
+			var sdata:Array = Model.Me().definitionInfo;
+			definationBox = new SwitchListBox(hb);
+			var showData:Array = []
+			var tmpdta:DefinitionVo;
+			var data:Object;
+			for (var i:int = 0; i < sdata.length; i++) 
+			{
+				
+				data = new Object();
+				tmpdta = sdata[i]
+				data.label = tmpdta.sName;
+				data.value = tmpdta.key;
+				showData[i] = data;
+			}
+			definationBox.initList(showData);
+			definationBox.addEventListener(Event.CHANGE,onDefinationChange);
+		}
+		
+		protected function onInitServerLine():void{
+//			if(Model.Me().hideLineSwitch) return;
+			var sdata:Array = Model.Me().serverLineInfo;
+			var showData:Array = []
+			if(sdata && sdata.length > 0){
+				serverLinke = new SwitchListBox(hb);
+				var tmpdta:ServeLinevo;
+				var data:Object;
+				for (var i:int = 0; i < sdata.length; i++) 
+				{
+					
+					data = new Object();
+					tmpdta = sdata[i]
+					data.label = tmpdta.sname;
+					data.value = tmpdta.sname;
+					showData[i] = data;
+				}
+				serverLinke.initList(showData);
+				serverLinke.addEventListener(Event.CHANGE,onServerLineChange);
+			}
+		}
+		
+		protected function onDefinationChange(event:Event):void
+		{
+			// TODO Auto-generated method stub
+			trace(definationBox.getSelectData().value);
+			NResponder.dispatch(AppCMD.MEDIA_SWITCH_LINE);
+		}
+		
+		protected function onServerLineChange(event:Event):void
+		{
+			// TODO Auto-generated method stub
+			trace(serverLinke.getSelectData().value);
+			NResponder.dispatch(AppCMD.MEDIA_SWITCH_QUALITY);
 		}
 		
 		override protected function sizeChanged():void

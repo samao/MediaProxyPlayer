@@ -4,7 +4,6 @@ package com.vhall.app.view.loading
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.MovieClip;
-	import flash.events.Event;
 	import flash.utils.getDefinitionByName;
 
 	/**

@@ -1,11 +1,10 @@
 package
 {
-	import appkit.responders.NResponder;
-	
 	import com.vhall.app.common.Layer;
 	import com.vhall.app.common.controller.MenuController;
 	import com.vhall.app.common.controller.MessageController;
 	import com.vhall.app.manager.LayerManager;
+	import com.vhall.app.model.Model;
 	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.view.barrage.BarrageLayer;
 	import com.vhall.app.view.control.ControlLayer;
@@ -18,6 +17,8 @@ package
 	import com.vhall.framework.ui.container.Box;
 	
 	import flash.display.DisplayObjectContainer;
+	
+	import appkit.responders.NResponder;
 
 	/**
 	 * 主类
@@ -86,7 +87,9 @@ package
 		}
 		
 		public function onTest():void{
-			NResponder.dispatch(AppCMD.UI_SHOW_LOGOLOADING);
+			Model.Me().cdnServers = "";
+			Model.Me().playItem = "";
+//			NResponder.dispatch(AppCMD.UI_SHOW_LOGOLOADING);
 		}
 	}
 }

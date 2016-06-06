@@ -1,5 +1,10 @@
 package com.vhall.app.model
 {
+	import com.adobe.serialization.json.JSON;
+	import com.vhall.app.model.vo.DefinitionVo;
+	import com.vhall.app.model.vo.ServeLinevo;
+	import com.vhall.framework.utils.JsonUtil;
+	
 	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
 
@@ -35,8 +40,13 @@ package com.vhall.app.model
 		/*** 是否隐藏弹幕开关按钮*/
 		public var hideBarrage:Boolean;
 		
-		/**服务器选择器的数据源**/
-		public var cdnServers:String;
+		public var serverLineInfo:Array = [];
+		
+		public var definitionInfo:Array = [];
+		
+		private var _playItem:String;
+		
+		private var _cdnServers:String;
 		/**
 		 * 获取初始化的摄像头和麦克风等信息并上报给页面
 		 */
@@ -50,6 +60,70 @@ package com.vhall.app.model
 		
 		/**	小助手是否处于打开状态*/
 		public var assistantOpened:Boolean = false;
+
+		/**
+		 *清晰度数据 
+		 */
+		public function get playItem():String
+		{
+			return _playItem;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set playItem(value:String):void
+		{
+			_playItem = value;
+			try
+			{
+//				var arr:Array = JsonUtil.decode(_cdnServers) as Array;
+//				var item:Object = arr[0];
+//				
+//				var def:DefinitionVo = new DefinitionVo("default",item.default);
+//				var middle:DefinitionVo = new DefinitionVo("middle",item.middle);
+//				var low:DefinitionVo = new DefinitionVo("low",item.low);
+//				definitionInfo[0] = def;
+//				definitionInfo[1] = middle;
+//				definitionInfo[2] = low;
+			}
+			catch(e:Error){}
+			definitionInfo.push(new DefinitionVo("default", {"server":"rtmp://ccrtmplive02.t.vhall.com/vhall","file":"465936505_m"}));
+			definitionInfo.push(new DefinitionVo("middle", {"server":"rtmp://ccrtmplive02.t.vhall.com/vhall","file":"465936505"}));
+			definitionInfo.push(new DefinitionVo("low", {"server":"rtmp://ccrtmplive02.t.vhall.com/vhall","file":"465936505_l"}));
+		}
+
+		/**服务器选择器的数据源**/
+		public function get cdnServers():String
+		{
+			return _cdnServers;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set cdnServers(value:String):void
+		{
+			_cdnServers = value;
+			try
+			{
+				var arr:Array = JsonUtil.decode(_cdnServers) as Array;
+				for (var i:int = 0; i < arr.length; i++)
+				{
+					var su:String = ""
+					if(arr[i].hasOwnProperty("srv_audio")){
+						su = arr[i].srv_audio;
+					}
+//					serverLineInfo.push(new ServeLinevo(arr[i].srv, arr[i].name,su));
+				}
+			}
+			catch(e:Error){}
+			serverLineInfo.push(new ServeLinevo("rtmp://cnrtmplive02.e.vhall.com/vhall", "线路1","rtmp://cnrtmplive02.e.vhall.com/vhall"));
+			serverLineInfo.push(new ServeLinevo("rtmp://ccrtmplive02.e.vhall.com/vhall", "线路2","rtmp://ccrtmplive02.e.vhall.com/vhall"));
+			serverLineInfo.push(new ServeLinevo("rtmp://rtmplive01.e.vhall.com/vhall", "线路3","rtmp://rtmplive01.e.vhall.com/vhall"));
+			
+		}
+
 		public static function Me():Model
 		{
 			if(!I)
@@ -110,6 +184,8 @@ package com.vhall.app.model
 						break;
 					case "Boolean":
 						t[varName] = data[varName] == "0" ? false : true;
+						break;
+					case "Array":
 						break;
 					default:
 						trace("unrecognition type",typeName);

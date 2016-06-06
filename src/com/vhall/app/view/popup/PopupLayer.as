@@ -54,6 +54,9 @@ package com.vhall.app.view.popup
 				case AppCMD.UI_SHOW_LOADING:
 					showLoading();
 					break;
+				case AppCMD.UI_HIDE_LOADING:
+					hideLoading();
+					break;
 				case AppCMD.UI_SHOW_LOGOLOADING:
 					showLogoLoading();
 					break;
