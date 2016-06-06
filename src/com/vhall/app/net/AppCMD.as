@@ -150,6 +150,11 @@ package com.vhall.app.net
 		public static const UI_SHOW_LOADING:String = UI+"show_loading";
 		
 		/**
+		 *显示 loading
+		 */		
+		public static const UI_HIDE_LOADING:String = UI+"hide_loading";
+		
+		/**
 		 *显示 Logoloading
 		 */		
 		public static const UI_SHOW_LOGOLOADING:String = UI+"show_logoloading";
