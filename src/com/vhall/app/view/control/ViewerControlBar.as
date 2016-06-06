@@ -1,47 +1,37 @@
 package com.vhall.app.view.control
 {
+	import appkit.responders.NResponder;
+	
 	import com.vhall.app.common.components.TimeLabel;
-	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.view.control.ui.VolumeBar;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.app.mvc.ResponderMediator;
-	import com.vhall.framework.ui.container.Box;
 	import com.vhall.framework.ui.container.HBox;
 	import com.vhall.framework.ui.controls.Button;
-	import com.vhall.framework.ui.controls.Image;
 	import com.vhall.framework.ui.controls.ToggleButton;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
 	import flash.events.MouseEvent;
-	import flash.events.TimerEvent;
-	import flash.geom.Rectangle;
-	
-	import appkit.responders.NResponder;
-	
-	/**
-	 *	控制栏 
-	 * @author Sol
-	 * 
-	 */	
-	public class ControlBar extends Box implements IResponder
+
+	public class ViewerControlBar extends AbstractControlBar implements IResponder
 	{
-		private var bg:Image;
+		/**	容器*/
+		private var hb:HBox;
 		
 		private var btnFullscreen:ToggleButton;
 		
 		private var btnBarrage:ToggleButton;
 		
 		
-		private var volumebar:VolumeBar
+		private var volumebar:VolumeBar;
 		
 		private var timerLabel:TimeLabel;
 		
-		private var hb:HBox;
-		public function ControlBar(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
+		public function ViewerControlBar(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0)
 		{
 			super(parent, xpos, ypos);
 			new ResponderMediator(this);
@@ -50,16 +40,6 @@ package com.vhall.app.view.control
 		override protected function createChildren():void
 		{
 			super.createChildren();
-			// 背景
-			bg = new Image(this);
-			bg.rect = new Rectangle(4,4,10,10);
-			bg.source = "assets/ui/bg.png";
-			
-			timerLabel = new TimeLabel(this);
-			timerLabel.ms = 0;
-			timerLabel.color = 0xFFFFFF;
-			timerLabel.verticalCenter = 0;
-			
 			hb = new HBox(this);
 			hb.setSize(width / 2,height);
 			hb.right = 0;
@@ -67,11 +47,9 @@ package com.vhall.app.view.control
 			hb.horizontalAlign = "right";
 			
 			volumebar = new VolumeBar(hb);
-			volumebar.volumeValue = MediaModel.me().volume*100;
 			
 			var btn:Button = new Button(hb);
 			btn.skin = "assets/ui/mic1.png";
-			btn.addEventListener(MouseEvent.CLICK,onClick);
 			
 			btnBarrage = new ToggleButton(hb);
 			btnBarrage.skin = "assets/ui/t1.png";
@@ -84,55 +62,42 @@ package com.vhall.app.view.control
 			btnFullscreen.tooltip = "全屏";
 			btnFullscreen.callOut = "top";
 			btnFullscreen.addEventListener(MouseEvent.CLICK,onToggleClickHandler);
-			
-			StageManager.stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFull);
+		}
+		
+		override protected function sizeChanged():void
+		{
+			super.sizeChanged();
+			hb.width = width / 2;
+		}
+		
+		override protected function onFull(e:FullScreenEvent):void
+		{
+			super.onFull(e);
+			btnFullscreen.setSelected(e.fullScreen);
 		}
 
+		public function careList():Array
+		{
+			var arr:Array = [];
+			return arr;
+		}
+
+		public function handleCare(msg:String, ... args):void
+		{
+			switch(msg)
+			{
+			}
+		}
+		
 		protected function onBarrageSelect(event:Event):void
 		{
 			var cmd:String = btnBarrage.selected ? AppCMD.BARRAGE_OPEN : AppCMD.BARRAGE_CLOSE;
 			NResponder.dispatch(cmd);
 		}
 		
-		protected function onFull(e:FullScreenEvent):void
-		{
-			btnFullscreen.setSelected(e.fullScreen);
-		}
-		
 		protected function onToggleClickHandler(e:MouseEvent):void
 		{
 			StageManager.toggleFullscreen();
-		}
-		
-		private function onClick(e:MouseEvent):void
-		{
-		}
-		
-		private function onTimer(e:TimerEvent):void
-		{
-			NResponder.dispatch(AppCMD.BARRAGE_ADD,[Math.random().toFixed(5)]);
-		}
-		
-		public function careList():Array
-		{
-			return [AppCMD.MEDIA_TIME_UPDATE];			
-		}
-		
-		public function handleCare(msg:String, ... args):void
-		{
-			switch(msg)
-			{
-				case AppCMD.MEDIA_TIME_UPDATE:
-					timerLabel.ms = MediaModel.me().player.time * 1000;
-					break;
-			}
-		}
-		
-		override protected function sizeChanged():void
-		{
-			super.sizeChanged();
-			bg.width = width;
-			hb.width = width / 2;
 		}
 	}
 }
