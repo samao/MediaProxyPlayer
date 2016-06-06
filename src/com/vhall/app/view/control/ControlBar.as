@@ -1,6 +1,7 @@
 package com.vhall.app.view.control
 {
 	import com.vhall.app.common.components.TimeLabel;
+	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.view.control.ui.VolumeBar;
 	import com.vhall.framework.app.manager.StageManager;
@@ -55,7 +56,6 @@ package com.vhall.app.view.control
 			bg.source = "assets/ui/bg.png";
 			
 			timerLabel = new TimeLabel(this);
-			timerLabel.autoStart = true;
 			timerLabel.ms = 0;
 			timerLabel.color = 0xFFFFFF;
 			timerLabel.verticalCenter = 0;
@@ -67,6 +67,7 @@ package com.vhall.app.view.control
 			hb.horizontalAlign = "right";
 			
 			volumebar = new VolumeBar(hb);
+			volumebar.volumeValue = MediaModel.me().volume*100;
 			
 			var btn:Button = new Button(hb);
 			btn.skin = "assets/ui/mic1.png";
@@ -114,12 +115,17 @@ package com.vhall.app.view.control
 		
 		public function careList():Array
 		{
-			return [];			
+			return [AppCMD.MEDIA_TIME_UPDATE];			
 		}
 		
 		public function handleCare(msg:String, ... args):void
 		{
-			
+			switch(msg)
+			{
+				case AppCMD.MEDIA_TIME_UPDATE:
+					timerLabel.ms = MediaModel.me().player.time * 1000;
+					break;
+			}
 		}
 		
 		override protected function sizeChanged():void
