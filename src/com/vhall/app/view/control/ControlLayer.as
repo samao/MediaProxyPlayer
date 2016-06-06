@@ -12,7 +12,7 @@ package com.vhall.app.view.control
 	{
 		
 		private var bar:ControlBar;
-		
+		private var isShow:Boolean = true;
 		public function ControlLayer(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super(parent, xpos, ypos);
@@ -48,10 +48,12 @@ package com.vhall.app.view.control
 		
 		
 		protected function toShowControlbar():void{
+			isShow = true;
 			TweenNano.to(bar,.25,{y:StageManager.stage.stageHeight-bar.height});
 		}
 		
 		protected function toHideControlbar():void{
+			isShow = false;
 			TweenNano.to(bar,.25,{y:StageManager.stage.stageHeight});
 		}
 		
@@ -60,6 +62,11 @@ package com.vhall.app.view.control
 		{
 			super.sizeChanged();
 			bar.width = width;
+			if(isShow){
+				bar.y  = StageManager.stage.stageHeight-bar.height;
+			}else{
+				bar.y = StageManager.stage.stageHeight;
+			}
 		}
 	}
 }
