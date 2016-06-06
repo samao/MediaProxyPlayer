@@ -8,7 +8,7 @@ package com.vhall.app.view.control
 	
 	public class ControlLayer extends Layer implements IResponder
 	{
-		
+		/** 控制栏*/
 		private var bar:AbstractControlBar;
 		
 		public function ControlLayer(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)

@@ -39,11 +39,13 @@ package com.vhall.app.view.video
 			super.createChildren();
 			
 			info.player = _videoPlayer ||= VideoPlayer.create();
+			_videoPlayer.volume = info.volume;
 			addChild(_videoPlayer);
 			
-			if(false&&Model.Me().userinfo.is_pres == true)
+			trace(Model.Me().userinfo.is_pres);
+			if(Model.Me().userinfo.is_pres)
 			{
-				_videoPlayer.publish(null,null,info.netOrFileUrl,info.streamName,videoHandler);
+				_videoPlayer.publish(info._soCamera,info._soMicrophone,info.netOrFileUrl,info.streamName,videoHandler,info._soCamWidth,info._soCamHeight);
 			}else{
 				_videoPlayer.connect(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,videoHandler);
 			}
@@ -84,13 +86,14 @@ package com.vhall.app.view.video
 		
 		public function handleCare(msg:String, ...parameters):void
 		{
+			log(msg,parameters);
 			switch(msg)
 			{
 				case Actions_Report2JS.BUFFER_LENGTH:
 					MediaAJMessage.sendBufferLength();
 					break;
 				case AppCMD.MEDIA_QUITE_SERVER:
-					_videoPlayer.attachType(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName);
+					MediaAJMessage.quiteServer();
 					break;
 				case AppCMD.MEDIA_SET_VOLUME:
 					_videoPlayer.volume = info.volume;
@@ -141,6 +144,7 @@ package com.vhall.app.view.video
 					if(_videoPlayer.type == MediaProxyType.PUBLISH)
 					{
 						//开始推流
+						_videoPlayer.attachType(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,true,info._soCamera,info._soMicrophone,info._soCamWidth,info._soCamHeight);
 					}
 					break;
 				case AppCMD.PUBLISH_END:
@@ -157,7 +161,7 @@ package com.vhall.app.view.video
 			switch(states)
 			{
 				case MediaProxyStates.CONNECT_NOTIFY:
-					Logger.getLogger("VideoLayer").info("通道建立成功");
+					log("通道建立成功");
 					_id = setInterval(timeCheck,1000);
 					break;
 				case MediaProxyStates.CONNECT_FAILED:
@@ -171,6 +175,10 @@ package com.vhall.app.view.video
 					break;
 				case MediaProxyStates.STREAM_START:
 					send(AppCMD.MEDIA_STATES_START);
+					if(_videoPlayer.type != MediaProxyType.PUBLISH)
+					{
+						send(AppCMD.UI_HIDE_LOADING);
+					}
 					break;
 				case MediaProxyStates.STREAM_PAUSE:
 					send(AppCMD.MEDIA_STATES_PAUSE);
@@ -182,10 +190,18 @@ package com.vhall.app.view.video
 					send(AppCMD.MEDIA_STATES_FINISH);
 					break;
 				case MediaProxyStates.STREAM_LOADING:
-					send(AppCMD.MEDIA_STATES_BUFFER_LOADING);
+					if(_videoPlayer.type != MediaProxyType.PUBLISH)
+					{
+						send(AppCMD.MEDIA_STATES_BUFFER_LOADING);
+						send(AppCMD.UI_SHOW_LOADING);
+					}
 					break;
 				case MediaProxyStates.STREAM_FULL:
-					send(AppCMD.MEDIA_STATES_BUFFER_FULL);
+					if(_videoPlayer.type != MediaProxyType.PUBLISH)
+					{
+						send(AppCMD.MEDIA_STATES_BUFFER_FULL);
+						send(AppCMD.UI_HIDE_LOADING);
+					}
 					break;
 				case MediaProxyStates.UN_PUBLISH_NOTIFY:
 					break;
@@ -194,7 +210,7 @@ package com.vhall.app.view.video
 					break;
 				case MediaProxyStates.DURATION_NOTIFY:
 					send(AppCMD.MEDIA_DURATION_UPDATE,[_videoPlayer.duration]);
-					Logger.getLogger("VideoLayer").info("视频时长:"+_videoPlayer.duration);
+					log("视频时长:"+_videoPlayer.duration);
 					break;
 				case MediaProxyStates.SEEK_COMPLETE:
 					send(AppCMD.MEDIA_STATES_SEEK_COMPLETE);
@@ -209,7 +225,10 @@ package com.vhall.app.view.video
 		{
 			if(_videoPlayer.time == _preTime) return;
 			_preTime = _videoPlayer.time;
-			send(AppCMD.MEDIA_TIME_UPDATE);
+			if(_videoPlayer.type != MediaProxyType.PUBLISH)
+			{
+				send(AppCMD.MEDIA_TIME_UPDATE);
+			}
 		}
 		
 		private function mouseHandler(e:MouseEvent):void
@@ -240,7 +259,7 @@ package com.vhall.app.view.video
 					rect = new Rectangle(0,0,w,h);
 				}else{
 					//底部控制了高度
-					const CONTROL_BAR_HEIGHT:uint = 35;
+					const CONTROL_BAR_HEIGHT:uint = 0;
 					rect = new Rectangle(0,0,w,h - CONTROL_BAR_HEIGHT);
 				}
 				_videoPlayer.viewPort = rect;
@@ -280,7 +299,13 @@ package com.vhall.app.view.video
 		
 		private function send(action:String,param:Array = null):void
 		{
+			log("发送消息",action,param);
 			NResponder.dispatch(action,param);
+		}
+		
+		private function log(...value):void
+		{
+			Logger.getLogger("VideoLayer").info(value);
 		}
 	}
 }

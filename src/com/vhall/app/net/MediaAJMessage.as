@@ -82,5 +82,13 @@ package com.vhall.app.net
 		{
 			sender.sendCMDMsg({type:MessageType.AJ_PUBLISH_START,isVideoMode:MediaModel.me().player.usedCam?true:false});
 		}
+		
+		/**
+		 * 推流端切换线路通知
+		 */		
+		public static function quiteServer():void
+		{
+			sender.sendCMDMsg({type:MessageType.AJ_QUITE_SERVER});
+		}
 	}
 }

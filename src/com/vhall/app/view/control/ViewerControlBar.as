@@ -1,6 +1,7 @@
 package com.vhall.app.view.control
 {
 	import com.vhall.app.common.components.TimeLabel;
+	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.model.Model;
 	import com.vhall.app.model.vo.DefinitionVo;
 	import com.vhall.app.model.vo.ServeLinevo;
@@ -11,7 +12,6 @@ package com.vhall.app.view.control
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.app.mvc.ResponderMediator;
 	import com.vhall.framework.ui.container.HBox;
-	import com.vhall.framework.ui.controls.Button;
 	import com.vhall.framework.ui.controls.ToggleButton;
 	
 	import flash.display.DisplayObjectContainer;
@@ -32,6 +32,10 @@ package com.vhall.app.view.control
 		private var btnBarrage:ToggleButton;
 		
 		private var volumebar:VolumeBar;
+		/**静音按钮*/
+		private var _muteBut:ToggleButton;
+		/**静音前的音量*/		
+		private var _volumeBeforeMute:Number = 1;
 		
 		private var timerLabel:TimeLabel;
 		
@@ -57,13 +61,18 @@ package com.vhall.app.view.control
 			hb.horizontalAlign = "right";
 			
 			volumebar = new VolumeBar(hb);
+			_volumeBeforeMute = volumebar.volumeValue = MediaModel.me().volume * 100;
 			
 			onInitDefination();
 			
 			onInitServerLine();
 			
-			var btn:Button = new Button(hb);
-			btn.skin = "assets/ui/mic1.png";
+			_muteBut = new ToggleButton(hb);
+			_muteBut.skin = "assets/ui/mic2.png";
+			_muteBut.downSkin = "assets/ui/mic1.png";
+			_muteBut.tooltip = "静音";
+			_muteBut.callOut = "top";
+			_muteBut.addEventListener(MouseEvent.CLICK,muteHandler);
 			
 			btnBarrage = new ToggleButton(hb);
 			btnBarrage.skin = "assets/ui/t1.png";
@@ -78,7 +87,21 @@ package com.vhall.app.view.control
 			btnFullscreen.addEventListener(MouseEvent.CLICK,onToggleClickHandler);
 		}
 		
+		protected function muteHandler(event:MouseEvent):void
+		{
+			if(_muteBut.selected)
+			{
+				_volumeBeforeMute = volumebar.volumeValue;
+				volumebar.volumeValue = 0;
+			}else{
+				volumebar.volumeValue = _volumeBeforeMute;
+			}
+			MediaModel.me().volume = volumebar.volumeValue/100;
+			NResponder.dispatch(AppCMD.MEDIA_SET_VOLUME);
+		}
+		
 		protected function onInitDefination():void{
+		
 //			if(Model.Me().hideQualitySwitch) return;
 			var sdata:Array = Model.Me().definitionInfo;
 			definationBox = new SwitchListBox(hb);
@@ -87,7 +110,7 @@ package com.vhall.app.view.control
 			var data:Object;
 			for (var i:int = 0; i < sdata.length; i++) 
 			{
-				
+			if(_muteBut.selected)
 				data = new Object();
 				tmpdta = sdata[i]
 				data.label = tmpdta.sName;
@@ -108,15 +131,13 @@ package com.vhall.app.view.control
 				var data:Object;
 				for (var i:int = 0; i < sdata.length; i++) 
 				{
-					
-					data = new Object();
+				_volumeBeforeMute = volumebar.volumeValue;
 					tmpdta = sdata[i]
 					data.label = tmpdta.sname;
 					data.value = tmpdta.sname;
 					showData[i] = data;
-				}
-				serverLinke.initList(showData);
 				serverLinke.addEventListener(Event.CHANGE,onServerLineChange);
+				}
 			}
 		}
 		
@@ -124,7 +145,6 @@ package com.vhall.app.view.control
 		{
 			// TODO Auto-generated method stub
 			trace(definationBox.getSelectData().value);
-			NResponder.dispatch(AppCMD.MEDIA_SWITCH_LINE);
 		}
 		
 		protected function onServerLineChange(event:Event):void

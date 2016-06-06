@@ -1,9 +1,14 @@
 package com.vhall.app.view.control.ui
 {
+	import com.vhall.app.model.MediaModel;
+	import com.vhall.app.net.AppCMD;
 	import com.vhall.framework.ui.container.Box;
 	import com.vhall.framework.ui.controls.Button;
+	import com.vhall.framework.ui.event.DragEvent;
 	
 	import flash.display.DisplayObjectContainer;
+	
+	import appkit.responders.NResponder;
 	
 	public class VolumeBar extends Box
 	{
@@ -19,10 +24,17 @@ package com.vhall.app.view.control.ui
 			// TODO Auto Generated method stub
 			super.createChildren();
 			volumeSlipComp = new VolumeDragBar();
+			volumeSlipComp.addEventListener(DragEvent.CHANGE,volumeChange);
 			this.addChild(volumeSlipComp);
 		}
 		
-		public function set volumeValue(value:int){
+		private function volumeChange(e:DragEvent):void
+		{
+			MediaModel.me().volume = e.percent;
+			NResponder.dispatch(AppCMD.MEDIA_SET_VOLUME,[e.percent]);
+		}
+		
+		public function set volumeValue(value:int):void{
 			volumeSlipComp.percent = value/100;
 		}
 		/**

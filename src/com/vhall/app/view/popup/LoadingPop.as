@@ -59,7 +59,7 @@ package com.vhall.app.view.popup
 		protected function show():void{
 			if(tParent){
 				if(this.parent){
-					this.parent.setChildIndex(this,tParent.numChildren)
+					this.parent.setChildIndex(this,tParent.numChildren-1)
 				}else{
 					tParent.addChildAt(this,tParent.numChildren);
 				}
