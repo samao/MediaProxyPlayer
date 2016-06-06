@@ -11,7 +11,7 @@ package com.vhall.app.view.control.ui.component
 		public function SwitchLabelItem(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super(parent, xpos, ypos);
-			this.setSize(36,20);
+			this.setSize(40,20);
 		}
 	}
 }

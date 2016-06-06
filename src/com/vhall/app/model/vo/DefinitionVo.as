@@ -1,6 +1,7 @@
 package com.vhall.app.model.vo
 {
-	public class DefinitionVo
+
+	public class DefinitionVo 
 	{
 		
 		public static const LOW:String = "low";

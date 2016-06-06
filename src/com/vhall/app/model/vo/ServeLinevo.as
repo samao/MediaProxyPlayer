@@ -1,13 +1,14 @@
 package com.vhall.app.model.vo
 {
-	import org.mangui.hls.demux.AACDemuxer;
+	
+	
 
 	/**
 	 *切线数据实体 
 	 * @author zqh
 	 * 
 	 */	
-	public class ServeLinevo
+	public class ServeLinevo 
 	{
 		public function ServeLinevo(serverUrl:String,sname:String,serverAudioUrl:String)
 		{

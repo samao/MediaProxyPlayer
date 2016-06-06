@@ -110,7 +110,6 @@ package com.vhall.app.view.control
 			var data:Object;
 			for (var i:int = 0; i < sdata.length; i++) 
 			{
-			if(_muteBut.selected)
 				data = new Object();
 				tmpdta = sdata[i]
 				data.label = tmpdta.sName;
@@ -131,13 +130,14 @@ package com.vhall.app.view.control
 				var data:Object;
 				for (var i:int = 0; i < sdata.length; i++) 
 				{
-				_volumeBeforeMute = volumebar.volumeValue;
+					data = new Object();
 					tmpdta = sdata[i]
 					data.label = tmpdta.sname;
 					data.value = tmpdta.sname;
 					showData[i] = data;
-				serverLinke.addEventListener(Event.CHANGE,onServerLineChange);
 				}
+				serverLinke.initList(showData);
+				serverLinke.addEventListener(Event.CHANGE,onServerLineChange);
 			}
 		}
 		

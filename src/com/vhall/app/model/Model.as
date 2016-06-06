@@ -39,13 +39,28 @@ package com.vhall.app.model
 		
 		/*** 是否隐藏弹幕开关按钮*/
 		public var hideBarrage:Boolean;
-		
+		/**
+		 *选中线路 
+		 */		
+		public var selectLine:String;
+		/**
+		 *选中清晰度 
+		 */		
+		public var selectDef:String;
+		/**
+		 *线路数据 
+		 */		
 		public var serverLineInfo:Array = [];
 		
 		public var definitionInfo:Array = [];
-		
+		/**
+		 *清晰度数据 
+		 */		
 		private var _playItem:String;
 		
+		/**
+		 *线路数据 
+		 */		
 		private var _cdnServers:String;
 		/**
 		 * 获取初始化的摄像头和麦克风等信息并上报给页面
