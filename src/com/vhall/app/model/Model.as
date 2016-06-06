@@ -42,11 +42,11 @@ package com.vhall.app.model
 		/**
 		 *选中线路 
 		 */		
-		public var selectLine:String;
+		public var selectLineVo:ServeLinevo;
 		/**
 		 *选中清晰度 
 		 */		
-		public var selectDef:String;
+		public var selectDefVo:DefinitionVo;
 		/**
 		 *线路数据 
 		 */		
@@ -62,6 +62,21 @@ package com.vhall.app.model
 		 *线路数据 
 		 */		
 		private var _cdnServers:String;
+		/**
+		 *观看段视频模式（语音模式为false） 
+		 */		
+		public var viewVideoMode:Boolean = true;
+		
+		/**
+		 *当前播放模式（RTMP/HLS） 
+		 */		
+		public var playMode:String = PlayMode.PLAY_RTMP;
+		
+		/**
+		 *音频流名字(语音流名rtmp下有) 
+		 */		
+		public var media_srv:String;
+		
 		/**
 		 * 获取初始化的摄像头和麦克风等信息并上报给页面
 		 */

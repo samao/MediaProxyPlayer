@@ -13,12 +13,12 @@ package com.vhall.app.model.vo
 		public function ServeLinevo(serverUrl:String,sname:String,serverAudioUrl:String)
 		{
 			_serverUrl = serverUrl;
-			_sname = sname;
+			_sName = sname;
 			_serverAudio = serverAudioUrl;
 		}
 		
 		private var _serverUrl:String;
-		private var _sname:String;
+		private var _sName:String;
 		private var _serverAudio:String;
 
 		public function get serverAudio():String
@@ -31,14 +31,14 @@ package com.vhall.app.model.vo
 			_serverAudio = value;
 		}
 
-		public function get sname():String
+		public function get sName():String
 		{
-			return _sname;
+			return _sName;
 		}
 
-		public function set sname(value:String):void
+		public function set sName(value:String):void
 		{
-			_sname = value;
+			_sName = value;
 		}
 
 		public function get serverUrl():String
@@ -52,7 +52,7 @@ package com.vhall.app.model.vo
 		}
 		
 		public function clone():ServeLinevo{
-			return new ServeLinevo(_serverUrl,_sname,_serverAudio);
+			return new ServeLinevo(_serverUrl,_sName,_serverAudio);
 		}
 	}
 }

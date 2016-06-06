@@ -1,6 +1,7 @@
 package com.vhall.app.view.control
 {
 	import com.vhall.app.common.components.TimeLabel;
+	import com.vhall.app.model.DataService;
 	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.model.Model;
 	import com.vhall.app.model.vo.DefinitionVo;
@@ -11,6 +12,7 @@ package com.vhall.app.view.control
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.app.mvc.ResponderMediator;
+	import com.vhall.framework.log.Logger;
 	import com.vhall.framework.ui.container.HBox;
 	import com.vhall.framework.ui.controls.ToggleButton;
 	
@@ -132,8 +134,8 @@ package com.vhall.app.view.control
 				{
 					data = new Object();
 					tmpdta = sdata[i]
-					data.label = tmpdta.sname;
-					data.value = tmpdta.sname;
+					data.label = tmpdta.sName;
+					data.value = tmpdta.sName;
 					showData[i] = data;
 				}
 				serverLinke.initList(showData);
@@ -144,14 +146,23 @@ package com.vhall.app.view.control
 		protected function onDefinationChange(event:Event):void
 		{
 			// TODO Auto-generated method stub
-			trace(definationBox.getSelectData().value);
+			Logger.getLogger("ViewerControlBar").info("onServerLineChange :",definationBox.getSelectData().value);
+			var selectDef:String = definationBox.getSelectData().value
+			if(DataService.onSelectDef(selectDef)){
+				DataService.updateMediaInfo();
+				NResponder.dispatch(AppCMD.MEDIA_SWITCH_QUALITY);
+			}
 		}
 		
 		protected function onServerLineChange(event:Event):void
 		{
 			// TODO Auto-generated method stub
-			trace(serverLinke.getSelectData().value);
-			NResponder.dispatch(AppCMD.MEDIA_SWITCH_QUALITY);
+			Logger.getLogger("ViewerControlBar").info("onServerLineChange :",serverLinke.getSelectData().value);
+			var selectSl:String = serverLinke.getSelectData().value;
+			if(DataService.onSelectServerLine(selectSl)){
+				DataService.updateMediaInfo();
+				NResponder.dispatch(AppCMD.MEDIA_SWITCH_LINE);
+			}
 		}
 		
 		override protected function sizeChanged():void

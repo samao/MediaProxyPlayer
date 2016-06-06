@@ -104,7 +104,9 @@ package  com.vhall.app.view.control.ui.component
 		 * <br> 赋值后默认选中第一项
 		 */		
 		public function initList(data:Array,itemW:int = 70,itemH:int = 30,itemRender:Class = null):void{
-			clearAllItem();
+			if(list){
+				list.dataProvider = [];
+			}
 			datas = data;
 			list = new SwitchList();
 			list.setItemSize(70,30);
