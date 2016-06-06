@@ -1,10 +1,8 @@
 package com.vhall.app.view.control
 {
-	import com.vhall.app.view.control.ui.VolumeBar;
-	import appkit.responders.NResponder;
-	
 	import com.vhall.app.common.components.TimeLabel;
 	import com.vhall.app.net.AppCMD;
+	import com.vhall.app.view.control.ui.VolumeBar;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.app.mvc.ResponderMediator;
@@ -20,7 +18,8 @@ package com.vhall.app.view.control
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.geom.Rectangle;
-	import flash.utils.Timer;
+	
+	import appkit.responders.NResponder;
 	
 	/**
 	 *	控制栏 
@@ -37,6 +36,8 @@ package com.vhall.app.view.control
 		
 		
 		private var volumebar:VolumeBar
+		
+		private var timerLabel:TimeLabel;
 		
 		private var hb:HBox;
 		public function ControlBar(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
