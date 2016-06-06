@@ -1,5 +1,7 @@
 package com.vhall.app.view.control
 {
+	import appkit.responders.NResponder;
+	
 	import com.vhall.app.common.components.TimeLabel;
 	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.net.AppCMD;
@@ -9,14 +11,13 @@ package com.vhall.app.view.control
 	import com.vhall.framework.app.mvc.ResponderMediator;
 	import com.vhall.framework.ui.container.HBox;
 	import com.vhall.framework.ui.controls.Button;
+	import com.vhall.framework.ui.controls.Label;
 	import com.vhall.framework.ui.controls.ToggleButton;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
 	import flash.events.MouseEvent;
-	
-	import appkit.responders.NResponder;
 
 	public class ViewerControlBar extends AbstractControlBar implements IResponder
 	{
@@ -41,19 +42,29 @@ package com.vhall.app.view.control
 		override protected function createChildren():void
 		{
 			super.createChildren();
+			
+			timerLabel = new TimeLabel(this);
+			timerLabel.color = 0xFFFFFF;
+			timerLabel.left = 10;
+			timerLabel.verticalCenter = 0;
+			
 			hb = new HBox(this);
 			hb.setSize(width / 2,height);
-			hb.right = 0;
+			hb.right = 10;
 			hb.verticalAlign = "center";
 			hb.horizontalAlign = "right";
 			
 			volumebar = new VolumeBar(hb);
-			volumebar.volumeValue = MediaModel.me().volume * 100;
 			
-			var btn:Button = new Button(hb);
-			btn.skin = "assets/ui/mic1.png";
+			var hbarrage:HBox = new HBox(hb);
+			hbarrage.gap = 2;
+			hbarrage.verticalAlign = "center";
 			
-			btnBarrage = new ToggleButton(hb);
+			var lblBarrage:Label = new Label(hbarrage);
+			lblBarrage.text = "弹幕";
+			lblBarrage.color = "0xFFFFFF";
+			
+			btnBarrage = new ToggleButton(hbarrage);
 			btnBarrage.skin = "assets/ui/t1.png";
 			btnBarrage.downSkin = "assets/ui/t2.png";
 			btnBarrage.addEventListener(Event.SELECT, onBarrageSelect);
@@ -81,6 +92,7 @@ package com.vhall.app.view.control
 		public function careList():Array
 		{
 			var arr:Array = [];
+			arr.push(AppCMD.MEDIA_DURATION_UPDATE);
 			return arr;
 		}
 
@@ -88,6 +100,9 @@ package com.vhall.app.view.control
 		{
 			switch(msg)
 			{
+				case AppCMD.MEDIA_DURATION_UPDATE:
+					timerLabel.ms = MediaModel.me().player.time * 1000;
+					break;
 			}
 		}
 		
