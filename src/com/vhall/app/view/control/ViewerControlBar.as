@@ -1,5 +1,7 @@
 package com.vhall.app.view.control
 {
+	import appkit.responders.NResponder;
+	
 	import com.vhall.app.common.components.TimeLabel;
 	import com.vhall.app.model.DataService;
 	import com.vhall.app.model.MediaModel;
@@ -14,6 +16,7 @@ package com.vhall.app.view.control
 	import com.vhall.framework.app.mvc.ResponderMediator;
 	import com.vhall.framework.log.Logger;
 	import com.vhall.framework.ui.container.HBox;
+	import com.vhall.framework.ui.controls.Label;
 	import com.vhall.framework.ui.controls.ToggleButton;
 	
 	import flash.display.DisplayObjectContainer;
@@ -21,8 +24,6 @@ package com.vhall.app.view.control
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
 	import flash.events.MouseEvent;
-	
-	import appkit.responders.NResponder;
 
 	public class ViewerControlBar extends AbstractControlBar implements IResponder
 	{
@@ -38,8 +39,6 @@ package com.vhall.app.view.control
 		private var _muteBut:ToggleButton;
 		/**静音前的音量*/		
 		private var _volumeBeforeMute:Number = 1;
-		
-		private var timerLabel:TimeLabel;
 		
 		private var definationBox:SwitchListBox;
 		
@@ -62,25 +61,36 @@ package com.vhall.app.view.control
 			hb.verticalAlign = "center";
 			hb.horizontalAlign = "right";
 			
-			volumebar = new VolumeBar(hb);
-			_volumeBeforeMute = volumebar.volumeValue = MediaModel.me().volume * 100;
-			
-			onInitDefination();
-			
-			onInitServerLine();
-			
-			_muteBut = new ToggleButton(hb);
+			// 静音
+			var hbVolumn:HBox = new HBox(this);
+			hbVolumn.verticalCenter = 0;
+			hbVolumn.verticalAlign = "center";
+			_muteBut = new ToggleButton(hbVolumn);
 			_muteBut.skin = "assets/ui/mic2.png";
 			_muteBut.downSkin = "assets/ui/mic1.png";
 			_muteBut.tooltip = "静音";
 			_muteBut.callOut = "top";
 			_muteBut.addEventListener(MouseEvent.CLICK,muteHandler);
+			volumebar = new VolumeBar(hbVolumn);
+			_volumeBeforeMute = MediaModel.me().volume * 100;
+			volumebar.volumeValue = MediaModel.me().volume * 100;
 			
-			btnBarrage = new ToggleButton(hb);
+			onInitDefination();
+			
+			onInitServerLine();
+			
+			// 弹幕按钮
+			var hbarrage:HBox = new HBox(hb);
+			hb.verticalAlign = "center";
+			var lblBarrage:Label = new Label(hbarrage);
+			lblBarrage.text = "弹幕";
+			lblBarrage.color = 0xFFFFFF;
+			btnBarrage = new ToggleButton(hbarrage);
 			btnBarrage.skin = "assets/ui/t1.png";
 			btnBarrage.downSkin = "assets/ui/t2.png";
 			btnBarrage.addEventListener(Event.SELECT, onBarrageSelect);
 			
+			// 全屏按钮
 			btnFullscreen = new ToggleButton(hb);
 			btnFullscreen.skin = "assets/ui/f2.png";
 			btnFullscreen.downSkin = "assets/ui/f1.png";
