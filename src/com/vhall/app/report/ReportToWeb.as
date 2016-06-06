@@ -44,7 +44,7 @@ package com.vhall.app.report
 				}
 				case Actions_Report2JS.START_MIC_REPEAT:
 				{
-					if(Model.Me().userInfo.is_pres){
+					if(Model.Me().userinfo.is_pres){
 						startMicVolumeRepeat();
 					}
 					break;

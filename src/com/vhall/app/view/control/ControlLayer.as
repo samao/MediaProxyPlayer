@@ -1,6 +1,7 @@
 package com.vhall.app.view.control
 {
 	import com.vhall.app.common.Layer;
+	import com.vhall.app.model.Model;
 	import com.vhall.app.net.AppCMD;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
@@ -18,9 +19,7 @@ package com.vhall.app.view.control
 	public class ControlLayer extends Layer implements IResponder
 	{
 		
-		private var bar:ControlBar;
-		
-		public var checkTimer:uint;
+		private var bar:AbstractControlBar;
 		
 		public function ControlLayer(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
@@ -30,24 +29,20 @@ package com.vhall.app.view.control
 		override protected function init():void
 		{
 			super.init();
-			StageManager.stage.addEventListener(Event.MOUSE_LEAVE,onStageMouseLeave);
-			StageManager.stage.addEventListener(MouseEvent.MOUSE_MOVE,onStageMouseMove);
 		}
 		
 		override protected function createChildren():void
 		{
 			super.createChildren();
-			bar = new ControlBar(this);
-			
-			// 默认来一发
-			onStageMouseMove(null);
-		}
-		
-		override public function destory():void
-		{
-			super.destory();
-			StageManager.stage.removeEventListener(Event.MOUSE_LEAVE,onStageMouseLeave);
-			StageManager.stage.removeEventListener(MouseEvent.MOUSE_MOVE,onStageMouseMove);
+//			Model.Me().userinfo.is_pres = false;
+			if(Model.Me().userinfo.is_pres)
+			{
+				bar = new HostControlBar(this);	
+			}
+			else
+			{
+				bar = new ViewerControlBar(this);
+			}
 		}
 		
 		public function careList():Array
@@ -56,49 +51,11 @@ package com.vhall.app.view.control
 			return arr;
 		}
 		
-		public function handleCare(msg:String, ...parameters):void
+		public function handleCare(msg:String, ...args):void
 		{
 			switch(msg)
 			{
 			}
-		}
-		
-		protected function onStageMouseMove(event:MouseEvent):void
-		{
-			clearTimeout(checkTimer);
-			checkTimer = setTimeout(onDelayCheckMouse,2000);
-			Mouse.show();
-			showBar();
-		}
-		
-		protected function onStageMouseLeave(event:Event):void
-		{
-			clearTimeout(checkTimer);
-			hideBar();
-		}
-		
-		/**
-		 *发送隐藏控制栏通知 
-		 * 
-		 */		
-		protected function onDelayCheckMouse():void{
-			if(StageManager.stage.displayState==StageDisplayState.FULL_SCREEN)
-			{
-				Mouse.hide();
-			}
-			hideBar();
-		}
-		
-		/**	显示控制栏*/
-		private function showBar():void
-		{
-			AppTween.to(bar,.25,{y:0});
-		}
-		
-		/**	隐藏控制栏*/
-		private function hideBar():void
-		{
-			AppTween.to(bar,.25,{y:bar.height});
 		}
 		
 		override protected function sizeChanged():void

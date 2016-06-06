@@ -99,7 +99,7 @@ package com.vhall.app.model
 			{
 				varName = child["@name"].toString();
 				typeName = child["@type"].toString();
-				trace("t have property:",varName,"type is ",typeName);
+				trace("t have property:",varName,"type is ",typeName,data[varName]);
 				switch(typeName)
 				{
 					case "String":
@@ -109,7 +109,7 @@ package com.vhall.app.model
 						t[varName] = int(data[varName]);
 						break;
 					case "Boolean":
-						t[varName] = data[varName] == "0" ? false : true;
+						t[varName] = data[varName] == "0"||!data.hasOwnProperty(varName) ? false : true;
 						break;
 					default:
 						trace("unrecognition type",typeName);

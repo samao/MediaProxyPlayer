@@ -1,9 +1,12 @@
 package
 {
+	import appkit.responders.NResponder;
+	
 	import com.vhall.app.common.Layer;
 	import com.vhall.app.common.controller.MenuController;
 	import com.vhall.app.common.controller.MessageController;
 	import com.vhall.app.manager.LayerManager;
+	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.view.barrage.BarrageLayer;
 	import com.vhall.app.view.control.ControlLayer;
 	import com.vhall.app.view.effect.EffectLayer;
@@ -13,7 +16,7 @@ package
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.app.mvc.ResponderMediator;
 	import com.vhall.framework.ui.container.Box;
-
+	
 	import flash.display.DisplayObjectContainer;
 
 	/**
@@ -33,7 +36,7 @@ package
 		public var effectLayer:Layer;
 		// 弹框层
 		public var popupLayer:Layer;
-
+		
 		public function Live(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0)
 		{
 			super(parent, xpos, ypos);
@@ -53,6 +56,7 @@ package
 			effectLayer = new EffectLayer(this);
 			popupLayer = new PopupLayer(this);
 			LayerManager.initLayer(this);
+			onTest();
 		}
 
 		/**	感兴趣 的消息*/
@@ -79,6 +83,10 @@ package
 			controlLayer.width = StageManager.stageWidth;
 			popupLayer.setSize(StageManager.stageWidth, StageManager.stageHeight);
 			videoLayer.setSize(StageManager.stageWidth, StageManager.stageHeight);
+		}
+		
+		public function onTest():void{
+			NResponder.dispatch(AppCMD.UI_SHOW_LOGOLOADING);
 		}
 	}
 }
