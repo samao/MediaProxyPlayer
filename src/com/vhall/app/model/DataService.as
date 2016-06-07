@@ -83,7 +83,7 @@ package com.vhall.app.model
 				}else{
 					//当前线路音频地址
 					MediaModel.me().netOrFileUrl = Model.videoInfo.selectLineVo.serverAudio;
-					MediaModel.me().streamName = Model.videoInfo.media_srv
+					MediaModel.me().streamName = Model.videoInfo.audioSrv;
 				}
 			}
 		}

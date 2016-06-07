@@ -49,10 +49,7 @@ package com.vhall.app.model
 		 *是否显示音频切换 
 		 */		
 		public var streamType:int = 1;
-		/**
-		 *观看段视频模式（语音模式为false） 
-		 */		
-		public var viewVideoMode:Boolean = true;
+		private var _viewVideoMode:Boolean = true;
 		
 		/**
 		 *当前播放模式（RTMP/HLS） 
@@ -69,6 +66,22 @@ package com.vhall.app.model
 		/**	小助手是否处于打开状态*/
 		public var assistantOpened:Boolean = false;
 
+
+		/**
+		 *观看段视频模式（语音模式为false） 
+		 */
+		public function get viewVideoMode():Boolean
+		{
+			return _viewVideoMode;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set viewVideoMode(value:Boolean):void
+		{
+			_viewVideoMode = value;
+		}
 
 		public static function Me():Model
 		{

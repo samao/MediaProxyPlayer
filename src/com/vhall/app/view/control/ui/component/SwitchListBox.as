@@ -1,9 +1,11 @@
 package  com.vhall.app.view.control.ui.component
 {
 	import com.vhall.framework.ui.container.Box;
+	import com.vhall.framework.ui.controls.Button;
 	import com.vhall.framework.ui.controls.ItemRender;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 
@@ -23,7 +25,7 @@ package  com.vhall.app.view.control.ui.component
 		/**
 		 *选中项的显示入口控件 
 		 */		
-		protected var showLab:SwitchLabelItem;
+		protected var showLab:SwitchBtn;
 		/**
 		 *boxlist 
 		 */		
@@ -32,6 +34,10 @@ package  com.vhall.app.view.control.ui.component
 		 *当前数据 
 		 */		
 		protected var datas:Array;
+		/**
+		 *选择时是否复制显示btn 
+		 */		
+		public var changeCurrentSelect2Show:Boolean = false;
 		
 		override protected function init():void
 		{
@@ -42,8 +48,8 @@ package  com.vhall.app.view.control.ui.component
 		protected function onSelect(event:Event):void
 		{
 			// TODO Auto-generated method stub
-			if(list.selectItem){
-				showLab.data = list.selectItem.data;
+			if(changeCurrentSelect2Show && list.selectItem){
+				showLab.label = list.selectItem.data.label;
 			}
 			dispatchEvent(new Event(Event.CHANGE));
 			//抛出选择事件
@@ -76,7 +82,6 @@ package  com.vhall.app.view.control.ui.component
 		{
 			// TODO Auto-generated method stub
 			this.addEventListener(MouseEvent.ROLL_OUT,onOut);
-			showLab.selected = true;
 			showList();
 		}
 		
@@ -84,7 +89,6 @@ package  com.vhall.app.view.control.ui.component
 		{
 			// TODO Auto-generated method stub
 			this.removeEventListener(MouseEvent.ROLL_OUT,onOut);
-			showLab.selected = false;
 			hideList();
 		}
 		
@@ -126,7 +130,7 @@ package  com.vhall.app.view.control.ui.component
 			
 			list.dataProvider = data;
 			list.addEventListener(Event.SELECT,onSelect);
-			setShowItemSkin(SwitchLabelItem);
+			setShowItemSkin();
 			addLisn();
 		}
 		
@@ -149,15 +153,13 @@ package  com.vhall.app.view.control.ui.component
 		 * 
 		 */		
 		public function setShowItemSkin(showItem:Class = null):void{
-			if(showLab && showLab.parent){
-				showLab.parent.removeChild(showLab);
-			}
+			showLab && showLab.removeFromParent();
 			if(showItem){
 				showLab = new showItem();
+				this.addChild(showLab);
 			}else{
-				showLab = new SwitchLabelItem();
+				showLab = new SwitchBtn(this);
 			}
-			this.addChild(showLab);
 		}
 		
 		public function setShowItemSize(tw:int,th:int):void{
@@ -181,6 +183,7 @@ package  com.vhall.app.view.control.ui.component
 			}
 		}
 		
+		
 		public function get gap():int
 		{
 			return _gap;
@@ -192,6 +195,10 @@ package  com.vhall.app.view.control.ui.component
 			showList();
 		}
 		
+		
+		public function set showlabel(lab:String):void{
+			showLab.label = lab;
+		}
 		/**
 		 *设置该组件是否可用 
 		 * @param value

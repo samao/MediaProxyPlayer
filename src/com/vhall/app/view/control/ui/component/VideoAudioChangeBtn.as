@@ -22,7 +22,7 @@ package com.vhall.app.view.control.ui.component
 		/**
 		 *显示按钮 
 		 */		
-		protected var btn:Button;
+		protected var btn:SwitchBtn;
 		/**
 		 *当前状态 
 		 */		
@@ -32,36 +32,11 @@ package com.vhall.app.view.control.ui.component
 		{
 			// TODO Auto Generated method stub
 			super.createChildren();
-			btn = new Button(this);
-			btn.setSize(70,20);
+			btn = new SwitchBtn(this);
+			btn.setSize(52,20);
+			btn.horizontalCenter = 0;
 			btn.addEventListener(MouseEvent.CLICK,onClick);
-			btn.labelColor = 0xFFFFFF;
-			btn.skin = btnUpBg;
-			btn.overSkin = btnOverBg;
 			updateStatusByMode();
-		}
-		
-		
-		protected function get btnUpBg():Shape{
-			var shp:Shape = new Shape();
-			shp.graphics.beginFill(0x373737);
-			shp.graphics.drawRoundRect(0,0,52,20,4,4);
-			shp.graphics.endFill();
-			shp.graphics.beginFill(0x2D2D2D);
-			shp.graphics.drawRoundRect(1,1,50,18,4,4);
-			shp.graphics.endFill();
-			return shp
-		}
-		
-		protected function get btnOverBg():Shape{
-			var shp:Shape = new Shape();
-			shp.graphics.beginFill(0xE81926);
-			shp.graphics.drawRoundRect(0,0,52,20,4,4);
-			shp.graphics.endFill();
-			shp.graphics.beginFill(0xE94644);
-			shp.graphics.drawRoundRect(1,1,50,18,4,4);
-			shp.graphics.endFill();
-			return shp
 		}
 		
 		protected function onClick(event:MouseEvent):void

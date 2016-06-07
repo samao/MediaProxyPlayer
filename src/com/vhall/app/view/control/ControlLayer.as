@@ -24,7 +24,6 @@ package com.vhall.app.view.control
 		override protected function createChildren():void
 		{
 			super.createChildren();
-			Model.Me().userinfo.is_pres = false;
 			if(Model.Me().userinfo.is_pres)
 			{
 				bar = new HostControlBar(this);	

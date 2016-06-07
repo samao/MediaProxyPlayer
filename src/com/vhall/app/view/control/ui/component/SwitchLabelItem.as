@@ -13,14 +13,17 @@ package com.vhall.app.view.control.ui.component
 	{
 		public function SwitchLabelItem(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
+			this.setSize(52,20);
 			super(parent, xpos, ypos);
-			this.setSize(40,20);
 		}
 		
 		override protected function initDrawBg():void{
 			this.graphics.clear()
-			this.graphics.beginFill(outBgColor,85);
-			this.graphics..drawRoundRect(0,0,this._width,this.height,4,4);
+			this.graphics.beginFill(0x373737);
+			this.graphics.drawRoundRect(0,0,52,20,4,4);
+			this.graphics.endFill();
+			this.graphics.beginFill(0x2D2D2D);
+			this.graphics.drawRoundRect(1,1,50,18,4,4);
 			this.graphics.endFill();
 			RenderManager.getInstance().invalidate(invalidate);
 		}
@@ -28,10 +31,21 @@ package com.vhall.app.view.control.ui.component
 		
 		override protected function overDrawBg():void{
 			this.graphics.clear()
-			this.graphics.beginFill(overBgColor,85);
-			this.graphics.drawRoundRect(0,0,this._width,this.height,4,4);
+			this.graphics.beginFill(0xE81926);
+			this.graphics.drawRoundRect(0,0,52,20,4,4);
+			this.graphics.endFill();
+			this.graphics.beginFill(0xE94644);
+			this.graphics.drawRoundRect(1,1,50,18,4,4);
 			this.graphics.endFill();
 			RenderManager.getInstance().invalidate(invalidate);
+		}
+		
+		/**
+		 *更新显示文本 
+		 * 
+		 */		
+		override protected function update4Label():void{
+			lab.color = 0xffffff;
 		}
 	}
 }

@@ -148,6 +148,7 @@ package com.vhall.app.view.control
 				data.value = tmpdta.key;
 				showData[i] = data;
 			}
+			definationBox.changeCurrentSelect2Show = true;
 			definationBox.initList(showData);
 			definationBox.addEventListener(Event.CHANGE,onDefinationChange);
 		}
@@ -173,6 +174,9 @@ package com.vhall.app.view.control
 					showData[i] = data;
 				}
 				serverLinke.initList(showData,92);
+				serverLinke.setShowItemSize(60,20);
+				serverLinke.showlabel = "切换线路";
+				
 				serverLinke.addEventListener(Event.CHANGE,onServerLineChange);
 			}
 		}

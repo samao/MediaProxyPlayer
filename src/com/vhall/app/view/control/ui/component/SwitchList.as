@@ -24,7 +24,7 @@ package com.vhall.app.view.control.ui.component
 		{
 			// TODO Auto Generated method stub
 				super.invalidate();
-				if(dataProvider.length > 0){
+				if(dataProvider.length > 0 && this.selectIndex < 0){
 					this.selectIndex = 0;
 				}
 		}
