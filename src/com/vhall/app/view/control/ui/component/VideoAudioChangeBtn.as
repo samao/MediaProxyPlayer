@@ -4,6 +4,7 @@ package com.vhall.app.view.control.ui.component
 	import com.vhall.framework.ui.controls.Button;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
@@ -14,12 +15,18 @@ package com.vhall.app.view.control.ui.component
 	 */
 	public class VideoAudioChangeBtn extends Box
 	{
-		protected var btn:Button;
-		public var isVideo:Boolean = true;
 		public function VideoAudioChangeBtn(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super(parent, xpos, ypos);
 		}
+		/**
+		 *显示按钮 
+		 */		
+		protected var btn:Button;
+		/**
+		 *当前状态 
+		 */		
+		public var isVideoMode:Boolean = true;
 		
 		override protected function createChildren():void
 		{
@@ -28,19 +35,45 @@ package com.vhall.app.view.control.ui.component
 			btn = new Button(this);
 			btn.setSize(70,20);
 			btn.addEventListener(MouseEvent.CLICK,onClick);
+			btn.labelColor = 0xFFFFFF;
+			btn.skin = btnUpBg;
+			btn.overSkin = btnOverBg;
 			updateStatusByMode();
+		}
+		
+		
+		protected function get btnUpBg():Shape{
+			var shp:Shape = new Shape();
+			shp.graphics.beginFill(0x373737);
+			shp.graphics.drawRoundRect(0,0,52,20,4,4);
+			shp.graphics.endFill();
+			shp.graphics.beginFill(0x2D2D2D);
+			shp.graphics.drawRoundRect(1,1,50,18,4,4);
+			shp.graphics.endFill();
+			return shp
+		}
+		
+		protected function get btnOverBg():Shape{
+			var shp:Shape = new Shape();
+			shp.graphics.beginFill(0xE81926);
+			shp.graphics.drawRoundRect(0,0,52,20,4,4);
+			shp.graphics.endFill();
+			shp.graphics.beginFill(0xE94644);
+			shp.graphics.drawRoundRect(1,1,50,18,4,4);
+			shp.graphics.endFill();
+			return shp
 		}
 		
 		protected function onClick(event:MouseEvent):void
 		{
 			// TODO Auto-generated method stub
-			isVideo = !isVideo;
+			isVideoMode = !isVideoMode;
 			updateStatusByMode();
 			this.dispatchEvent(new Event(Event.CHANGE));
 		}
 		
 		protected function updateStatusByMode():void{
-			if(isVideo){
+			if(isVideoMode){
 				btn.label = "语音模式";
 			}else{
 				btn.label = "视频模式";

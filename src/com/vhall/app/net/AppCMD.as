@@ -108,6 +108,10 @@ package com.vhall.app.net
 		 *关闭上报 
 		 */		
 		public static const REPORT_START_MIC_REPEAT:String = REPORT+"startMicRepeat";
+		/**
+		 *bufferlength 
+		 */		
+		public static const REPROT_BUFFER_LENGTH:String = REPORT + "buffer_length";
 		
 		/**
 		 *ui相关 
@@ -121,6 +125,11 @@ package com.vhall.app.net
 		 *隐藏控制栏 
 		 */		
 		public static const UI_HIDE_CONTROLBAR:String = UI+"hide_controlbar";
+		/**
+		 *隐藏提示板 
+		 */		
+		public static const UI_HIDE_WARN:String = UI+"hide_warn";
+		
 		/**
 		 显示结束播放图 
 		 */		

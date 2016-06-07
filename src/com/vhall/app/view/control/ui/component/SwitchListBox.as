@@ -14,6 +14,11 @@ package  com.vhall.app.view.control.ui.component
 	 */	
 	public class SwitchListBox extends Box
 	{
+		public function SwitchListBox(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
+		{
+			super(parent, xpos, ypos);
+			this.addEventListener(Event.ADDED_TO_STAGE,onAdd);
+		}
 		private var _gap:int = 8;
 		/**
 		 *选中项的显示入口控件 
@@ -28,6 +33,22 @@ package  com.vhall.app.view.control.ui.component
 		 */		
 		protected var datas:Array;
 		
+		override protected function init():void
+		{
+			// TODO Auto Generated method stub
+			super.init();
+		}
+		
+		protected function onSelect(event:Event):void
+		{
+			// TODO Auto-generated method stub
+			if(list.selectItem){
+				showLab.data = list.selectItem.data;
+			}
+			dispatchEvent(new Event(Event.CHANGE));
+			//抛出选择事件
+		}
+		
 		protected function onAdd(event:Event):void
 		{
 			// TODO Auto-generated method stub
@@ -40,13 +61,6 @@ package  com.vhall.app.view.control.ui.component
 			this.removeEventListener(Event.REMOVED_FROM_STAGE,onRemove);
 			removeLisn()
 		}
-		
-		override protected function init():void
-		{
-			// TODO Auto Generated method stub
-			super.init();
-		}
-		
 		protected function onDrawbg():void{
 			this.graphics.clear();
 			this.graphics.beginFill(0xFFFFF,0.001);
@@ -89,12 +103,6 @@ package  com.vhall.app.view.control.ui.component
 			}
 			datas = [];
 		}
-		
-		override protected function createChildren():void
-		{
-			// TODO Auto Generated method stub
-			super.createChildren();
-		}
 		/**
 		 *设置显示数据 
 		 * @param data 数据项
@@ -103,13 +111,13 @@ package  com.vhall.app.view.control.ui.component
 		 * @param itemRender 渲染项
 		 * <br> 赋值后默认选中第一项
 		 */		
-		public function initList(data:Array,itemW:int = 70,itemH:int = 30,itemRender:Class = null):void{
+		public function initList(data:Array,itemW:int = 64,itemH:int = 30,itemRender:Class = null):void{
 			if(list){
 				list.dataProvider = [];
 			}
 			datas = data;
 			list = new SwitchList();
-			list.setItemSize(70,30);
+			list.setItemSize(itemW,itemH);
 			if(itemRender){
 				list.itemClass = itemRender;
 			}else{
@@ -121,18 +129,6 @@ package  com.vhall.app.view.control.ui.component
 			setShowItemSkin(SwitchLabelItem);
 			addLisn();
 		}
-
-		
-		protected function onSelect(event:Event):void
-		{
-			// TODO Auto-generated method stub
-			if(list.selectItem){
-				showLab.data = list.selectItem.data;
-			}
-			dispatchEvent(new Event(Event.CHANGE));
-			//抛出选择事件
-		}
-		
 		
 		/**
 		 *获取当前选择数据
@@ -183,12 +179,6 @@ package  com.vhall.app.view.control.ui.component
 			if(list && list.parent){
 				list.visible = false;
 			}
-		}
-		
-		public function SwitchListBox(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
-		{
-			super(parent, xpos, ypos);
-			this.addEventListener(Event.ADDED_TO_STAGE,onAdd);
 		}
 		
 		public function get gap():int

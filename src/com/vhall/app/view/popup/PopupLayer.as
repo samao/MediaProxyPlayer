@@ -48,6 +48,9 @@ package com.vhall.app.view.popup
 				case AppCMD.SWITCHTOGUEST:
 					showSwitchGuest();
 					break;
+				case AppCMD.UI_HIDE_WARN:
+					hideWarn();
+					break;
 				case AppCMD.SWITCH_TO_ASSISTANT:
 					showSwitchAssistant();
 					break;
@@ -130,7 +133,7 @@ package com.vhall.app.view.popup
 		 * 
 		 */		
 		protected function hideWarn():void{
-			warnPop && warnPop.removeFromParent();
+			warn.removeFromParent();
 		}
 		
 		/**

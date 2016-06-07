@@ -12,6 +12,18 @@ package com.vhall.app.model
 		public function DataService()
 		{
 		}
+		
+		/**
+		 *更新观看模式 
+		 * @param isVideoMode true:音频模式 | false:视频模式
+		 * @return 
+		 * 
+		 */		
+		public static function onVideoModelChange(isVideoMode:Boolean):Boolean{
+			Model.Me().viewVideoMode = isVideoMode;
+			return true;
+		}
+		
 		/**
 		 * 更新选择清晰度
 		 */	
@@ -20,7 +32,7 @@ package com.vhall.app.model
 			if(defs && defs.length > 0){
 				for (var i:int = 0; i < defs.length; i++) 
 				{
-					if(defs[i].key == def){
+					if(defs[i].key == def && Model.videoInfo.selectDefVo != defs[i]){
 						Model.videoInfo.selectDefVo = defs[i];
 						return true;
 					}
@@ -37,7 +49,7 @@ package com.vhall.app.model
 			if(sfs && sfs.length > 0){
 				for (var i:int = 0; i < sfs.length; i++) 
 				{
-					if(sfs[i].sName == slName){
+					if(sfs[i].sName == slName && Model.videoInfo.selectLineVo != sfs[i]){
 						Model.videoInfo.selectLineVo = sfs[i];
 						return true;
 					}

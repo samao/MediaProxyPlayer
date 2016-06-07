@@ -12,29 +12,22 @@ package com.vhall.app.view.control.ui.component
 	 */	
 	public class SwitchItemRender extends ItemRender
 	{
-		protected var lab:Label;
-		public var overBgColor:uint = 0x474747;
-		public var outBgColor:uint = 0x2B2B2B;
 		public function SwitchItemRender(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super(parent, xpos, ypos);
 			this.setSize(80,20);
 		}
 		
-		protected function initBgColors():void{
-		}
-		
-		override public function onMouseClick():void
-		{
-			// TODO Auto Generated method stub
-			super.onMouseClick();
-		}
-		
+		private var _overBgColor:uint = 0x474747;
+		private var _outBgColor:uint = 0x2B2B2B;
+		/**
+		 *显示label 
+		 */		
+		protected var lab:Label;
 		
 		override protected function init():void
 		{
 			super.init();
-			initBgColors();
 			update4Select();
 		}
 		override protected function createChildren():void
@@ -54,7 +47,6 @@ package com.vhall.app.view.control.ui.component
 			RenderManager.getInstance().invalidate(invalidate);
 		}
 		
-		
 		protected function overDrawBg():void{
 			this.graphics.clear()
 			this.graphics.beginFill(overBgColor,85);
@@ -63,33 +55,48 @@ package com.vhall.app.view.control.ui.component
 			RenderManager.getInstance().invalidate(invalidate);
 		}
 		
+		/**
+		 *更新显示文本 
+		 * 
+		 */		
+		protected function update4Label():void{
+			if(selected){
+				lab.color = 0xff0000;
+			}else{
+				lab.color = 0xffffff;
+			}
+		}
+		/**
+		 *更新item 
+		 * 
+		 */		
+		protected function updateItem():void{
+			if(data == null) return;
+			lab.text = data.label;
+			this.lab.textField.width = this.lab.textField.textWidth + 4;
+			this.lab.move((this.width - this.lab.width) >> 1,(this.height - this.lab.height) >>1);
+		}
+		
+		override public function onMouseClick():void
+		{
+			// TODO Auto Generated method stub
+			super.onMouseClick();
+		}
+		
 		override public function onMouseOut():void
 		{
 			// TODO Auto Generated method stub
 			super.onMouseOut();
 			update4Select();
-			update4labe();
+			update4Label();
 		}
-		
-		/**
-		 *更新背景颜色 
-		 * 
-		 */		
-		public function update4Select():void{
-			if(selected){
-				overDrawBg();
-			}else{
-				initDrawBg()
-			}
-		}
-		
 		
 		override public function onMouseOver():void
 		{
 			// TODO Auto Generated method stub
 			super.onMouseOver();
 			overDrawBg();
-			update4labe();
+			update4Label();
 		}
 		
 		override public function set selected(value:Boolean):void
@@ -97,19 +104,7 @@ package com.vhall.app.view.control.ui.component
 			// TODO Auto Generated method stub
 			super.selected = value;
 			update4Select();
-			update4labe();
-		}
-		
-		/**
-		 *更新显示文本 
-		 * 
-		 */		
-		protected function update4labe():void{
-			if(selected){
-				lab.color = 0xff0000;
-			}else{
-				lab.color = 0xffffff;
-			}
+			update4Label();
 		}
 		
 		
@@ -128,11 +123,47 @@ package com.vhall.app.view.control.ui.component
 			updateItem();
 		}
 		
-		protected function updateItem():void{
-			if(data == null) return;
-			lab.text = data.label;
-			this.lab.textField.width = this.lab.textField.textWidth + 4;
-			this.lab.move((this.width - this.lab.width) >> 1,(this.height - this.lab.height) >>1);
+		/**
+		 *更新背景颜色 
+		 * 
+		 */		
+		public function update4Select():void{
+			if(selected){
+				overDrawBg();
+			}else{
+				initDrawBg()
+			}
+		}
+		
+		/**
+		 *常态背景 
+		 * @return 
+		 * 
+		 */		
+		public function get outBgColor():uint
+		{
+			return _outBgColor;
+		}
+		
+		public function set outBgColor(value:uint):void
+		{
+			_outBgColor = value;
+			update4Select();
+		}
+		/**
+		 * 移入背景 
+		 * @return 
+		 * 
+		 */		
+		public function get overBgColor():uint
+		{
+			return _overBgColor;
+		}
+		
+		public function set overBgColor(value:uint):void
+		{
+			_overBgColor = value;
+			update4Select();
 		}
 		
 	}

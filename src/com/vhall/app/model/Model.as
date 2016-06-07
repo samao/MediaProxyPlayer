@@ -27,6 +27,8 @@ package com.vhall.app.model
 		
 		/**	当前流数据的信息*/
 		public var videoinfo:VideoInfo;
+		/***播放器状态信息 */		
+		public var statusinfo:PlayerStatusInfo
 		
 		/*** 是否隐藏微吼的相关标识*/
 		public var hide_powered:Boolean;
@@ -39,6 +41,14 @@ package com.vhall.app.model
 		
 		/*** 是否隐藏弹幕开关按钮*/
 		public var hideBarrage:Boolean;
+		/**
+		 *是否显示线路（cdn线路切换） 
+		 */		
+		public var lineType:int = 1;
+		/**
+		 *是否显示音频切换 
+		 */		
+		public var streamType:int = 1;
 		/**
 		 *观看段视频模式（语音模式为false） 
 		 */		
@@ -86,6 +96,14 @@ package com.vhall.app.model
 			return Me().videoinfo;
 		}
 		
+		/**
+		 *状态信息 
+		 * @return 
+		 * 
+		 */		
+		public static function get statusInfo():PlayerStatusInfo{
+			return Me().statusinfo;
+		}
 		
 		public function Model()
 		{
