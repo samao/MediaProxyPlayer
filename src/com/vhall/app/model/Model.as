@@ -119,6 +119,7 @@ package com.vhall.app.model
 		{
 			this.originParmeters = data;
 			parseData(data,this);
+			DataService.updateMediaInfo();
 		}
 		
 		// 递归解析数据
@@ -172,7 +173,10 @@ package com.vhall.app.model
 				accessName = child["@name"];
 				if(child["@access"].toString().toLowerCase().indexOf("write") > -1)
 				{
-					t[accessName] = data[accessName];
+					if(data[accessName] != null)
+					{
+						t[accessName] = data[accessName];
+					}
 				}
 			}
 		}
