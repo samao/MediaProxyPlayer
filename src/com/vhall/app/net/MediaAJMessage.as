@@ -27,7 +27,7 @@ package com.vhall.app.net
 		public static function getCameras():void
 		{
 			scanHardware();
-			sender.sendCMDMsg({type:MessageType.AJ_CAMERA_LIST,names:Camera.names});
+			sender.sendCMDMsg({type:MessageType.AJ_CAMERA_LIST,names:Camera.names.concat("禁用视频设备/无设备")});
 		}
 		
 		/**

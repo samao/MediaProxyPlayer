@@ -16,14 +16,20 @@ package com.vhall.app.net
 		
 		/** 页面回调的通知从播放摄像头视频转向播放服务器视频（观看端或者切嘉宾状态） **/
 		public static const TELL_CORE_CAMERA_TO_VIDEO:String = VIDEO + "tellAsCameraToVideo";
+		/** 通知嘉宾去获得主持人权限*/
+		public static const TELL_GUEST_TURN_TO_PRES:String = "tellGuestTurnToPres";
+		/** 显示切换嘉宾后，嘉宾端出现loading**/
+		public static const SHOW_SWITCH_GUEST_BUFFER:String = "showSwitchGuestBuffer";
+		/** 清空拉流管理器相关引用 **/
+		public static const CLEAR_PROVIDER_ABOUT:String = "clearProviderAbout";
+		/** 设置摄像头回显 **/
+		public static const SET_KERNEL_CAMERA:String = "setKernelCamera";
 		
 		/** 通知已经被收回主讲权的嘉宾去终止上报 **/
 		public static const TELL_GUEST_TO_END_REPEAT:String = VIDEO + "tellGuestToEndRepeat";
 		/** 显示声音直播图 **/
 		public static const SHOW_AUDIOLIVE_PIC:String = VIDEO + "showAudioLivePic";
 		
-		/** 设置摄像头回显 **/
-		public static const VIDEO_KERNEL_CAMERA:String = VIDEO + "setKernelCamera";
 		/** 视频播放开始*/
 		public static const VIDEO_CONTROL_START:String = VIDEO +　"controlStart";
 		/** 外部控制视频暂停*/

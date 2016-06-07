@@ -11,13 +11,16 @@ package com.vhall.app.view.video
 	import com.vhall.framework.media.provider.MediaProxyStates;
 	import com.vhall.framework.media.provider.MediaProxyType;
 	import com.vhall.framework.media.video.VideoPlayer;
+	import com.vhall.framework.utils.JsonUtil;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.StageDisplayState;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.utils.clearInterval;
+	import flash.utils.clearTimeout;
 	import flash.utils.setInterval;
+	import flash.utils.setTimeout;
 	
 	import appkit.responders.NResponder;
 	
@@ -25,7 +28,8 @@ package com.vhall.app.view.video
 	{
 		private var _videoPlayer:VideoPlayer;
 		
-		private var _id:int;
+		private var _postionId:int;
+		private var _retryId:int;
 		private var _preTime:Number = 0;
 		
 		public function VideoLayer(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
@@ -41,7 +45,7 @@ package com.vhall.app.view.video
 			_videoPlayer.volume = info.volume;
 			addChild(_videoPlayer);
 			
-			trace(Model.Me().userinfo.is_pres);
+			log("演讲中:",Model.Me().userinfo.is_pres,info.netOrFileUrl,info.streamName);
 			if(Model.Me().userinfo.is_pres)
 			{
 				_videoPlayer.publish(info._soCamera,info._soMicrophone,info.netOrFileUrl,info.streamName,videoHandler,info._soCamWidth,info._soCamHeight);
@@ -85,7 +89,7 @@ package com.vhall.app.view.video
 		
 		public function handleCare(msg:String, ...parameters):void
 		{
-			log(msg,parameters);
+			log("收到消息:" + msg + JsonUtil.encode(parameters));
 			switch(msg)
 			{
 				case AppCMD.REPROT_BUFFER_LENGTH:
@@ -98,9 +102,9 @@ package com.vhall.app.view.video
 					_videoPlayer.volume = info.volume;
 					break;
 				case AppCMD.MEDIA_SWITCH_LINE:
-					_videoPlayer.attachType(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName);
 					break;
 				case AppCMD.MEDIA_SWITCH_QUALITY:
+					//_videoPlayer.attachType(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,true,_videoPlayer.time);
 					break;
 				case AppCMD.MEDIA_PLAYER_DISPOSE:
 					_videoPlayer.dispose();
@@ -132,18 +136,15 @@ package com.vhall.app.view.video
 					break;
 				case AppCMD.VIDEO_CONTROL_START:
 					_videoPlayer.start();
-					clearInterval(_id);
-					_id = setInterval(timeCheck,1000);
 					break;
 				case AppCMD.VIDEO_CONTROL_STOP:
 					_videoPlayer.stop();
-					clearInterval(_id);
 					break;
 				case AppCMD.PUBLISH_START:
 					if(_videoPlayer.type == MediaProxyType.PUBLISH)
 					{
 						//开始推流
-						_videoPlayer.attachType(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,true,info._soCamera,info._soMicrophone,info._soCamWidth,info._soCamHeight);
+						_videoPlayer.attachType(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,true,0,info._soCamera,info._soMicrophone,info._soCamWidth,info._soCamHeight);
 					}
 					break;
 				case AppCMD.PUBLISH_END:
@@ -161,23 +162,23 @@ package com.vhall.app.view.video
 			{
 				case MediaProxyStates.CONNECT_NOTIFY:
 					log("通道建立成功");
-					_id = setInterval(timeCheck,1000);
+					clearTimer();
+					_postionId = setInterval(timeCheck,1000);
 					break;
 				case MediaProxyStates.CONNECT_FAILED:
+					clearTimer();
 					MediaAJMessage.connectFail(value[0]);
 					break;
 				case MediaProxyStates.STREAM_NOT_FOUND:
+					clearTimer();
 					MediaAJMessage.streamNotFound();
 					break;
-				case MediaProxyStates.PUBLISH_NOTIFY:
+				case MediaProxyStates.PUBLISH_START:
 					MediaAJMessage.publishStart();
 					break;
 				case MediaProxyStates.STREAM_START:
 					send(AppCMD.MEDIA_STATES_START);
-					if(_videoPlayer.type != MediaProxyType.PUBLISH)
-					{
-						send(AppCMD.UI_HIDE_LOADING);
-					}
+					loading = true;
 					break;
 				case MediaProxyStates.STREAM_PAUSE:
 					send(AppCMD.MEDIA_STATES_PAUSE);
@@ -188,24 +189,18 @@ package com.vhall.app.view.video
 				case MediaProxyStates.STREAM_STOP:
 					send(AppCMD.MEDIA_STATES_FINISH);
 					break;
-				case MediaProxyStates.STREAM_LOADING:
-					if(_videoPlayer.type != MediaProxyType.PUBLISH)
-					{
-						send(AppCMD.MEDIA_STATES_BUFFER_LOADING);
-						send(AppCMD.UI_SHOW_LOADING);
-					}
-					break;
 				case MediaProxyStates.STREAM_FULL:
-					if(_videoPlayer.type != MediaProxyType.PUBLISH)
-					{
-						send(AppCMD.MEDIA_STATES_BUFFER_FULL);
-						send(AppCMD.UI_HIDE_LOADING);
-					}
+				case MediaProxyStates.PUBLISH_NOTIFY:
+					loading = false;
 					break;
+				case MediaProxyStates.STREAM_LOADING:
 				case MediaProxyStates.UN_PUBLISH_NOTIFY:
+					loading = true;
+					//_videoPlayer.stop();
 					break;
 				case MediaProxyStates.PUBLISH_BAD_NAME:
 					//重推
+					_retryId = setTimeout(publishForBadName,1000);
 					break;
 				case MediaProxyStates.DURATION_NOTIFY:
 					send(AppCMD.MEDIA_DURATION_UPDATE,[_videoPlayer.duration]);
@@ -220,11 +215,37 @@ package com.vhall.app.view.video
 			}
 		}
 		
+		private function set loading(bool:Boolean):void
+		{
+			if(_videoPlayer.type != MediaProxyType.PUBLISH)
+			{
+				if(bool)
+				{
+					send(AppCMD.MEDIA_STATES_BUFFER_LOADING);
+					send(AppCMD.UI_SHOW_LOADING);
+				}else{
+					send(AppCMD.MEDIA_STATES_BUFFER_FULL);
+					send(AppCMD.UI_HIDE_LOADING);
+				}
+			}
+		}
+		
+		private function publishForBadName():void
+		{
+			_videoPlayer.changeVideoUrl(info.netOrFileUrl,info.streamName);
+		}
+		
+		private function clearTimer():void
+		{
+			clearInterval(_postionId);
+			clearTimeout(_retryId);
+		}
+		
 		private function timeCheck():void
 		{
 			if(_videoPlayer.time == _preTime) return;
 			_preTime = _videoPlayer.time;
-			if(_videoPlayer.type != MediaProxyType.PUBLISH)
+			if(-1 != [MediaProxyType.RTMP,MediaProxyType.PUBLISH].indexOf(_videoPlayer.type))
 			{
 				send(AppCMD.MEDIA_TIME_UPDATE);
 			}
@@ -298,7 +319,7 @@ package com.vhall.app.view.video
 		
 		private function send(action:String,param:Array = null):void
 		{
-			log("发送消息",action,param);
+			//log("发送消息",action,param);
 			NResponder.dispatch(action,param);
 		}
 		

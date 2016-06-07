@@ -27,6 +27,7 @@ package com.vhall.app.view.popup
 				AppCMD.SWITCHTOGUEST,
 				AppCMD.SWTICHTOYOU,
 				AppCMD.UI_SHOW_LOADING,
+				AppCMD.UI_HIDE_LOADING,
 				AppCMD.UI_SHOW_LOGOLOADING
 			];
 		}
