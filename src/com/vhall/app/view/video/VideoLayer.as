@@ -1,6 +1,5 @@
 package com.vhall.app.view.video
 {
-	import com.vhall.app.actions.Actions_Report2JS;
 	import com.vhall.app.common.Layer;
 	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.model.Model;
@@ -68,7 +67,7 @@ package com.vhall.app.view.video
 		
 		public function careList():Array
 		{
-			return [Actions_Report2JS.BUFFER_LENGTH,
+			return [AppCMD.REPROT_BUFFER_LENGTH,
 				AppCMD.MEDIA_QUITE_SERVER,
 				AppCMD.MEDIA_SET_VOLUME,
 				AppCMD.MEDIA_SWITCH_LINE,
@@ -93,7 +92,7 @@ package com.vhall.app.view.video
 			log("收到消息:" + msg + JsonUtil.encode(parameters));
 			switch(msg)
 			{
-				case Actions_Report2JS.BUFFER_LENGTH:
+				case AppCMD.REPROT_BUFFER_LENGTH:
 					MediaAJMessage.sendBufferLength();
 					break;
 				case AppCMD.MEDIA_QUITE_SERVER:

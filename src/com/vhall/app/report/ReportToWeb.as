@@ -2,6 +2,7 @@ package com.vhall.app.report
 {
 	import com.vhall.app.actions.Actions_Report2JS;
 	import com.vhall.app.model.Model;
+	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.net.WebAJMessage;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.app.mvc.ResponderMediator;
@@ -26,9 +27,9 @@ package com.vhall.app.report
 		{
 			// TODO Auto Generated method stub
 			return [
-				Actions_Report2JS.JS_CLOS_VOLUME_REEPEAT,
-				Actions_Report2JS.START_MIC_REPEAT,
-				Actions_Report2JS.STOP_MIC_REPEAT
+				AppCMD.REPORT_JS_CLOS_VOLUME_REEPEAT,
+				AppCMD.REPORT_START_MIC_REPEAT,
+				AppCMD.REPORT_STOP_MIC_REPEAT
 			];
 		}
 		
@@ -37,19 +38,19 @@ package com.vhall.app.report
 			// TODO Auto Generated method stub
 			switch(msg)
 			{
-				case Actions_Report2JS.JS_CLOS_VOLUME_REEPEAT:
+				case AppCMD.REPORT_JS_CLOS_VOLUME_REEPEAT:
 				{
 					closeMicVolumeRepeat();
 					break;
 				}
-				case Actions_Report2JS.START_MIC_REPEAT:
+				case AppCMD.REPORT_START_MIC_REPEAT:
 				{
 					if(Model.Me().userinfo.is_pres){
 						startMicVolumeRepeat();
 					}
 					break;
 				}
-				case Actions_Report2JS.STOP_MIC_REPEAT:
+				case AppCMD.REPORT_STOP_MIC_REPEAT:
 				{
 					closeMicVolumeRepeat();
 					break;

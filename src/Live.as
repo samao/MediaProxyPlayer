@@ -87,8 +87,8 @@ package
 		}
 		
 		public function onTest():void{
-			Model.videoInfo.cdnServers = "";
-			Model.videoInfo.playItem = "";
+//			Model.videoInfo.cdnServers = "";
+//			Model.videoInfo.playItem = "";
 //			NResponder.dispatch(AppCMD.UI_SHOW_LOGOLOADING);
 		}
 	}

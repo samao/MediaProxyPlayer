@@ -82,7 +82,6 @@ package com.vhall.app.view.control
 			
 			onInitDefination();
 			
-			
 			// 弹幕按钮
 			var hbarrage:HBox = new HBox(hb);
 			hb.verticalAlign = "center";
@@ -103,6 +102,18 @@ package com.vhall.app.view.control
 			btnFullscreen.addEventListener(MouseEvent.CLICK,onToggleClickHandler);
 		}
 		
+		override protected function sizeChanged():void
+		{
+			super.sizeChanged();
+			hb.width = width / 2;
+		}
+		
+		override protected function onFull(e:FullScreenEvent):void
+		{
+			super.onFull(e);
+			btnFullscreen.setSelected(e.fullScreen);
+		}
+		
 		
 		protected function muteHandler(event:MouseEvent):void
 		{
@@ -117,10 +128,10 @@ package com.vhall.app.view.control
 			NResponder.dispatch(AppCMD.MEDIA_SET_VOLUME);
 		}
 		
-		protected function onInitVideoModeBtn():void{
-//			changeVideoMode 
-		}
-		
+		/**
+		 *初始化清晰度组件
+		 * 
+		 */		
 		protected function onInitDefination():void{
 		
 //			if(Model.Me().hideQualitySwitch) return;
@@ -141,6 +152,10 @@ package com.vhall.app.view.control
 			definationBox.addEventListener(Event.CHANGE,onDefinationChange);
 		}
 		
+		/**
+		 *初始化线路组件 
+		 * 
+		 */		
 		protected function onInitServerLine():void{
 //			if(Model.Me().hideLineSwitch) return;
 			var sdata:Array = Model.videoInfo.serverLineInfo;
@@ -157,11 +172,39 @@ package com.vhall.app.view.control
 					data.value = tmpdta.sName;
 					showData[i] = data;
 				}
-				serverLinke.initList(showData);
+				serverLinke.initList(showData,92);
 				serverLinke.addEventListener(Event.CHANGE,onServerLineChange);
 			}
 		}
 		
+		/**
+		 *初始化视频音频模式组件 
+		 * 
+		 */		
+		protected function onInitVideoModeBtn():void{
+//			if(!Model.Me().streamType)return;
+			changeVideoMode = new VideoAudioChangeBtn(hb)
+			changeVideoMode.addEventListener(Event.CHANGE,onVideoModeChange);
+		}
+		/**
+		 *音频视频模式改变时 处理数据，及切换播放 
+		 * @param event
+		 * 
+		 */		
+		protected function onVideoModeChange(event:Event):void
+		{
+			// TODO Auto-generated method stub
+			changeVideoMode.isVideoMode;
+			DataService.onVideoModelChange(changeVideoMode.isVideoMode);
+			DataService.updateMediaInfo();
+			NResponder.dispatch(AppCMD.MEDIA_SWITCH_QUALITY);
+			NResponder.dispatch(AppCMD.UI_SHOW_LOADING);
+		}
+		/**
+		 *清晰度改变时 处理数据 切换播放 
+		 * @param event
+		 * 
+		 */		
 		protected function onDefinationChange(event:Event):void
 		{
 			// TODO Auto-generated method stub
@@ -170,9 +213,14 @@ package com.vhall.app.view.control
 			if(DataService.onSelectDef(selectDef)){
 				DataService.updateMediaInfo();
 				NResponder.dispatch(AppCMD.MEDIA_SWITCH_QUALITY);
+				NResponder.dispatch(AppCMD.UI_SHOW_LOADING);
 			}
 		}
-		
+		/**
+		 * 线路改变时 处理数据 切换播放 
+		 * @param event
+		 * 
+		 */		
 		protected function onServerLineChange(event:Event):void
 		{
 			// TODO Auto-generated method stub
@@ -181,31 +229,7 @@ package com.vhall.app.view.control
 			if(DataService.onSelectServerLine(selectSl)){
 				DataService.updateMediaInfo();
 				NResponder.dispatch(AppCMD.MEDIA_SWITCH_LINE);
-			}
-		}
-		
-		override protected function sizeChanged():void
-		{
-			super.sizeChanged();
-			hb.width = width / 2;
-		}
-		
-		override protected function onFull(e:FullScreenEvent):void
-		{
-			super.onFull(e);
-			btnFullscreen.setSelected(e.fullScreen);
-		}
-
-		public function careList():Array
-		{
-			var arr:Array = [];
-			return arr;
-		}
-
-		public function handleCare(msg:String, ... args):void
-		{
-			switch(msg)
-			{
+				NResponder.dispatch(AppCMD.UI_SHOW_LOADING);
 			}
 		}
 		
@@ -218,6 +242,19 @@ package com.vhall.app.view.control
 		protected function onToggleClickHandler(e:MouseEvent):void
 		{
 			StageManager.toggleFullscreen();
+		}
+		
+		public function careList():Array
+		{
+			var arr:Array = [];
+			return arr;
+		}
+		
+		public function handleCare(msg:String, ... args):void
+		{
+			switch(msg)
+			{
+			}
 		}
 	}
 }

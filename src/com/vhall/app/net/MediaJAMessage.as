@@ -1,6 +1,5 @@
 package com.vhall.app.net
 {
-	import com.vhall.app.actions.Actions_Report2JS;
 	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.model.Model;
 	import com.vhall.framework.app.manager.SOManager;
@@ -102,7 +101,7 @@ package com.vhall.app.net
 		
 		private function bufferLengthReq():void
 		{
-			dispatch(Actions_Report2JS.BUFFER_LENGTH);
+			dispatch(AppCMD.REPROT_BUFFER_LENGTH);
 		}
 	}
 }

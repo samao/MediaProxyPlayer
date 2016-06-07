@@ -15,7 +15,15 @@ package com.vhall.app.model
 		{
 			super();
 		}
+		/**
+		 *清晰度数据(源数据) 
+		 */		
+		private var _playItem:String;
 		
+		/**
+		 *线路数据(源数据)  
+		 */		
+		private var _cdnServers:String;
 		/**
 		 *选中线路 
 		 */		
@@ -41,15 +49,6 @@ package com.vhall.app.model
 		 */		
 		public var definitionInfo:Array = [];
 		/**
-		 *清晰度数据(源数据) 
-		 */		
-		private var _playItem:String;
-		
-		/**
-		 *线路数据(源数据)  
-		 */		
-		private var _cdnServers:String;
-		/**
 		 *清晰度数据 
 		 */
 		public function get playItem():String
@@ -74,11 +73,13 @@ package com.vhall.app.model
 				//				definitionInfo[0] = def;
 				//				definitionInfo[1] = middle;
 				//				definitionInfo[2] = low;
+				//				selectDefVo = definitionInfo[0];
 			}
 			catch(e:Error){}
 			definitionInfo.push(new DefinitionVo("default", {"server":"rtmp://ccrtmplive02.t.vhall.com/vhall","file":"465936505_m"}));
 			definitionInfo.push(new DefinitionVo("middle", {"server":"rtmp://ccrtmplive02.t.vhall.com/vhall","file":"465936505"}));
 			definitionInfo.push(new DefinitionVo("low", {"server":"rtmp://ccrtmplive02.t.vhall.com/vhall","file":"465936505_l"}));
+			selectDefVo = definitionInfo[0];
 		}
 		
 		/**服务器选择器的数据源**/
@@ -104,12 +105,13 @@ package com.vhall.app.model
 					}
 					//					serverLineInfo.push(new ServeLinevo(arr[i].srv, arr[i].name,su));
 				}
+//				selectLineVo = serverLineInfo[0];
 			}
 			catch(e:Error){}
 			serverLineInfo.push(new ServeLinevo("rtmp://cnrtmplive02.e.vhall.com/vhall", "线路1","rtmp://cnrtmplive02.e.vhall.com/vhall"));
 			serverLineInfo.push(new ServeLinevo("rtmp://ccrtmplive02.e.vhall.com/vhall", "线路2","rtmp://ccrtmplive02.e.vhall.com/vhall"));
 			serverLineInfo.push(new ServeLinevo("rtmp://rtmplive01.e.vhall.com/vhall", "线路3","rtmp://rtmplive01.e.vhall.com/vhall"));
-			
+			selectLineVo = serverLineInfo[0];
 		}
 	}
 }

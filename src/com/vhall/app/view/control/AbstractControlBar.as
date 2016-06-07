@@ -36,6 +36,7 @@ package com.vhall.app.view.control
 		{
 			super.init();
 			StageManager.stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
+			StageManager.stage.addEventListener(MouseEvent.MOUSE_DOWN,onMouseDown);
 			StageManager.stage.addEventListener(MouseEvent.MOUSE_MOVE, onStageMouseMove);
 		}
 
@@ -62,9 +63,19 @@ package com.vhall.app.view.control
 		{
 			super.destory();
 			StageManager.stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
+			StageManager.stage.removeEventListener(MouseEvent.MOUSE_DOWN,onMouseDown);
 			StageManager.stage.removeEventListener(MouseEvent.MOUSE_MOVE, onStageMouseMove);
 		}
-
+		
+		protected function onMouseDown(event:MouseEvent):void
+		{
+			// TODO Auto-generated method stub
+			clearTimeout(checkTimer);
+			checkTimer = setTimeout(onDelayCheckMouse, 2000);
+			Mouse.show();
+			showBar();
+		}
+		
 		protected function onStageMouseMove(event:MouseEvent):void
 		{
 			clearTimeout(checkTimer);
