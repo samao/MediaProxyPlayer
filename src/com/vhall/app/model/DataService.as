@@ -16,12 +16,12 @@ package com.vhall.app.model
 		 * 更新选择清晰度
 		 */	
 		public static function onSelectDef(def:String):Boolean{
-			var defs:Array = Model.Me().definitionInfo;
+			var defs:Array = Model.videoInfo.definitionInfo;
 			if(defs && defs.length > 0){
 				for (var i:int = 0; i < defs.length; i++) 
 				{
-					if(def[i].key == def){
-						Model.Me().selectDefVo = def[i];
+					if(defs[i].key == def){
+						Model.videoInfo.selectDefVo = defs[i];
 						return true;
 					}
 				}
@@ -33,12 +33,12 @@ package com.vhall.app.model
 		 *更新选择线路 
 		 */	
 		public static function onSelectServerLine(slName:String):Boolean{
-			var sfs:Array = Model.Me().serverLineInfo;
+			var sfs:Array = Model.videoInfo.serverLineInfo;
 			if(sfs && sfs.length > 0){
 				for (var i:int = 0; i < sfs.length; i++) 
 				{
 					if(sfs[i].sName == slName){
-						Model.Me().selectLineVo = sfs[i];
+						Model.videoInfo.selectLineVo = sfs[i];
 						return true;
 					}
 				}
@@ -58,20 +58,20 @@ package com.vhall.app.model
 				//hls视频语音路径区分
 				if(Model.Me().viewVideoMode){
 					//当前线路视频地址
-					MediaModel.me().netOrFileUrl = Model.Me().selectLineVo.serverUrl;
+					MediaModel.me().netOrFileUrl = Model.videoInfo.selectLineVo.serverUrl;
 				}else{
 					//当前线路音频地址
-					MediaModel.me().netOrFileUrl = Model.Me().selectLineVo.serverAudio;
+					MediaModel.me().netOrFileUrl = Model.videoInfo.selectLineVo.serverAudio;
 				}
 			}else{
 				if(Model.Me().viewVideoMode){
 					//当前线路视频地址
-					MediaModel.me().netOrFileUrl = Model.Me().selectLineVo.serverUrl;
-					MediaModel.me().streamName = Model.Me().selectDefVo.fileName;
+					MediaModel.me().netOrFileUrl = Model.videoInfo.selectLineVo.serverUrl;
+					MediaModel.me().streamName = Model.videoInfo.selectDefVo.fileName;
 				}else{
 					//当前线路音频地址
-					MediaModel.me().netOrFileUrl = Model.Me().selectLineVo.serverAudio;
-					MediaModel.me().streamName = Model.Me().media_srv
+					MediaModel.me().netOrFileUrl = Model.videoInfo.selectLineVo.serverAudio;
+					MediaModel.me().streamName = Model.videoInfo.media_srv
 				}
 			}
 		}

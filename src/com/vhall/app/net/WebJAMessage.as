@@ -60,7 +60,7 @@ package com.vhall.app.net
 			{
 				var self:Model = Model.Me();
 				//开启小助手消息
-				AssistantACMessage.startEngine(self.meetinginfo.pid,self.userinfo.uname,self.stream_name,self.streamToken,self.hide_powered,self.cdnServers);
+				AssistantACMessage.startEngine(self.meetinginfo.pid,self.userinfo.uname,self.videoinfo.stream_name,self.streamToken,self.hide_powered,self.videoinfo.cdnServers);
 				//停止上报mic
 				dispatch(AppCMD.REPORT_JS_CLOS_VOLUME_REEPEAT);
 				// UI显示 使用小助手直播

@@ -1,7 +1,5 @@
 package com.vhall.app.view.control
 {
-	import appkit.responders.NResponder;
-	
 	import com.vhall.app.common.components.TimeLabel;
 	import com.vhall.app.model.DataService;
 	import com.vhall.app.model.MediaModel;
@@ -11,6 +9,7 @@ package com.vhall.app.view.control
 	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.view.control.ui.VolumeBar;
 	import com.vhall.app.view.control.ui.component.SwitchListBox;
+	import com.vhall.app.view.control.ui.component.VideoAudioChangeBtn;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.app.mvc.ResponderMediator;
@@ -24,6 +23,8 @@ package com.vhall.app.view.control
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
 	import flash.events.MouseEvent;
+	
+	import appkit.responders.NResponder;
 
 	public class ViewerControlBar extends AbstractControlBar implements IResponder
 	{
@@ -39,12 +40,12 @@ package com.vhall.app.view.control
 		private var _muteBut:ToggleButton;
 		/**静音前的音量*/		
 		private var _volumeBeforeMute:Number = 1;
-		
-		private var definationBox:SwitchListBox;
-		
-		private var serverLinke:SwitchListBox;
-		
-		private var changeVideoMode:Sprite;
+		/***切换清晰度组件*/		
+		protected var definationBox:SwitchListBox;
+		/**切换线路组件**/		
+		protected var serverLinke:SwitchListBox;
+		/**切换视频 音频 模式组件**/			
+		protected var changeVideoMode:VideoAudioChangeBtn;
 		
 		public function ViewerControlBar(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0)
 		{
@@ -75,9 +76,12 @@ package com.vhall.app.view.control
 			_volumeBeforeMute = MediaModel.me().volume * 100;
 			volumebar.volumeValue = MediaModel.me().volume * 100;
 			
+			onInitServerLine();
+			
+			onInitVideoModeBtn();
+			
 			onInitDefination();
 			
-			onInitServerLine();
 			
 			// 弹幕按钮
 			var hbarrage:HBox = new HBox(hb);
@@ -99,6 +103,7 @@ package com.vhall.app.view.control
 			btnFullscreen.addEventListener(MouseEvent.CLICK,onToggleClickHandler);
 		}
 		
+		
 		protected function muteHandler(event:MouseEvent):void
 		{
 			if(_muteBut.selected)
@@ -112,10 +117,14 @@ package com.vhall.app.view.control
 			NResponder.dispatch(AppCMD.MEDIA_SET_VOLUME);
 		}
 		
+		protected function onInitVideoModeBtn():void{
+//			changeVideoMode 
+		}
+		
 		protected function onInitDefination():void{
 		
 //			if(Model.Me().hideQualitySwitch) return;
-			var sdata:Array = Model.Me().definitionInfo;
+			var sdata:Array = Model.videoInfo.definitionInfo;
 			definationBox = new SwitchListBox(hb);
 			var showData:Array = []
 			var tmpdta:DefinitionVo;
@@ -134,7 +143,7 @@ package com.vhall.app.view.control
 		
 		protected function onInitServerLine():void{
 //			if(Model.Me().hideLineSwitch) return;
-			var sdata:Array = Model.Me().serverLineInfo;
+			var sdata:Array = Model.videoInfo.serverLineInfo;
 			var showData:Array = []
 			if(sdata && sdata.length > 0){
 				serverLinke = new SwitchListBox(hb);

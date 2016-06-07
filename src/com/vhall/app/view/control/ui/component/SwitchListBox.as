@@ -202,5 +202,15 @@ package  com.vhall.app.view.control.ui.component
 			showList();
 		}
 		
+		/**
+		 *设置该组件是否可用 
+		 * @param value
+		 * 
+		 */		
+		public function set enable(value:Boolean):void{
+			this.showLab.mouseEnabled = value;
+			this.list.mouseEnabled = value;
+		}
+		
 	}
 }

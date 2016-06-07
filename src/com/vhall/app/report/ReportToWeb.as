@@ -67,13 +67,13 @@ package com.vhall.app.report
 		 */		
 		public function startMicVolumeRepeat():void
 		{
-			if(!Model.Me().userInfo.is_pres)
+			if(!Model.userInfo.is_pres)
 			{
 				//ExternalInterface.call("console.log", "开启麦克风声音上报被拦截！原因（非主讲人）！");
 				return;
 			}
 			
-			if(Model.Me().meetingInfo.is_over)
+			if(Model.Me().meetinginfo.is_over)
 			{
 				//ExternalInterface.call("console.log", "开启麦克风声音上报被拦截！原因（flashvars.is_over为 true）！");
 				return;
