@@ -20,7 +20,7 @@ package com.vhall.app.view.control.ui.component
 		override protected function initDrawBg():void{
 			this.graphics.clear()
 			this.graphics.beginFill(outBgColor,85);
-			this.graphics..drawRoundRect(0,0,this._width,this.height,4,4);
+			this.graphics.drawRoundRect(0,0,this._width,this.height,4,4);
 			this.graphics.endFill();
 			RenderManager.getInstance().invalidate(invalidate);
 		}

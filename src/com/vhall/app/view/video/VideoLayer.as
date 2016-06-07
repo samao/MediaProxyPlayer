@@ -319,7 +319,7 @@ package com.vhall.app.view.video
 		
 		private function send(action:String,param:Array = null):void
 		{
-			log("发送消息",action,param);
+			//log("发送消息",action,param);
 			NResponder.dispatch(action,param);
 		}
 		
