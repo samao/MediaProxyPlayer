@@ -22,10 +22,31 @@ package com.vhall.app.net
 			register(MessageType.JA_GET_BUFFER_LENGTH,bufferLengthReq);
 			register(MessageType.JA_PUBLISH_START,publishStart);
 			register(MessageType.JA_PUBLISH,publish);
+			register(MessageType.JA_UNPUBLISH,unpublish);
+		}
+		
+		private function unpublish():void
+		{
+			dispatch(AppCMD.PUBLISH_END);
+			/** 通知直播助手数据代码去关闭直播助手 **/
+			//dispatch(AppCMD.AST_COMMAND, {"command": AstStatus.CLOSE_AST});
+			/** js通知关闭检测麦克风上报**/
+			dispatch(AppCMD.REPORT_JS_CLOS_VOLUME_REEPEAT);
 		}
 		
 		private function publish(value:*):void
 		{
+			if(MediaModel.me().player.isPlaying)
+			{
+				dispatch(AppCMD.SHOW_SWITCH_GUEST_BUFFER);
+				dispatch(AppCMD.CLEAR_PROVIDER_ABOUT);
+			}
+			
+			if(Model.Me().userinfo.is_guest || Model.Me().userinfo.is_pres)
+			{
+				dispatch(AppCMD.TELL_GUEST_TURN_TO_PRES);
+			}
+			
 			var o:* = JsonUtil.decode(value);
 			if(o.mediaServer)
 			{
@@ -50,6 +71,8 @@ package com.vhall.app.net
 			SOManager.getInstance().setValue("setting", obj);
 			
 			dispatch(AppCMD.PUBLISH_START);
+			
+			dispatch(AppCMD.REPORT_START_MIC_REPEAT);
 		}
 		
 		/**
