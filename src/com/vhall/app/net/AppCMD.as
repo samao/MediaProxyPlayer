@@ -84,6 +84,10 @@ package com.vhall.app.net
 		public static const MEDIA_DURATION_UPDATE:String = MEDIA + "durationUpdate";
 		/** 播放头位置更新*/
 		public static const MEDIA_TIME_UPDATE:String = MEDIA + "timeUpdate";
+		/**
+		 *发送切换视频语音 
+		 */		
+		public static const MEDIA_CHANGEVIDEO_MODE:String = MEDIA+"changevideomode";
 		
 		/** 推流控制相关*/
 		private static const PUBLISH:String = "publish_";
