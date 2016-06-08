@@ -61,22 +61,30 @@ package com.vhall.app.view.video
 			{
 				_micActivity = new AudioModelPicComp();
 				_micActivity.skin = content as MovieClip;
+				init();
+			},null,function():void
+			{
 				
-				log("演讲中:",Model.Me().userinfo.is_pres,info.netOrFileUrl,info.streamName);
-				
-				if(Model.Me().userinfo.is_pres)
-				{
-					_videoPlayer.publish(info._soCamera,info._soMicrophone,info.netOrFileUrl,info.streamName,videoHandler,info._soCamWidth,info._soCamHeight);
-				}else{
-					_videoPlayer.connect(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,videoHandler);
-				}
-				
-				//回放增加屏幕暂停功能
-				if([MediaProxyType.HLS,MediaProxyType.HTTP].indexOf(_videoPlayer.type) != -1)
-				{
-					addEventListener(MouseEvent.CLICK,mouseHandler);
-				}	
+				init();
 			});
+		}
+		
+		private function init():void
+		{
+			log("演讲中:",Model.Me().userinfo.is_pres,info.netOrFileUrl,info.streamName);
+			
+			if(Model.Me().userinfo.is_pres)
+			{
+				_videoPlayer.publish(info._soCamera,info._soMicrophone,info.netOrFileUrl,info.streamName,videoHandler,info._soCamWidth,info._soCamHeight);
+			}else{
+				_videoPlayer.connect(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,videoHandler);
+			}
+			
+			//回放增加屏幕暂停功能
+			if([MediaProxyType.HLS,MediaProxyType.HTTP].indexOf(_videoPlayer.type) != -1)
+			{
+				addEventListener(MouseEvent.CLICK,mouseHandler);
+			}
 		}
 		
 		public function careList():Array
@@ -185,10 +193,10 @@ package com.vhall.app.view.video
 		{
 			if(info.videoMode)
 			{
-				this.contains(this._micActivity)&&this.removeChild(this._micActivity);
+				_micActivity&&contains(_micActivity)&&this.removeChild(_micActivity);
 				_videoPlayer.start();
 			}else{
-				this.addChild(this._micActivity);
+				_micActivity&&addChild(_micActivity);
 				_videoPlayer.stop();
 			}
 		}
