@@ -73,8 +73,8 @@ package com.vhall.app.model
 				
 				var arr:Array = com.adobe.serialization.json.JSON.decode(_playItem);
 				if(arr && arr.length > 0){
-					var item = arr[0]
-					var def:DefinitionVo = new DefinitionVo("default",item.default);
+					var item:* = arr[0]
+					var def:DefinitionVo = new DefinitionVo("default",item["default"]);
 						var middle:DefinitionVo = new DefinitionVo("middle",item.middle);
 						var low:DefinitionVo = new DefinitionVo("low",item.low);
 						definitionInfo[0] = def;
