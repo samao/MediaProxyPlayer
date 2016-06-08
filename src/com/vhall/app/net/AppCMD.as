@@ -87,7 +87,7 @@ package com.vhall.app.net
 		/**
 		 *发送切换视频语音 
 		 */		
-		public static const MEDIA_CHANGEVIDEOMODEL:String = MEDIA+"changevideomodel";
+		public static const MEDIA_CHANGEVIDEO_MODE:String = MEDIA+"changevideomode";
 		
 		/** 推流控制相关*/
 		private static const PUBLISH:String = "publish_";
