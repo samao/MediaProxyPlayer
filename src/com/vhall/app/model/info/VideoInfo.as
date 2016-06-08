@@ -3,7 +3,8 @@ package com.vhall.app.model.info
 	import com.adobe.serialization.json.JSON;
 	import com.vhall.app.model.info.vo.DefinitionVo;
 	import com.vhall.app.model.info.vo.ServeLinevo;
-	import com.vhall.framework.utils.JsonUtil;
+	
+	import flash.utils.Dictionary;
 
 	/**
 	 * 当前流数据的一些信息 
@@ -25,6 +26,11 @@ package com.vhall.app.model.info
 		 *线路数据(源数据)  
 		 */		
 		private var _cdnServers:String;
+		/**
+		 *连接失败的线路 
+		 */		
+		public var failLines:Dictionary;
+		
 		/**
 		 *选中线路 
 		 */		

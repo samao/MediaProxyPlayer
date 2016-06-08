@@ -1,17 +1,17 @@
 package com.vhall.app.model
 {
 	import com.adobe.serialization.json.JSON;
+	import com.vhall.app.model.info.MeetingInfo;
+	import com.vhall.app.model.info.PlayMode;
+	import com.vhall.app.model.info.PlayerStatusInfo;
+	import com.vhall.app.model.info.UserInfo;
+	import com.vhall.app.model.info.VideoInfo;
 	import com.vhall.app.model.info.vo.DefinitionVo;
 	import com.vhall.app.model.info.vo.ServeLinevo;
 	import com.vhall.framework.utils.JsonUtil;
 	
 	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
-	import com.vhall.app.model.info.MeetingInfo;
-	import com.vhall.app.model.info.PlayMode;
-	import com.vhall.app.model.info.PlayerStatusInfo;
-	import com.vhall.app.model.info.UserInfo;
-	import com.vhall.app.model.info.VideoInfo;
 
 	/**
 	 * 数据模型 
@@ -33,7 +33,7 @@ package com.vhall.app.model
 		/**	当前流数据的信息*/
 		public var videoinfo:VideoInfo;
 		/***播放器状态信息 */		
-		public var statusinfo:PlayerStatusInfo
+		public var playerstatusinfo:PlayerStatusInfo;
 
 		public static function Me():Model
 		{
@@ -67,7 +67,7 @@ package com.vhall.app.model
 		 * 
 		 */		
 		public static function get playerStatusInfo():PlayerStatusInfo{
-			return Me().statusinfo;
+			return Me().playerstatusinfo;
 		}
 		
 		public function Model()

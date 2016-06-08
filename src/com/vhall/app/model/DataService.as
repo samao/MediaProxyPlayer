@@ -1,6 +1,10 @@
 package com.vhall.app.model
 {
 	import com.vhall.app.model.info.PlayMode;
+	import com.vhall.app.model.info.vo.ServeLinevo;
+	import com.vhall.framework.app.vhall_internal;
+	
+	import flash.utils.Dictionary;
 	
 
 	/**
@@ -23,6 +27,24 @@ package com.vhall.app.model
 		public static function onVideoModelChange(isVideoMode:Boolean):Boolean{
 			Model.playerStatusInfo.viewVideoMode = isVideoMode;
 			return true;
+		}
+		/**
+		 *更新当前观看模式 
+		 * 
+		 */		
+		public static function updatePlayTypeMode():void{
+			var sline:String = "";
+			if(Model.videoInfo.selectDefVo){
+				sline = Model.videoInfo.selectDefVo.serverUrl;
+			}
+			if(Model.videoInfo.selectLineVo){
+				sline = Model.videoInfo.selectLineVo.serverUrl;
+			}
+			if(sline.toLocaleLowerCase().indexOf(PlayMode.HLS_FILE_SUFFIXES)>0){
+				Model.playerStatusInfo.playMode = PlayMode.PLAY_HLS;
+			}else{
+				Model.playerStatusInfo.playMode = PlayMode.PLAY_RTMP;
+			}
 		}
 		
 		/**
@@ -52,6 +74,37 @@ package com.vhall.app.model
 				{
 					if(sfs[i].sName == slName && Model.videoInfo.selectLineVo != sfs[i]){
 						Model.videoInfo.selectLineVo = sfs[i];
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		/**
+		 *连接线路失败后，重新切换到其他线路（数据切换）（失败过的线路会记录） 
+		 * @return 返回是否查找线
+		 */		
+		public static function connFailed2ChangeServerLine():Boolean{
+			var fail:Dictionary;
+			if(Model.videoInfo.failLines == null){
+				Model.videoInfo.failLines = new Dictionary();
+			}
+			fail = Model.videoInfo.failLines;
+			var currentUrl:String;
+			if(Model.videoInfo.selectLineVo){
+				currentUrl = Model.videoInfo.selectLineVo.serverUrl;
+			}
+			if(fail[currentUrl] == null){
+				fail[currentUrl] = currentUrl;
+			}
+			var lines:Array = Model.videoInfo.serverLineInfo;
+			var tmpLinevo:ServeLinevo;
+			if(lines){
+				for (var i:int = 0; i < lines.length; i++) 
+				{
+					tmpLinevo = lines[i];
+					if(tmpLinevo[tmpLinevo.serverUrl] == null && tmpLinevo.serverUrl != currentUrl){
+						Model.videoInfo.selectLineVo = tmpLinevo;
 						return true;
 					}
 				}

@@ -45,6 +45,10 @@ package com.vhall.app.net
 		 * 
 		 */		
 		public static function sendInitParam():void{
+			//发送初始化信息
+			//摄像头
+			//mic
+			//以及从Share中读取的信息
 			if (!Model.playerStatusInfo.scanHardwareLock)
 			{
 				scanHardware();

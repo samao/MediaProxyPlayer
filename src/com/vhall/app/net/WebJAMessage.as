@@ -46,6 +46,7 @@ package com.vhall.app.net
 				//发送切换 显示清晰度等组件
 				dispatch(AppCMD.SWITCHTOGUEST);
 				//发送停止推流
+				dispatch(AppCMD.VIDEO_CONTROL_STOP);
 				//发送关闭小助手
 				AssistantACMessage.stopEngine();
 				//停止上报mic
@@ -72,11 +73,6 @@ package com.vhall.app.net
 		{
 			Logger.getLogger("WebJAMsg").info("onGetInitParams Enter");
 			// TODO Auto Generated method stub
-			//发送初始化信息
-			//摄像头
-			//mic
-			//以及从Share中读取的信息
-			
 			WebAJMessage.sendInitParam();
 		}
 		
