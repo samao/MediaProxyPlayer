@@ -1,4 +1,4 @@
-package com.vhall.app.model
+package com.vhall.app.model.info
 {
 	public class PlayMode
 	{

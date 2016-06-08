@@ -1,12 +1,17 @@
 package com.vhall.app.model
 {
 	import com.adobe.serialization.json.JSON;
-	import com.vhall.app.model.vo.DefinitionVo;
-	import com.vhall.app.model.vo.ServeLinevo;
+	import com.vhall.app.model.info.vo.DefinitionVo;
+	import com.vhall.app.model.info.vo.ServeLinevo;
 	import com.vhall.framework.utils.JsonUtil;
 	
 	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
+	import com.vhall.app.model.info.MeetingInfo;
+	import com.vhall.app.model.info.PlayMode;
+	import com.vhall.app.model.info.PlayerStatusInfo;
+	import com.vhall.app.model.info.UserInfo;
+	import com.vhall.app.model.info.VideoInfo;
 
 	/**
 	 * 数据模型 
@@ -29,59 +34,6 @@ package com.vhall.app.model
 		public var videoinfo:VideoInfo;
 		/***播放器状态信息 */		
 		public var statusinfo:PlayerStatusInfo
-		
-		/*** 是否隐藏微吼的相关标识*/
-		public var hide_powered:Boolean;
-		
-		/*** 是否隐藏线路选择器*/
-		public var hideLineSwitch:Boolean;
-		
-		/*** 是否隐藏清晰度列表*/
-		public var hideQualitySwitch:Boolean;
-		
-		/*** 是否隐藏弹幕开关按钮*/
-		public var hideBarrage:Boolean;
-		/**
-		 *是否显示线路（cdn线路切换） 
-		 */		
-		public var lineType:int = 1;
-		/**
-		 *是否显示音频切换 
-		 */		
-		public var streamType:int = 1;
-		private var _viewVideoMode:Boolean = true;
-		
-		/**
-		 *当前播放模式（RTMP/HLS） 
-		 */		
-		public var playMode:String = PlayMode.PLAY_RTMP;
-		
-		/**
-		 * 获取初始化的摄像头和麦克风等信息并上报给页面
-		 */
-		public var scanHardwareLock:Boolean;
-		
-		/*** 推流时传递给服务器的验证码*/
-		public var streamToken:String;
-		/**	小助手是否处于打开状态*/
-		public var assistantOpened:Boolean = false;
-
-
-		/**
-		 *观看段视频模式（语音模式为false） 
-		 */
-		public function get viewVideoMode():Boolean
-		{
-			return _viewVideoMode;
-		}
-
-		/**
-		 * @private
-		 */
-		public function set viewVideoMode(value:Boolean):void
-		{
-			_viewVideoMode = value;
-		}
 
 		public static function Me():Model
 		{
@@ -114,7 +66,7 @@ package com.vhall.app.model
 		 * @return 
 		 * 
 		 */		
-		public static function get statusInfo():PlayerStatusInfo{
+		public static function get playerStatusInfo():PlayerStatusInfo{
 			return Me().statusinfo;
 		}
 		

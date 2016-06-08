@@ -1,5 +1,6 @@
 package com.vhall.app.model
 {
+	import com.vhall.app.model.info.PlayMode;
 	
 
 	/**
@@ -20,7 +21,7 @@ package com.vhall.app.model
 		 * 
 		 */		
 		public static function onVideoModelChange(isVideoMode:Boolean):Boolean{
-			Model.Me().viewVideoMode = isVideoMode;
+			Model.playerStatusInfo.viewVideoMode = isVideoMode;
 			return true;
 		}
 		
@@ -66,9 +67,9 @@ package com.vhall.app.model
 		 */	
 		public static function updateMediaInfo():void{
 			//判断hls还是rtmp
-			if(Model.Me().playMode == PlayMode.PLAY_HLS){
+			if(Model.playerStatusInfo.playMode == PlayMode.PLAY_HLS){
 				//hls视频语音路径区分
-				if(Model.Me().viewVideoMode){
+				if(Model.playerStatusInfo.viewVideoMode){
 					//当前线路视频地址
 					MediaModel.me().netOrFileUrl = Model.videoInfo.selectLineVo.serverUrl;
 				}else{
@@ -76,7 +77,7 @@ package com.vhall.app.model
 					MediaModel.me().netOrFileUrl = Model.videoInfo.selectLineVo.serverAudio;
 				}
 			}else{
-				if(Model.Me().viewVideoMode){
+				if(Model.playerStatusInfo.viewVideoMode){
 					//当前线路视频地址
 					MediaModel.me().netOrFileUrl = Model.videoInfo.selectLineVo.serverUrl;
 					MediaModel.me().streamName = Model.videoInfo.selectDefVo.fileName;

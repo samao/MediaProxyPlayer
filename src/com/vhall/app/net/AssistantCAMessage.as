@@ -27,7 +27,7 @@ package com.vhall.app.net
 			{
 				return;
 			}
-			Model.Me().assistantOpened = true;
+			Model.playerStatusInfo.assistantOpened = true;
 			dispatch(AppCMD.SWITCH_TO_ASSISTANT);
 		}
 
@@ -39,7 +39,7 @@ package com.vhall.app.net
 				return;
 			}
 			
-			Model.Me().assistantOpened = false;
+			Model.playerStatusInfo.assistantOpened = false;
 		}
 
 		/**	告诉前台JS 发布流成功*/

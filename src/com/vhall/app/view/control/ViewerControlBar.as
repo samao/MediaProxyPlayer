@@ -3,8 +3,8 @@ package com.vhall.app.view.control
 	import com.vhall.app.model.DataService;
 	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.model.Model;
-	import com.vhall.app.model.vo.DefinitionVo;
-	import com.vhall.app.model.vo.ServeLinevo;
+	import com.vhall.app.model.info.vo.DefinitionVo;
+	import com.vhall.app.model.info.vo.ServeLinevo;
 	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.view.control.ui.VolumeBar;
 	import com.vhall.app.view.control.ui.component.SwitchListBox;

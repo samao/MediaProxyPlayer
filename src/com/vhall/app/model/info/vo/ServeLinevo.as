@@ -1,4 +1,4 @@
-package com.vhall.app.model.vo
+package com.vhall.app.model.info.vo
 {
 	
 	

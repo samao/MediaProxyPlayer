@@ -36,7 +36,7 @@ package com.vhall.app.common.controller
 			var cmi:ContextMenuItem;
 			
 			// 是否隐藏版权信息
-			if(Model.Me().hide_powered == false)
+			if(Model.playerStatusInfo.hide_powered == false)
 			{
 				cmi = new ContextMenuItem(cropName,true,true);
 				cmi.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT,menuClickHandler);
