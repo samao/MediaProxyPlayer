@@ -2,7 +2,6 @@ package com.vhall.app.model
 {
 	import com.vhall.app.model.info.PlayMode;
 	import com.vhall.app.model.info.vo.ServeLinevo;
-	import com.vhall.framework.app.vhall_internal;
 	
 	import flash.utils.Dictionary;
 	

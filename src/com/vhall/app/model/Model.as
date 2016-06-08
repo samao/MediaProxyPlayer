@@ -106,13 +106,14 @@ package com.vhall.app.model
 				switch(typeName)
 				{
 					case "String":
-						t[varName] = data[varName];
-						break;
-					case "Int":
-						t[varName] = int(data[varName]);
+						if(data.hasOwnProperty(varName)){
+							t[varName] = data[varName];
+						}
 						break;
 					case "Boolean":
-						t[varName] = data[varName] == "0"||!data.hasOwnProperty(varName) ? false : true;
+						if(data.hasOwnProperty(varName)){
+							t[varName] = data[varName] == "0"||!data.hasOwnProperty(varName) ? false : true;
+						}
 						break;
 					case "Array":
 						break;
