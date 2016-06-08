@@ -7,6 +7,8 @@ package com.vhall.app.view.video
 	import com.vhall.app.net.MediaAJMessage;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
+	import com.vhall.framework.load.ResourceLibrary;
+	import com.vhall.framework.load.ResourceLoader;
 	import com.vhall.framework.log.Logger;
 	import com.vhall.framework.media.provider.MediaProxyStates;
 	import com.vhall.framework.media.provider.MediaProxyType;
@@ -14,9 +16,11 @@ package com.vhall.app.view.video
 	import com.vhall.framework.utils.JsonUtil;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.display.MovieClip;
 	import flash.display.StageDisplayState;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
+	import flash.system.ApplicationDomain;
 	import flash.utils.clearInterval;
 	import flash.utils.clearTimeout;
 	import flash.utils.setInterval;
@@ -32,6 +36,8 @@ package com.vhall.app.view.video
 		private var _retryId:int;
 		private var _preTime:Number = 0;
 		
+		private var _micActivity:AudioModelPicComp;
+		
 		public function VideoLayer(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super(parent, xpos, ypos);
@@ -45,24 +51,32 @@ package com.vhall.app.view.video
 			_videoPlayer.volume = info.volume;
 			addChild(_videoPlayer);
 			
-			log("演讲中:",Model.Me().userinfo.is_pres,info.netOrFileUrl,info.streamName);
-			if(Model.Me().userinfo.is_pres)
-			{
-				_videoPlayer.publish(info._soCamera,info._soMicrophone,info.netOrFileUrl,info.streamName,videoHandler,info._soCamWidth,info._soCamHeight);
-			}else{
-				_videoPlayer.connect(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,videoHandler);
-			}
-			
 			doubleClickEnabled = true;
 			mouseChildren = false;
 			
 			addEventListener(MouseEvent.DOUBLE_CLICK,mouseHandler)
 			
-			//回放增加屏幕暂停功能
-			if([MediaProxyType.HLS,MediaProxyType.HTTP].indexOf(_videoPlayer.type) != -1)
+			var l:ResourceLoader =new ResourceLoader();
+			l.load({type:1,url:"MicrophoneActivity.swf"},function(item:Object, content:Object, domain:ApplicationDomain):void
 			{
-				addEventListener(MouseEvent.CLICK,mouseHandler);
-			}		
+				_micActivity = new AudioModelPicComp();
+				_micActivity.skin = content as MovieClip;
+				
+				log("演讲中:",Model.Me().userinfo.is_pres,info.netOrFileUrl,info.streamName);
+				
+				if(Model.Me().userinfo.is_pres)
+				{
+					_videoPlayer.publish(info._soCamera,info._soMicrophone,info.netOrFileUrl,info.streamName,videoHandler,info._soCamWidth,info._soCamHeight);
+				}else{
+					_videoPlayer.connect(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,videoHandler);
+				}
+				
+				//回放增加屏幕暂停功能
+				if([MediaProxyType.HLS,MediaProxyType.HTTP].indexOf(_videoPlayer.type) != -1)
+				{
+					addEventListener(MouseEvent.CLICK,mouseHandler);
+				}	
+			});
 		}
 		
 		public function careList():Array
@@ -72,6 +86,7 @@ package com.vhall.app.view.video
 				AppCMD.MEDIA_SET_VOLUME,
 				AppCMD.MEDIA_SWITCH_LINE,
 				AppCMD.MEDIA_SWITCH_QUALITY,
+				AppCMD.MEDIA_CHANGEVIDEO_MODE,
 				AppCMD.MEDIA_PLAYER_DISPOSE,
 				AppCMD.MEDIA_MUTE_ALL,
 				AppCMD.MEDIA_MUTE_CAMERA,
@@ -101,10 +116,10 @@ package com.vhall.app.view.video
 				case AppCMD.MEDIA_SET_VOLUME:
 					_videoPlayer.volume = info.volume;
 					break;
+				case AppCMD.MEDIA_CHANGEVIDEO_MODE:
 				case AppCMD.MEDIA_SWITCH_LINE:
-					break;
 				case AppCMD.MEDIA_SWITCH_QUALITY:
-					//_videoPlayer.attachType(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,true,_videoPlayer.time);
+					changeLineOrQuality();
 					break;
 				case AppCMD.MEDIA_PLAYER_DISPOSE:
 					_videoPlayer.dispose();
@@ -156,6 +171,28 @@ package com.vhall.app.view.video
 			}
 		} 
 		
+		private function changeLineOrQuality():void
+		{
+			log("切线：",protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,true,_videoPlayer.time);
+			if(!Model.Me().userinfo.is_pres)
+			{
+				videoMode = info.videoMode;
+			}
+			_videoPlayer.attachType(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,true,_videoPlayer.time);
+		}
+		
+		private function set videoMode(bool:Boolean):void
+		{
+			if(info.videoMode)
+			{
+				this.contains(this._micActivity)&&this.removeChild(this._micActivity);
+				_videoPlayer.start();
+			}else{
+				this.addChild(this._micActivity);
+				_videoPlayer.stop();
+			}
+		}
+		
 		private function videoHandler(states:String,...value):void
 		{
 			switch(states)
@@ -191,6 +228,7 @@ package com.vhall.app.view.video
 					break;
 				case MediaProxyStates.STREAM_FULL:
 				case MediaProxyStates.PUBLISH_NOTIFY:
+				case MediaProxyStates.STREAM_TRANSITION:
 					loading = false;
 					break;
 				case MediaProxyStates.STREAM_LOADING:

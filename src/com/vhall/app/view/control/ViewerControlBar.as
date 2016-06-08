@@ -132,7 +132,7 @@ package com.vhall.app.view.control
 				_volumeBeforeMute = _volumeBar.volumeValue;
 				_volumeBar.volumeValue = 0;
 			}else{
-				_volumeBar.volumeValue = _volumeBeforeMute;
+				_volumeBar.volumeValue = _volumeBeforeMute||50;
 			}
 			MediaModel.me().volume = _volumeBar.volumeValue/100;
 			NResponder.dispatch(AppCMD.MEDIA_SET_VOLUME);
@@ -211,6 +211,7 @@ package com.vhall.app.view.control
 			changeVideoMode.isVideoMode;
 			DataService.onVideoModelChange(changeVideoMode.isVideoMode);
 			DataService.updateMediaInfo();
+			MediaModel.me().videoMode = Model.playerStatusInfo.viewVideoMode;
 			NResponder.dispatch(AppCMD.MEDIA_CHANGEVIDEO_MODE);
 			NResponder.dispatch(AppCMD.UI_SHOW_LOADING);
 		}
