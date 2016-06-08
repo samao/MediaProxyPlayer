@@ -1,8 +1,8 @@
-package com.vhall.app.model
+package com.vhall.app.model.info
 {
 	import com.adobe.serialization.json.JSON;
-	import com.vhall.app.model.vo.DefinitionVo;
-	import com.vhall.app.model.vo.ServeLinevo;
+	import com.vhall.app.model.info.vo.DefinitionVo;
+	import com.vhall.app.model.info.vo.ServeLinevo;
 	import com.vhall.framework.utils.JsonUtil;
 
 	/**

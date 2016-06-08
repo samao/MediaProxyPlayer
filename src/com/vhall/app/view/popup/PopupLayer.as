@@ -1,6 +1,8 @@
 package com.vhall.app.view.popup
 {
 	import com.vhall.app.common.Layer;
+	import com.vhall.app.model.MediaModel;
+	import com.vhall.app.model.Model;
 	import com.vhall.app.net.AppCMD;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.log.Logger;
@@ -64,9 +66,18 @@ package com.vhall.app.view.popup
 				case AppCMD.UI_SHOW_LOGOLOADING:
 					showLogoLoading();
 					break;
+				case AppCMD.MEDIA_STATES_START:
+					hidePop();
 				default:
 					break;
 			}
+		}
+		
+		private function hidePop():void
+		{
+			// TODO Auto Generated method stub
+			hideLoading();
+			hideWarn();
 		}
 		
 		/**

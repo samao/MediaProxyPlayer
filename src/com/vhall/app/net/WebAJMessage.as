@@ -45,10 +45,10 @@ package com.vhall.app.net
 		 * 
 		 */		
 		public static function sendInitParam():void{
-			if (!Model.Me().scanHardwareLock)
+			if (!Model.playerStatusInfo.scanHardwareLock)
 			{
 				scanHardware();
-				Model.Me().scanHardwareLock = true;
+				Model.playerStatusInfo.scanHardwareLock = true;
 			}
 			var info:Object = {};
 			info.type = MessageType.AJ_INITPARAMS;
