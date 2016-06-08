@@ -1,6 +1,5 @@
 package com.vhall.app.view.control
 {
-	import com.vhall.app.common.components.TimeLabel;
 	import com.vhall.app.model.DataService;
 	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.model.Model;
@@ -17,9 +16,9 @@ package com.vhall.app.view.control
 	import com.vhall.framework.ui.container.HBox;
 	import com.vhall.framework.ui.controls.Label;
 	import com.vhall.framework.ui.controls.ToggleButton;
+	import com.vhall.framework.ui.event.DragEvent;
 	
 	import flash.display.DisplayObjectContainer;
-	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
 	import flash.events.MouseEvent;
@@ -35,7 +34,7 @@ package com.vhall.app.view.control
 		
 		private var btnBarrage:ToggleButton;
 		
-		private var volumebar:VolumeBar;
+		private var _volumeBar:VolumeBar;
 		/**静音按钮*/
 		private var _muteBut:ToggleButton;
 		/**静音前的音量*/		
@@ -71,10 +70,11 @@ package com.vhall.app.view.control
 			_muteBut.downSkin = "assets/ui/mic1.png";
 			_muteBut.tooltip = "静音";
 			_muteBut.callOut = "top";
-			_muteBut.addEventListener(MouseEvent.CLICK,muteHandler);
-			volumebar = new VolumeBar(hbVolumn);
+			_muteBut.addEventListener(Event.SELECT,muteHandler);
+			_volumeBar = new VolumeBar(hbVolumn);
+			_volumeBar.volumeSlipComp.addEventListener(DragEvent.CHANGE,volumeChange);
 			_volumeBeforeMute = MediaModel.me().volume * 100;
-			volumebar.volumeValue = MediaModel.me().volume * 100;
+			_volumeBar.volumeValue = MediaModel.me().volume * 100;
 			
 			onInitServerLine();
 			
@@ -102,6 +102,16 @@ package com.vhall.app.view.control
 			btnFullscreen.addEventListener(MouseEvent.CLICK,onToggleClickHandler);
 		}
 		
+		
+		private function volumeChange(e:DragEvent):void
+		{
+			MediaModel.me().volume = e.percent;
+			NResponder.dispatch(AppCMD.MEDIA_SET_VOLUME,[e.percent]);
+			_muteBut.setSelected(e.percent == 0);
+			muteHandler(e);
+			_volumeBeforeMute = _volumeBar.volumeValue;
+		}
+		
 		override protected function sizeChanged():void
 		{
 			super.sizeChanged();
@@ -115,16 +125,16 @@ package com.vhall.app.view.control
 		}
 		
 		
-		protected function muteHandler(event:MouseEvent):void
+		protected function muteHandler(event:Event):void
 		{
 			if(_muteBut.selected)
 			{
-				_volumeBeforeMute = volumebar.volumeValue;
-				volumebar.volumeValue = 0;
+				_volumeBeforeMute = _volumeBar.volumeValue;
+				_volumeBar.volumeValue = 0;
 			}else{
-				volumebar.volumeValue = _volumeBeforeMute;
+				_volumeBar.volumeValue = _volumeBeforeMute;
 			}
-			MediaModel.me().volume = volumebar.volumeValue/100;
+			MediaModel.me().volume = _volumeBar.volumeValue/100;
 			NResponder.dispatch(AppCMD.MEDIA_SET_VOLUME);
 		}
 		

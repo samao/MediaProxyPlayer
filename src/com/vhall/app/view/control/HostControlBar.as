@@ -8,8 +8,10 @@ package com.vhall.app.view.control
 	import com.vhall.framework.app.mvc.ResponderMediator;
 	import com.vhall.framework.ui.container.HBox;
 	import com.vhall.framework.ui.controls.ToggleButton;
+	import com.vhall.framework.ui.event.DragEvent;
 	
 	import flash.display.DisplayObjectContainer;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
 	import appkit.responders.NResponder;
@@ -50,9 +52,10 @@ package com.vhall.app.view.control
 			_muteBut.downSkin = "assets/ui/mic1.png";
 			_muteBut.tooltip = "静音";
 			_muteBut.callOut = "top";
-			_muteBut.addEventListener(MouseEvent.CLICK,muteHandler);
+			_muteBut.addEventListener(Event.SELECT,muteHandler);
 			
 			_volumeBar = new VolumeBar(hbox);
+			_volumeBar.volumeSlipComp.addEventListener(DragEvent.CHANGE,volumeChange);
 			_volumeBeforeMute = _volumeBar.volumeValue = MediaModel.me().volume * 100;
 			
 			btnFullscreen = new ToggleButton(this);
@@ -65,7 +68,16 @@ package com.vhall.app.view.control
 			btnFullscreen.addEventListener(MouseEvent.CLICK,onToggleClickHandler);
 		}
 		
-		protected function muteHandler(event:MouseEvent):void
+		private function volumeChange(e:DragEvent):void
+		{
+			MediaModel.me().volume = e.percent;
+			NResponder.dispatch(AppCMD.MEDIA_SET_VOLUME,[e.percent]);
+			_muteBut.setSelected(e.percent == 0);
+			muteHandler(e);
+			_volumeBeforeMute = _volumeBar.volumeValue;
+		}
+		
+		protected function muteHandler(event:Event):void
 		{
 			if(_muteBut.selected)
 			{
