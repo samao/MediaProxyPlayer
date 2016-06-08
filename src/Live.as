@@ -4,8 +4,6 @@ package
 	import com.vhall.app.common.controller.MenuController;
 	import com.vhall.app.common.controller.MessageController;
 	import com.vhall.app.manager.LayerManager;
-	import com.vhall.app.model.Model;
-	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.view.barrage.BarrageLayer;
 	import com.vhall.app.view.control.ControlLayer;
 	import com.vhall.app.view.effect.EffectLayer;
@@ -17,8 +15,7 @@ package
 	import com.vhall.framework.ui.container.Box;
 	
 	import flash.display.DisplayObjectContainer;
-	
-	import appkit.responders.NResponder;
+	import flash.display.Sprite;
 
 	/**
 	 * 主类
@@ -49,14 +46,16 @@ package
 		override protected function createChildren():void
 		{
 			super.createChildren();
-			videoLayer = new VideoLayer(this);
-			controlLayer = new ControlLayer(this);
+			
+			var box:Sprite = this;
+			videoLayer = new VideoLayer(box);
+			controlLayer = new ControlLayer(box);
 			controlLayer.height = 35;
 			controlLayer.bottom = 0;
-			barrageLayer = new BarrageLayer(this);
-			effectLayer = new EffectLayer(this);
-			popupLayer = new PopupLayer(this);
-			LayerManager.initLayer(this);
+			barrageLayer = new BarrageLayer(box);
+			effectLayer = new EffectLayer(box);
+			popupLayer = new PopupLayer(box);
+			LayerManager.initLayer(box);
 			onTest();
 		}
 

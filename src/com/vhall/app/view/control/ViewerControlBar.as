@@ -211,7 +211,7 @@ package com.vhall.app.view.control
 			changeVideoMode.isVideoMode;
 			DataService.onVideoModelChange(changeVideoMode.isVideoMode);
 			DataService.updateMediaInfo();
-			MediaModel.me().videoMode = Model.Me().viewVideoMode;
+			MediaModel.me().videoMode = Model.playerStatusInfo.viewVideoMode;
 			NResponder.dispatch(AppCMD.MEDIA_CHANGEVIDEO_MODE);
 			NResponder.dispatch(AppCMD.UI_SHOW_LOADING);
 		}
