@@ -57,7 +57,7 @@ package  com.vhall.app.view.control.ui.component
 		
 		protected function onAdd(event:Event):void
 		{
-			// TODO Auto-generated method stub
+			this.removeEventListener(Event.ADDED_TO_STAGE, onAdd);
 			this.addEventListener(Event.REMOVED_FROM_STAGE,onRemove);
 		}
 		
