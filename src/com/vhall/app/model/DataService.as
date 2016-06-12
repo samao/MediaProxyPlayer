@@ -143,13 +143,25 @@ package com.vhall.app.model
 		}
 		
 		/**
+		 *更新推流服务器地址 
+		 * @param url
+		 * 
+		 */		
+		public static function updatePublisServerUrl(url:String):void{
+			if(Model.videoInfo.media_srv != url){
+				Model.videoInfo.media_srv = url
+			}
+			updatePublishInfo();
+		}
+		
+		/**
 		 *更新推流信息 
 		 * 
 		 */		
 		public static function updatePublishInfo():void{
-			MediaModel.me().publishUrl = Model.videoInfo.media_srv;
-			MediaModel.me().publishStreamName = Model.videoInfo.stream_name;
-			Logger.getLogger("updatePublishInfo").info("ps:" + MediaModel.me().publishUrl + "sn:" + Model.videoInfo.stream_name)
+			MediaModel.me().publishUrl = Model.videoInfo.media_srv + "?token=" + Model.videoInfo.streamtoken;
+			MediaModel.me().publishStreamName = Model.videoInfo.streamname;
+			Logger.getLogger("updatePublishInfo").info("ps:" + MediaModel.me().publishUrl + "  sn:" + Model.videoInfo.streamname)
 		}
 	
 	}

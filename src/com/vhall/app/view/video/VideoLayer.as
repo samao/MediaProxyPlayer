@@ -177,13 +177,13 @@ package com.vhall.app.view.video
 		
 		private function changeLineOrQuality():void
 		{
-			log("切线：",protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,true,_videoPlayer.time);
 			if(!Model.Me().userinfo.is_pres)
 			{
 				videoMode = info.videoMode;
 			}
 			const server:String = Model.userInfo.is_pres?MediaModel.me().publishUrl:MediaModel.me().netOrFileUrl;
 			const stream:String = Model.userInfo.is_pres?MediaModel.me().publishStreamName:MediaModel.me().streamName;
+			log("切线：",protocol(server),server,stream,true,_videoPlayer.time);
 			_videoPlayer.attachType(protocol(server),server,stream,true,_videoPlayer.time,info._soCamera,info._soMicrophone,info._soCamWidth,info._soCamHeight);
 		}
 		

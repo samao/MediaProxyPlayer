@@ -1,5 +1,6 @@
 package com.vhall.app.net
 {
+	import com.vhall.app.model.DataService;
 	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.model.Model;
 	import com.vhall.framework.app.manager.SOManager;
@@ -50,10 +51,11 @@ package com.vhall.app.net
 			var o:Object = value;
 			if(o.mediaServer)
 			{
-				if(o.mediaServer != MediaModel.me().netOrFileUrl)
+				
+				if(o.mediaServer != MediaModel.me().publishUrl)
 				{
 					//换推流服务器
-					MediaModel.me().netOrFileUrl = o.mediaServer;
+					DataService.updatePublisServerUrl(o.mediaServer);
 					dispatch(AppCMD.MEDIA_QUITE_SERVER);
 				}
 			}

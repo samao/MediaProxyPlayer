@@ -45,6 +45,10 @@ package com.vhall.app.model.info
 		 *推流服务器地址
 		 */		
 		public var media_srv:String;
+		/**
+		 *token 
+		 */		
+		public var streamtoken:String;
 		
 		/**
 		 *音频流地址(语音流名rtmp下有)
@@ -62,7 +66,7 @@ package com.vhall.app.model.info
 		public var definitionInfo:Array = [];
 
 		/*** 推起流的名称*/
-		public function get stream_name():String
+		public function get streamname():String
 		{
 			return _stream_name;
 		}
@@ -70,7 +74,7 @@ package com.vhall.app.model.info
 		/**
 		 * @private
 		 */
-		public function set stream_name(value:String):void
+		public function set streamname(value:String):void
 		{
 			_stream_name = value;
 		}
