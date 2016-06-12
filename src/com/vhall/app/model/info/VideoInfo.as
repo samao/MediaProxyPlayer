@@ -61,7 +61,9 @@ package com.vhall.app.model.info
 		 */		
 		public var definitionInfo:Array = [];
 		private var _publishServers:String ;
-		
+		/**
+		 *流服务器地址列表 
+		 */		
 		public var publishServerData:Array;
 
 		/*** 推起流的名称*/
@@ -76,7 +78,6 @@ package com.vhall.app.model.info
 		public function set stream_name(value:String):void
 		{
 			_stream_name = value;
-			MediaModel.me().publishStreamName = _stream_name;
 		}
 
 		/**
@@ -94,7 +95,7 @@ package com.vhall.app.model.info
 		{
 			_publishServers = value;
 			var publishServersArr:Array = com.adobe.serialization.json.JSON.decode(value)as Array;
-			var publishServerData:Array = new Array();
+			publishServerData = new Array();
 			for (var j:int = 0; j < publishServersArr.length; j++)
 			{
 				var obj:Object = {};
@@ -102,7 +103,6 @@ package com.vhall.app.model.info
 				obj.url = publishServersArr[j].srv;
 				publishServerData.push(obj);
 			}
-			MediaModel.me().publishUrl = publishServerData[0].url;
 		}
 
 		/**

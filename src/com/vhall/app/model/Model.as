@@ -80,6 +80,8 @@ package com.vhall.app.model
 			this.originParmeters = data;
 			parseData(data,this);
 			DataService.updateMediaInfo();
+			DataService.updatePublishInfo();
+			
 		}
 		
 		// 递归解析数据

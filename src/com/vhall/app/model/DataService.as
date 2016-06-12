@@ -140,6 +140,15 @@ package com.vhall.app.model
 				}
 			}
 		}
+		
+		/**
+		 *更新推流信息 
+		 * 
+		 */		
+		public static function updatePublishInfo():void{
+			MediaModel.me().publishUrl = Model.videoInfo.publishServerData[0].url;
+			MediaModel.me().publishStreamName = Model.videoInfo.stream_name;
+		}
 	
 	}
 	
