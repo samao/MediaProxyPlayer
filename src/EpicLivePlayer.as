@@ -1,11 +1,13 @@
 package
 {
+	import com.vhall.app.common.Resource;
+	import com.vhall.app.common.Version;
 	import com.vhall.app.load.ResourceLoadingView;
 	import com.vhall.app.model.Model;
 	import com.vhall.framework.app.App;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.load.ResourceLibrary;
-
+	
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.system.ApplicationDomain;
@@ -29,8 +31,8 @@ package
 			Model.Me().init(loaderInfo.parameters);
 			// load live.swf
 			var arr:Array = [];
-			arr.push({id:"ui", url:"ui.swf"});
-			arr.push({id:"live", url:"Live.swf"});
+			arr.push({id:"ui", url:Resource.getLoadingResource("ui")});
+			arr.push({id:"live", url:Resource.getCode("Live")});
 			ResourceLoadingView.show(arr, itemComplete, progress, allComplete);
 		}
 

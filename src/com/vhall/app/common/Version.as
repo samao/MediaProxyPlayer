@@ -33,12 +33,22 @@ package com.vhall.app.common
 		public static const Build:String = "0";
 		
 		/**
+		 * 获取当前APP名字 
+		 * @return 
+		 * 
+		 */		
+		public static function get app():String
+		{
+			return "[" + App + "]";
+		}
+		
+		/**
 		 *	获取当前版本号 
 		 * 
 		 */		
 		public static function get ver():String
 		{
-			return "[" + App + "]V" + Major + "." + Minor + "." + Patch + "." + Build;
+			return Major + "." + Minor + "." + Patch + "." + Build;
 		}
 	}
 }
