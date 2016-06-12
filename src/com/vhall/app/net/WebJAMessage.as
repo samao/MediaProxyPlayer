@@ -90,6 +90,11 @@ package com.vhall.app.net
 		
 		private function onBarrage(data:Object = null):void
 		{
+			// 如果关闭弹幕功能， 返回
+			if(Model.Me().hideBarrage == true)
+			{
+				return;
+			}
 			//发送弹幕
 			dispatch(AppCMD.BARRAGE_ADD,data.data);
 		}
