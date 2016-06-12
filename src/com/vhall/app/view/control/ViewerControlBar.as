@@ -1,5 +1,7 @@
 package com.vhall.app.view.control
 {
+	import appkit.responders.NResponder;
+	
 	import com.vhall.app.model.DataService;
 	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.model.Model;
@@ -22,8 +24,6 @@ package com.vhall.app.view.control
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
 	import flash.events.MouseEvent;
-	
-	import appkit.responders.NResponder;
 
 	public class ViewerControlBar extends AbstractControlBar implements IResponder
 	{
@@ -77,22 +77,34 @@ package com.vhall.app.view.control
 			_volumeBeforeMute = MediaModel.me().volume * 100;
 			_volumeBar.volumeValue = MediaModel.me().volume * 100;
 			
-			onInitServerLine();
+			// 切换线路
+			if(Model.playerStatusInfo.hideLineSwitch == false)
+			{
+				onInitServerLine();
+			}
 			
+			// 切换音视频
 			onInitVideoModeBtn();
 			
-			onInitDefination();
+			// 切换画质
+			if(Model.playerStatusInfo.hideQualitySwitch == false)
+			{
+				onInitDefination();
+			}
 			
-			// 弹幕按钮
-			var hbarrage:HBox = new HBox(hb);
-			hb.verticalAlign = "center";
-			var lblBarrage:Label = new Label(hbarrage);
-			lblBarrage.text = "弹幕";
-			lblBarrage.color = 0xFFFFFF;
-			btnBarrage = new ToggleButton(hbarrage);
-			btnBarrage.skin = "assets/ui/t1.png";
-			btnBarrage.downSkin = "assets/ui/t2.png";
-			btnBarrage.addEventListener(Event.SELECT, onBarrageSelect);
+			if(Model.playerStatusInfo.hideBarrage == false)
+			{
+				// 弹幕按钮
+				var hbarrage:HBox = new HBox(hb);
+				hb.verticalAlign = "center";
+				var lblBarrage:Label = new Label(hbarrage);
+				lblBarrage.text = "弹幕";
+				lblBarrage.color = 0xFFFFFF;
+				btnBarrage = new ToggleButton(hbarrage);
+				btnBarrage.skin = "assets/ui/t1.png";
+				btnBarrage.downSkin = "assets/ui/t2.png";
+				btnBarrage.addEventListener(Event.SELECT, onBarrageSelect);
+			}
 			
 			// 全屏按钮
 			btnFullscreen = new ToggleButton(hb);

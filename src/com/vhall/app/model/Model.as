@@ -109,7 +109,7 @@ package com.vhall.app.model
 						break;
 					case "Boolean":
 						if(data.hasOwnProperty(varName)){
-							t[varName] = data[varName] == "0"||!data.hasOwnProperty(varName) ? false : true;
+							t[varName] = data[varName] == "0" && data.hasOwnProperty(varName) ? false : true;
 						}
 						break;
 					case "Array":
