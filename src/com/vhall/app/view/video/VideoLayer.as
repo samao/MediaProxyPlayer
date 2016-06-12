@@ -164,7 +164,7 @@ package com.vhall.app.view.video
 					break;
 				case AppCMD.PUBLISH_START:
 					//开始推流
-					_videoPlayer.attachType(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,true,0,info._soCamera,info._soMicrophone,info._soCamWidth,info._soCamHeight);
+					changeLineOrQuality();
 					break;
 				case AppCMD.PUBLISH_END:
 					if(_videoPlayer.type == MediaProxyType.PUBLISH)
@@ -182,7 +182,9 @@ package com.vhall.app.view.video
 			{
 				videoMode = info.videoMode;
 			}
-			_videoPlayer.attachType(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,true,_videoPlayer.time);
+			const server:String = Model.userInfo.is_pres?MediaModel.me().publishUrl:MediaModel.me().netOrFileUrl;
+			const stream:String = Model.userInfo.is_pres?MediaModel.me().publishStreamName:MediaModel.me().streamName;
+			_videoPlayer.attachType(protocol(server),server,stream,true,_videoPlayer.time,info._soCamera,info._soMicrophone,info._soCamWidth,info._soCamHeight);
 		}
 		
 		private function set videoMode(bool:Boolean):void
