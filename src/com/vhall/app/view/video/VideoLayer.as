@@ -184,7 +184,17 @@ package com.vhall.app.view.video
 			const server:String = Model.userInfo.is_pres?MediaModel.me().publishUrl:MediaModel.me().netOrFileUrl;
 			const stream:String = Model.userInfo.is_pres?MediaModel.me().publishStreamName:MediaModel.me().streamName;
 			log("切线：",protocol(server),server,stream,true,_videoPlayer.time);
-			_videoPlayer.attachType(protocol(server),server,stream,true,_videoPlayer.time,info._soCamera,info._soMicrophone,info._soCamWidth,info._soCamHeight);
+			if(_videoPlayer.type == null)
+			{
+				if(Model.userInfo.is_pres)
+				{
+					_videoPlayer.publish(info._soCamera,info._soMicrophone,server,stream,videoHandler,info._soCamWidth,info._soCamHeight);
+				}else{
+					_videoPlayer.connect(protocol(server),server,stream,videoHandler,true,0);
+				}
+			}else{
+				_videoPlayer.attachType(protocol(server),server,stream,true,_videoPlayer.time,info._soCamera,info._soMicrophone,info._soCamWidth,info._soCamHeight);
+			}
 		}
 		
 		private function set videoMode(bool:Boolean):void
@@ -270,7 +280,12 @@ package com.vhall.app.view.video
 				}else{
 					send(AppCMD.MEDIA_STATES_BUFFER_FULL);
 					send(AppCMD.UI_HIDE_LOADING);
+					send(AppCMD.UI_HIDE_WARN);
 				}
+			}else{
+				send(AppCMD.MEDIA_STATES_BUFFER_FULL);
+				send(AppCMD.UI_HIDE_LOADING);
+				send(AppCMD.UI_HIDE_WARN);
 			}
 		}
 		

@@ -47,11 +47,9 @@ package com.vhall.app.net
 				dispatch(AppCMD.TELL_GUEST_TURN_TO_PRES);
 			}
 			
-//			var o:* = JsonUtil.decode(value);
-			var o:Object = value;
+			var o:* = value;
 			if(o.mediaServer)
 			{
-				
 				if(o.mediaServer != MediaModel.me().publishUrl)
 				{
 					//换推流服务器
@@ -62,8 +60,8 @@ package com.vhall.app.net
 			
 			//保存设置数据
 			var obj:Object = SOManager.getInstance().getValue("setting");
-			obj.cameraName = Camera.isSupported && Camera.names.indexOf(o.camName)!=-1 ? o.camName : "禁用视频设备/无设备";
-			obj.micName = Microphone.isSupported && Microphone.names.indexOf(o.micName)!=-1?o.micName:"禁用视频设备/无设备";
+			obj.cameraName = Camera.isSupported ? o.camName : "禁用视频设备/无设备";
+			obj.micName = Microphone.isSupported?o.micName:"禁用视频设备/无设备";
 			obj.micVolume =  MediaModel.me().player.volume ;//model.microPhone.gain;
 			obj.width = o.width;
 			obj.height = o.height;
@@ -89,7 +87,6 @@ package com.vhall.app.net
 				dispatch(AppCMD.TELL_CORE_CAMERA_TO_VIDEO);
 				dispatch(AppCMD.TELL_GUEST_TO_END_REPEAT);
 				
-//				var o:Object = JsonUtil.decode(value);
 				var o:Object = value;
 				if(o.hasOwnProperty("isVideoMode"))
 				{
