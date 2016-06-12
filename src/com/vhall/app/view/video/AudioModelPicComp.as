@@ -65,6 +65,7 @@ package com.vhall.app.view.video
 		}
 		
 		public function resize(swidth:int,shight:int):void{
+			if(!_skin) return;
 			var mc:MovieClip = _skin["pic"];
 			var vocmc:MovieClip = _skin["voc"]
 			if(swidth < 640 || shight < 480){
@@ -91,10 +92,10 @@ package com.vhall.app.view.video
 		
 		/**
 		 *更新音量 
-		 * 
 		 */		
 		public function updateVoic():void{
 			runTime();
+			if(!_skin) return;
 			var vocmc:MovieClip = _skin.getChildByName("voc") as MovieClip;
 			var micVolume:int = activity;
 			if(micVolume <=0){

@@ -42,19 +42,19 @@ package com.vhall.app.view.control
 		{
 			super.createChildren();
 			
-			var hbox:HBox = new HBox(this);
-			hbox.verticalAlign = "center";
-			hbox.left = 10;
-			hbox.verticalCenter = 0;
+			var volumeBox:HBox = new HBox(this);
+			volumeBox.verticalAlign = "center";
+			volumeBox.left = 10;
+			volumeBox.verticalCenter = 0;
 			
-			_muteBut = new ToggleButton(hbox);
+			_muteBut = new ToggleButton(volumeBox);
 			_muteBut.skin = "assets/ui/mic2.png";
 			_muteBut.downSkin = "assets/ui/mic1.png";
 			_muteBut.tooltip = "静音";
 			_muteBut.callOut = "top";
 			_muteBut.addEventListener(Event.SELECT,muteHandler);
 			
-			_volumeBar = new VolumeBar(hbox);
+			_volumeBar = new VolumeBar(volumeBox);
 			_volumeBar.volumeSlipComp.addEventListener(DragEvent.CHANGE,volumeChange);
 			_volumeBeforeMute = _volumeBar.volumeValue = MediaModel.me().volume * 100;
 			

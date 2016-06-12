@@ -3,7 +3,8 @@ package com.vhall.app.view.barrage
 	import com.vhall.app.common.Layer;
 	import com.vhall.app.net.AppCMD;
 	import com.vhall.framework.app.mvc.IResponder;
-
+	import com.vhall.framework.log.Logger;
+	
 	import flash.display.DisplayObjectContainer;
 
 	public class BarrageLayer extends Layer implements IResponder
@@ -40,9 +41,11 @@ package com.vhall.app.view.barrage
 					con.addBarrage(args[0]);
 					break;
 				case AppCMD.BARRAGE_CLOSE:
+					Logger.getLogger("Barrage").info("关闭弹幕");
 					con.clear();
 					break;
 				case AppCMD.BARRAGE_OPEN:
+					Logger.getLogger("Barrage").info("开启弹幕");
 					break;
 			}
 		}
