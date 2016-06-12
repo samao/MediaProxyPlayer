@@ -1,14 +1,9 @@
 package com.vhall.app.model
 {
-	import com.adobe.serialization.json.JSON;
 	import com.vhall.app.model.info.MeetingInfo;
-	import com.vhall.app.model.info.PlayMode;
 	import com.vhall.app.model.info.PlayerStatusInfo;
 	import com.vhall.app.model.info.UserInfo;
 	import com.vhall.app.model.info.VideoInfo;
-	import com.vhall.app.model.info.vo.DefinitionVo;
-	import com.vhall.app.model.info.vo.ServeLinevo;
-	import com.vhall.framework.utils.JsonUtil;
 	
 	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;

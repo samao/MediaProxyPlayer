@@ -108,7 +108,7 @@ package com.vhall.app.net
 		 *会议结束 
 		 * 
 		 */		
-		private function onMettingOver():void
+		private function onMettingOver(data:Object = null):void
 		{
 			Logger.getLogger("WebJAMsg").info("onMettingOver Enter");
 			// TODO Auto Generated method stub
