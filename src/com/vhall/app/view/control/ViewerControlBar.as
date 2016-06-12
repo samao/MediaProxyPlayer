@@ -101,8 +101,8 @@ package com.vhall.app.view.control
 				lblBarrage.text = "弹幕";
 				lblBarrage.color = 0xFFFFFF;
 				btnBarrage = new ToggleButton(hbarrage);
-				btnBarrage.skin = "assets/ui/t1.png";
-				btnBarrage.downSkin = "assets/ui/t2.png";
+				btnBarrage.downSkin = "assets/ui/t1.png";
+				btnBarrage.skin = "assets/ui/t2.png";
 				btnBarrage.addEventListener(Event.SELECT, onBarrageSelect);
 			}
 			
@@ -263,7 +263,7 @@ package com.vhall.app.view.control
 		
 		protected function onBarrageSelect(event:Event):void
 		{
-			var cmd:String = btnBarrage.selected ? AppCMD.BARRAGE_OPEN : AppCMD.BARRAGE_CLOSE;
+			var cmd:String = btnBarrage.selected ? AppCMD.BARRAGE_CLOSE : AppCMD.BARRAGE_OPEN;
 			NResponder.dispatch(cmd);
 		}
 		

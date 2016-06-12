@@ -10,6 +10,9 @@ package com.vhall.app.view.barrage
 	public class BarrageLayer extends Layer implements IResponder
 	{
 
+		// 1开启，0关闭
+		private var state:int = 1;
+		
 		private var con:BarrageContainer;
 
 		public function BarrageLayer(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0)
@@ -38,13 +41,18 @@ package com.vhall.app.view.barrage
 			switch(msg)
 			{
 				case AppCMD.BARRAGE_ADD:
-					con.addBarrage(args[0]);
+					if(state == 1)
+					{
+						con.addBarrage(args[0]);
+					}
 					break;
 				case AppCMD.BARRAGE_CLOSE:
 					Logger.getLogger("Barrage").info("关闭弹幕");
+					state = 0;
 					con.clear();
 					break;
 				case AppCMD.BARRAGE_OPEN:
+					state = 1;
 					Logger.getLogger("Barrage").info("开启弹幕");
 					break;
 			}
