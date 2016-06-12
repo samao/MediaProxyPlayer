@@ -61,19 +61,19 @@ package com.vhall.app.view.video
 			{
 				_micActivity = new AudioModelPicComp();
 				_micActivity.skin = content as MovieClip;
-				init();
+				autoStart();
 			},null,function():void
 			{
 				
-				init();
+				autoStart();
 			});
 		}
 		
-		private function init():void
+		private function autoStart():void
 		{
 			log("演讲中:",Model.Me().userinfo.is_pres,info.netOrFileUrl,info.streamName);
 			
-			if(Model.Me().userinfo.is_pres)
+			/*if(Model.Me().userinfo.is_pres)
 			{
 				_videoPlayer.publish(info._soCamera,info._soMicrophone,info.netOrFileUrl,info.streamName,videoHandler,info._soCamWidth,info._soCamHeight);
 			}else{
@@ -84,7 +84,7 @@ package com.vhall.app.view.video
 			if([MediaProxyType.HLS,MediaProxyType.HTTP].indexOf(_videoPlayer.type) != -1)
 			{
 				addEventListener(MouseEvent.CLICK,mouseHandler);
-			}
+			}*/
 		}
 		
 		public function careList():Array
