@@ -46,7 +46,8 @@ package com.vhall.app.net
 				dispatch(AppCMD.TELL_GUEST_TURN_TO_PRES);
 			}
 			
-			var o:* = JsonUtil.decode(value);
+//			var o:* = JsonUtil.decode(value);
+			var o:Object = value;
 			if(o.mediaServer)
 			{
 				if(o.mediaServer != MediaModel.me().netOrFileUrl)

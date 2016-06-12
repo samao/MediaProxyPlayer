@@ -1,6 +1,7 @@
 package com.vhall.app.model.info
 {
 	import com.adobe.serialization.json.JSON;
+	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.model.info.vo.DefinitionVo;
 	import com.vhall.app.model.info.vo.ServeLinevo;
 	
@@ -50,8 +51,7 @@ package com.vhall.app.model.info
 		 */		
 		public var audioSrv:String;
 		
-		/*** 推起流的名称*/
-		public var stream_name:String;
+		private var _stream_name:String;
 		/**
 		 *线路数据 
 		 */		
@@ -60,6 +60,51 @@ package com.vhall.app.model.info
 		 *清晰度数据 
 		 */		
 		public var definitionInfo:Array = [];
+		private var _publishServers:String ;
+		
+		public var publishServerData:Array;
+
+		/*** 推起流的名称*/
+		public function get stream_name():String
+		{
+			return _stream_name;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set stream_name(value:String):void
+		{
+			_stream_name = value;
+			MediaModel.me().publishStreamName = _stream_name;
+		}
+
+		/**
+		 *推流服务器 
+		 */
+		public function get publishServers():String
+		{
+			return _publishServers;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set publishServers(value:String):void
+		{
+			_publishServers = value;
+			var publishServersArr:Array = com.adobe.serialization.json.JSON.decode(value)as Array;
+			var publishServerData:Array = new Array();
+			for (var j:int = 0; j < publishServersArr.length; j++)
+			{
+				var obj:Object = {};
+				obj.alias = publishServersArr[j].name;
+				obj.url = publishServersArr[j].srv;
+				publishServerData.push(obj);
+			}
+			MediaModel.me().publishUrl = publishServerData[0].url;
+		}
+
 		/**
 		 *清晰度数据 
 		 */
