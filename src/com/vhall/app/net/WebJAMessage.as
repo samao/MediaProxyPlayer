@@ -91,7 +91,7 @@ package com.vhall.app.net
 		private function onBarrage(data:Object = null):void
 		{
 			// 如果关闭弹幕功能， 返回
-			if(Model.Me().hideBarrage == true)
+			if(Model.playerStatusInfo.hideBarrage == true)
 			{
 				return;
 			}
