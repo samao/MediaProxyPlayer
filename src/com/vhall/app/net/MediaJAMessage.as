@@ -89,7 +89,8 @@ package com.vhall.app.net
 				dispatch(AppCMD.TELL_CORE_CAMERA_TO_VIDEO);
 				dispatch(AppCMD.TELL_GUEST_TO_END_REPEAT);
 				
-				var o:Object = JsonUtil.decode(value);
+//				var o:Object = JsonUtil.decode(value);
+				var o:Object = value;
 				if(o.hasOwnProperty("isVideoMode"))
 				{
 					MediaModel.me().videoMode = o.isVideoMode;

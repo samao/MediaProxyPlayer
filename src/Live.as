@@ -4,6 +4,8 @@ package
 	import com.vhall.app.common.controller.MenuController;
 	import com.vhall.app.common.controller.MessageController;
 	import com.vhall.app.manager.LayerManager;
+	import com.vhall.app.net.WebAJMessage;
+	import com.vhall.app.net.WebJAMessage;
 	import com.vhall.app.view.barrage.BarrageLayer;
 	import com.vhall.app.view.control.ControlLayer;
 	import com.vhall.app.view.effect.EffectLayer;
@@ -56,6 +58,9 @@ package
 			effectLayer = new EffectLayer(box);
 			popupLayer = new PopupLayer(box);
 			LayerManager.initLayer(box);
+			
+			//发送初始化消息
+			WebAJMessage.sendInitParam();
 			onTest();
 		}
 
