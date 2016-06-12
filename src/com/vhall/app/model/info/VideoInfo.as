@@ -60,11 +60,6 @@ package com.vhall.app.model.info
 		 *清晰度数据 
 		 */		
 		public var definitionInfo:Array = [];
-		private var _publishServers:String ;
-		/**
-		 *流服务器地址列表 
-		 */		
-		public var publishServerData:Array;
 
 		/*** 推起流的名称*/
 		public function get stream_name():String
@@ -80,30 +75,6 @@ package com.vhall.app.model.info
 			_stream_name = value;
 		}
 
-		/**
-		 *推流服务器 
-		 */
-		public function get publishServers():String
-		{
-			return _publishServers;
-		}
-
-		/**
-		 * @private
-		 */
-		public function set publishServers(value:String):void
-		{
-			_publishServers = value;
-			var publishServersArr:Array = com.adobe.serialization.json.JSON.decode(value)as Array;
-			publishServerData = new Array();
-			for (var j:int = 0; j < publishServersArr.length; j++)
-			{
-				var obj:Object = {};
-				obj.alias = publishServersArr[j].name;
-				obj.url = publishServersArr[j].srv;
-				publishServerData.push(obj);
-			}
-		}
 
 		/**
 		 *清晰度数据 

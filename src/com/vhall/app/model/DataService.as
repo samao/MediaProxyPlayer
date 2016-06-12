@@ -2,6 +2,7 @@ package com.vhall.app.model
 {
 	import com.vhall.app.model.info.PlayMode;
 	import com.vhall.app.model.info.vo.ServeLinevo;
+	import com.vhall.framework.log.Logger;
 	
 	import flash.utils.Dictionary;
 	
@@ -146,8 +147,9 @@ package com.vhall.app.model
 		 * 
 		 */		
 		public static function updatePublishInfo():void{
-			MediaModel.me().publishUrl = Model.videoInfo.publishServerData[0].url;
+			MediaModel.me().publishUrl = Model.videoInfo.media_srv;
 			MediaModel.me().publishStreamName = Model.videoInfo.stream_name;
+			Logger.getLogger("updatePublishInfo").info("ps:" + MediaModel.me().publishUrl + "sn:" + Model.videoInfo.stream_name)
 		}
 	
 	}

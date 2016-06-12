@@ -19,6 +19,7 @@ package com.vhall.app.view.warn
 		{
 			super.createChildren();
 			label = new Label(this);
+			label.opaqueBackground = 0xff0000;
 			var df:TextFormat = label.textField.defaultTextFormat;
 			df.color = 0xFFFFFF;
 			df.size = 14;
@@ -26,12 +27,12 @@ package com.vhall.app.view.warn
 			label.textField.defaultTextFormat = df;
 			label.move(0,71)
 			label.setSize(320,28)
+			label.horizontalCenter = 0;
 		}
 		
 		public function setLabel(value:String):void{
 			label.text = value;
 			label.textField.width = label.textField.textWidth +4;
-			label.horizontalCenter = 0;
 		}
 		
 		public function labelRePosition(tx:int,ty:int):void{

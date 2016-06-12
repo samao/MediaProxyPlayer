@@ -51,7 +51,7 @@ package com.vhall.app.view.popup
 		public function showWarn(warn:String):void{
 			removeAllChild();
 			warnPanel.setLabel(warn);
-			this.addChild(warn_logoPanel);
+			this.addChild(warnPanel);
 			show();
 		}
 		
