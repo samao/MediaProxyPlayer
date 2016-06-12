@@ -95,7 +95,7 @@ package com.vhall.app.net
 						dispatch(AppCMD.SHOW_AUDIOLIVE_PIC);
 					}
 				}
-				
+				dispatch(AppCMD.PUBLISH_START);
 			}
 		}
 		

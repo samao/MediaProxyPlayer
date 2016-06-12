@@ -7,7 +7,6 @@ package com.vhall.app.view.video
 	import com.vhall.app.net.MediaAJMessage;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
-	import com.vhall.framework.load.ResourceLibrary;
 	import com.vhall.framework.load.ResourceLoader;
 	import com.vhall.framework.log.Logger;
 	import com.vhall.framework.media.provider.MediaProxyStates;
@@ -164,11 +163,8 @@ package com.vhall.app.view.video
 					_videoPlayer.stop();
 					break;
 				case AppCMD.PUBLISH_START:
-					if(_videoPlayer.type == MediaProxyType.PUBLISH)
-					{
-						//开始推流
-						_videoPlayer.attachType(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,true,0,info._soCamera,info._soMicrophone,info._soCamWidth,info._soCamHeight);
-					}
+					//开始推流
+					_videoPlayer.attachType(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,true,0,info._soCamera,info._soMicrophone,info._soCamWidth,info._soCamHeight);
 					break;
 				case AppCMD.PUBLISH_END:
 					if(_videoPlayer.type == MediaProxyType.PUBLISH)
