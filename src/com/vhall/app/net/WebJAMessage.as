@@ -46,7 +46,7 @@ package com.vhall.app.net
 				//发送切换 显示清晰度等组件
 				dispatch(AppCMD.SWITCHTOGUEST);
 				//发送停止推流
-				dispatch(AppCMD.VIDEO_CONTROL_STOP);
+				dispatch(AppCMD.MEDIA_PLAYER_DISPOSE);
 				//发送关闭小助手
 				AssistantACMessage.stopEngine();
 				//停止上报mic
