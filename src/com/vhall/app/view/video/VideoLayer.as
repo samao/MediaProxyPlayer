@@ -302,10 +302,10 @@ package com.vhall.app.view.video
 				log("重连尝试完毕，请手动刷新");
 				return;
 			}
-			log("连接失败:",result,"尝试重连：",_retryTimes);
 			//调用更新数据方法
 			if(DataService.connFailed2ChangeServerLine())
 			{
+				log("连接失败:",result,"尝试重连：",_retryTimes);
 				DataService.updateMediaInfo();
 				//重新播放
 				connectServer();
