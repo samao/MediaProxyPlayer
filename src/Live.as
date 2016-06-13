@@ -39,9 +39,9 @@ package
 		
 		public function Live(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0)
 		{
-			super(parent, xpos, ypos);
 			new MenuController();
 			new MessageController();
+			super(parent, xpos, ypos);
 			new ResponderMediator(this);
 		}
 
