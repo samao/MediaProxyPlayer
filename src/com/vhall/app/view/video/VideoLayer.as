@@ -1,7 +1,10 @@
 package com.vhall.app.view.video
 {
+	import appkit.responders.NResponder;
+	
 	import com.vhall.app.common.Layer;
 	import com.vhall.app.model.DataService;
+	import com.vhall.app.common.Resource;
 	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.model.Model;
 	import com.vhall.app.net.AppCMD;
@@ -25,8 +28,6 @@ package com.vhall.app.view.video
 	import flash.utils.clearTimeout;
 	import flash.utils.setInterval;
 	import flash.utils.setTimeout;
-	
-	import appkit.responders.NResponder;
 	
 	public class VideoLayer extends Layer implements IResponder
 	{
@@ -63,9 +64,8 @@ package com.vhall.app.view.video
 			addEventListener(MouseEvent.DOUBLE_CLICK,mouseHandler)
 			
 			var l:ResourceLoader =new ResourceLoader();
-			l.load({type:1,url:"live/MicrophoneActivity.swf"},function(item:Object, content:Object, domain:ApplicationDomain):void
+			l.load({type:1,url:Resource.getResource("MicrophoneActivity")},function(item:Object, content:Object, domain:ApplicationDomain):void
 			{
-				log("加载语音状态资源成功");
 				_micActivity = new AudioModelPicComp();
 				_micActivity.skin = content as MovieClip;
 				autoStart();
