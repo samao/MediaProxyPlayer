@@ -37,6 +37,12 @@ package com.vhall.app.view.video
 		
 		private var _micActivity:AudioModelPicComp;
 		
+		private const MAX_RETRY:uint = 6;
+		
+		private var _retryTimes:uint = 0;
+		
+		private var _loading:Boolean = false;
+		
 		public function VideoLayer(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super(parent, xpos, ypos);
@@ -70,9 +76,9 @@ package com.vhall.app.view.video
 		
 		private function autoStart():void
 		{
-			log("演讲中:",Model.Me().userinfo.is_pres,info.netOrFileUrl,info.streamName);
+			//log("演讲中:",Model.userInfo.is_pres,info.netOrFileUrl,info.streamName);
 			
-			/*if(Model.Me().userinfo.is_pres)
+			/*if(Model.userInfo.is_pres)
 			{
 				_videoPlayer.publish(info._soCamera,info._soMicrophone,info.netOrFileUrl,info.streamName,videoHandler,info._soCamWidth,info._soCamHeight);
 			}else{
@@ -126,7 +132,7 @@ package com.vhall.app.view.video
 				case AppCMD.MEDIA_CHANGEVIDEO_MODE:
 				case AppCMD.MEDIA_SWITCH_LINE:
 				case AppCMD.MEDIA_SWITCH_QUALITY:
-					changeLineOrQuality();
+					connectServer();
 					break;
 				case AppCMD.MEDIA_PLAYER_DISPOSE:
 					_videoPlayer.dispose();
@@ -151,10 +157,8 @@ package com.vhall.app.view.video
 					_videoPlayer.toggle();
 					break;
 				case AppCMD.VIDEO_CONTROL_SEEK:
-					if([MediaProxyType.HLS,MediaProxyType.HTTP].indexOf(_videoPlayer.type) != -1)
-					{
+					if(!isLive)
 						_videoPlayer.time = parameters[0];
-					}
 					break;
 				case AppCMD.VIDEO_CONTROL_START:
 					_videoPlayer.start();
@@ -164,26 +168,25 @@ package com.vhall.app.view.video
 					break;
 				case AppCMD.PUBLISH_START:
 					//开始推流
-					changeLineOrQuality();
+					connectServer();
 					break;
 				case AppCMD.PUBLISH_END:
-					if(_videoPlayer.type == MediaProxyType.PUBLISH)
-					{
+					if(isPublish)
 						_videoPlayer.dispose();
-					}
 					break;
 			}
 		} 
 		
-		private function changeLineOrQuality():void
+		private function connectServer():void
 		{
-			if(!Model.Me().userinfo.is_pres)
+			_preTime = 0;
+			if(!Model.userInfo.is_pres)
 			{
 				videoMode = info.videoMode;
 			}
 			const server:String = Model.userInfo.is_pres?MediaModel.me().publishUrl:MediaModel.me().netOrFileUrl;
 			const stream:String = Model.userInfo.is_pres?MediaModel.me().publishStreamName:MediaModel.me().streamName;
-			log("切线：",protocol(server),server,stream,true,_videoPlayer.time);
+			log("连接地址：",protocol(server),server,stream,"用户isPres:",Model.userInfo.is_pres);
 			if(_videoPlayer.type == null)
 			{
 				if(Model.userInfo.is_pres)
@@ -194,6 +197,19 @@ package com.vhall.app.view.video
 				}
 			}else{
 				_videoPlayer.attachType(protocol(server),server,stream,true,_videoPlayer.time,info._soCamera,info._soMicrophone,info._soCamWidth,info._soCamHeight);
+			}
+			
+			videoPausedByClick = !isLive;
+		}
+		
+		private function set videoPausedByClick(bool:Boolean):void
+		{
+			//回放启动点击暂停
+			if(bool&&!hasEventListener(MouseEvent.CLICK))
+			{
+				addEventListener(MouseEvent.CLICK,mouseHandler);
+			}else if(!bool&&hasEventListener(MouseEvent.CLICK)){
+				removeEventListener(MouseEvent.CLICK,mouseHandler);
 			}
 		}
 		
@@ -217,16 +233,19 @@ package com.vhall.app.view.video
 					log("通道建立成功");
 					clearTimer();
 					_postionId = setInterval(timeCheck,1000);
+					_retryTimes = 0;
 					break;
 				case MediaProxyStates.CONNECT_FAILED:
 					clearTimer();
 					MediaAJMessage.connectFail(value[0]);
+					retry(states);
 					break;
 				case MediaProxyStates.STREAM_NOT_FOUND:
 					clearTimer();
 					MediaAJMessage.streamNotFound();
 					break;
 				case MediaProxyStates.PUBLISH_START:
+					log("推流成功");
 					MediaAJMessage.publishStart();
 					break;
 				case MediaProxyStates.STREAM_START:
@@ -269,42 +288,78 @@ package com.vhall.app.view.video
 			}
 		}
 		
+		/**
+		 * 播放失败尝试重连
+		 */		
+		private function retry(result:String = ""):void
+		{
+			if(++_retryTimes > MAX_RETRY)
+			{
+				//连接失败，抛到外层
+				_retryTimes = 0;
+				log("重连尝试完毕，请手动刷新");
+				return;
+			}
+			log("连接失败:",result,"尝试重连：",_retryTimes);
+			//调用更新数据方法
+			
+			//重新播放
+			connectServer();
+		}
+		
+		/**
+		 * 发送bufferloading 状态
+		 * @param bool
+		 */		
 		private function set loading(bool:Boolean):void
 		{
-			if(_videoPlayer.type != MediaProxyType.PUBLISH)
+			if(bool != _loading)
 			{
-				if(bool)
+				if(!isPublish)
 				{
-					send(AppCMD.MEDIA_STATES_BUFFER_LOADING);
-					send(AppCMD.UI_SHOW_LOADING);
+					if(bool)
+					{
+						send(AppCMD.MEDIA_STATES_BUFFER_LOADING);
+						send(AppCMD.UI_SHOW_LOADING);
+					}else{
+						send(AppCMD.MEDIA_STATES_BUFFER_FULL);
+						send(AppCMD.UI_HIDE_LOADING);
+						send(AppCMD.UI_HIDE_WARN);
+					}
 				}else{
 					send(AppCMD.MEDIA_STATES_BUFFER_FULL);
 					send(AppCMD.UI_HIDE_LOADING);
 					send(AppCMD.UI_HIDE_WARN);
 				}
-			}else{
-				send(AppCMD.MEDIA_STATES_BUFFER_FULL);
-				send(AppCMD.UI_HIDE_LOADING);
-				send(AppCMD.UI_HIDE_WARN);
 			}
+			_loading = bool;
 		}
 		
+		/**
+		 * 推流名称重复，不停重复尝试
+		 */		
 		private function publishForBadName():void
 		{
-			_videoPlayer.changeVideoUrl(info.netOrFileUrl,info.streamName);
+			_videoPlayer.changeVideoUrl(info.publishUrl,info.publishStreamName);
 		}
 		
+		/**
+		 * 清楚计时器
+		 */		
 		private function clearTimer():void
 		{
 			clearInterval(_postionId);
 			clearTimeout(_retryId);
 		}
 		
+		/**
+		 * 计时器发送回放当前时间变更
+		 */		
 		private function timeCheck():void
 		{
 			if(_videoPlayer.time == _preTime) return;
 			_preTime = _videoPlayer.time;
-			if(-1 != [MediaProxyType.RTMP,MediaProxyType.PUBLISH].indexOf(_videoPlayer.type))
+			if(!isLive)
 			{
 				send(AppCMD.MEDIA_TIME_UPDATE);
 			}
@@ -325,6 +380,11 @@ package com.vhall.app.view.video
 			}
 		}
 		
+		/**
+		 * 舞台resize时重绘视频大小
+		 * @param w
+		 * @param h
+		 */		
 		override public function setSize(w:Number,h:Number):void
 		{
 			super.setSize(w,h);
@@ -354,7 +414,7 @@ package com.vhall.app.view.video
 		{
 			if(uri.indexOf("rtmp://") == 0)
 			{
-				if(Model.Me().userinfo.is_pres)
+				if(Model.userInfo.is_pres)
 				{
 					return MediaProxyType.PUBLISH;
 				}
@@ -371,17 +431,59 @@ package com.vhall.app.view.video
 			return MediaProxyType.HTTP;
 		}
 		
+		/**
+		 * 是否为直播或者推流
+		 * @return 
+		 */		
+		private function get isLive():Boolean
+		{
+			return [MediaProxyType.RTMP,MediaProxyType.PUBLISH].indexOf(type) != -1;
+		}
+		
+		/**
+		 * 是否为推流
+		 * @return 
+		 */		
+		private function get isPublish():Boolean
+		{
+			return type == MediaProxyType.PUBLISH
+		}
+		
+		/**
+		 * MediaModel数据
+		 * @return 
+		 */		
 		private function get info():MediaModel
 		{
 			return MediaModel.me();
 		}
 		
+		/**
+		 * 当前播放的视频类型
+		 * @return 
+		 */		
+		private function get type():String
+		{
+			if(_videoPlayer)
+				return _videoPlayer.type;
+			return null;
+		}
+		
+		/**
+		 * 发送内部通讯事件
+		 * @param action
+		 * @param param
+		 */		
 		private function send(action:String,param:Array = null):void
 		{
 			//log("发送消息",action,param);
 			NResponder.dispatch(action,param);
 		}
 		
+		/**
+		 * 统一打印日志
+		 * @param value
+		 */		
 		private function log(...value):void
 		{
 			Logger.getLogger("VideoLayer").info(value);

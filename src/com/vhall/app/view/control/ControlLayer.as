@@ -2,6 +2,7 @@ package com.vhall.app.view.control
 {
 	import com.vhall.app.common.Layer;
 	import com.vhall.app.model.Model;
+	import com.vhall.app.net.AppCMD;
 	import com.vhall.framework.app.mvc.IResponder;
 	
 	import flash.display.DisplayObjectContainer;
@@ -10,6 +11,10 @@ package com.vhall.app.view.control
 	{
 		/** 控制栏*/
 		private var bar:AbstractControlBar;
+		
+		private var _hostBar:AbstractControlBar;
+		
+		private var _viewBar:AbstractControlBar;
 		
 		public function ControlLayer(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
@@ -26,25 +31,47 @@ package com.vhall.app.view.control
 			super.createChildren();
 			if(Model.Me().userinfo.is_pres)
 			{
-				bar = new HostControlBar(this);	
+				setToHost();
 			}
 			else
 			{
-				bar = new ViewerControlBar(this);
+				setToView();
 			}
 		}
 		
 		public function careList():Array
 		{
-			var arr:Array = [];
-			return arr;
+			return [
+				AppCMD.SWITCHINGPRES,
+				AppCMD.SWITCHTOGUEST
+			];
 		}
 		
 		public function handleCare(msg:String, ...args):void
 		{
 			switch(msg)
 			{
+				case AppCMD.SWITCHINGPRES:
+					setToHost();
+					break;
+				case AppCMD.SWITCHTOGUEST:
+					setToView();
+					break;
 			}
+		}
+		
+		private function setToHost():void
+		{
+			if(bar) bar.removeFromParent();
+			bar = _hostBar ||= new HostControlBar();
+			this.addChild(bar);
+		}
+		
+		private function setToView():void
+		{
+			if(bar) bar.removeFromParent();
+			bar = _viewBar ||= new ViewerControlBar();
+			this.addChild(bar);
 		}
 		
 		override protected function sizeChanged():void
