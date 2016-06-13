@@ -7,6 +7,7 @@ package com.vhall.app.common
 	import flash.system.ApplicationDomain;
 	import flash.utils.getDefinitionByName;
 
+	import com.vhall.framework.app.App;
 	/**
 	 *	资源路径 
 	 * @author Sol
@@ -22,10 +23,11 @@ package com.vhall.app.common
 		
 		public static function parsePath(url:String, update:Boolean = true):String
 		{
+			url = App.baseURL + url;
 			return update ? url + "?v=" + Version.ver : url;
 		}
 		
-		public static function getLoadingResource(id:*):String
+		public static function getResource(id:*):String
 		{
 			tempUrl = basePath + id + ".swf";
 			return parsePath(tempUrl);

@@ -26,12 +26,14 @@ package
 		{
 			removeEventListener(Event.COMPLETE, onInited);
 			StageManager.stage.addEventListener(Event.RESIZE, onResize);
+			
 			// 初始化参数
 			var vars:Object = this.loaderInfo.parameters;
 			Model.Me().init(loaderInfo.parameters);
+			
 			// load live.swf
 			var arr:Array = [];
-			arr.push({type:2,id:"ui", url:Resource.getLoadingResource("ui")});
+			arr.push({type:2,id:"ui", url:Resource.getResource("ui")});
 			arr.push({type:2,id:"live", url:Resource.getCode("Live")});
 			ResourceLoadingView.show(arr, itemComplete, progress, allComplete);
 		}
