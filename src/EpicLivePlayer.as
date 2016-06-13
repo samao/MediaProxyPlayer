@@ -1,7 +1,6 @@
 package
 {
 	import com.vhall.app.common.Resource;
-	import com.vhall.app.common.Version;
 	import com.vhall.app.load.ResourceLoadingView;
 	import com.vhall.app.model.Model;
 	import com.vhall.framework.app.App;
@@ -11,6 +10,7 @@ package
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.system.ApplicationDomain;
+	import flash.system.Security;
 
 	[SWF(width = "960", height = "640", backgroundColor = "0xC0C0C0")]
 	public class EpicLivePlayer extends App
@@ -25,7 +25,11 @@ package
 		protected function onInited(event:Event):void
 		{
 			removeEventListener(Event.COMPLETE, onInited);
+			
 			StageManager.stage.addEventListener(Event.RESIZE, onResize);
+			
+			Security.allowDomain("*");
+			Security.allowInsecureDomain("*"); 
 			
 			// 初始化参数
 			var vars:Object = this.loaderInfo.parameters;

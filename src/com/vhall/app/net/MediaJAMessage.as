@@ -100,7 +100,7 @@ package com.vhall.app.net
 			}
 		}
 		
-		private function bufferLengthReq():void
+		private function bufferLengthReq(value:*):void
 		{
 			dispatch(AppCMD.REPROT_BUFFER_LENGTH);
 		}

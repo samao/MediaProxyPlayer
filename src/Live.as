@@ -4,8 +4,9 @@ package
 	import com.vhall.app.common.controller.MenuController;
 	import com.vhall.app.common.controller.MessageController;
 	import com.vhall.app.manager.LayerManager;
+	import com.vhall.app.model.Model;
+	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.net.WebAJMessage;
-	import com.vhall.app.net.WebJAMessage;
 	import com.vhall.app.view.barrage.BarrageLayer;
 	import com.vhall.app.view.control.ControlLayer;
 	import com.vhall.app.view.effect.EffectLayer;
@@ -14,10 +15,14 @@ package
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.app.mvc.ResponderMediator;
+	import com.vhall.framework.log.Logger;
 	import com.vhall.framework.ui.container.Box;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
+	import flash.system.Security;
+	
+	import appkit.responders.NResponder;
 
 	/**
 	 * 主类
@@ -39,6 +44,8 @@ package
 		
 		public function Live(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0)
 		{
+			Security.allowDomain("*");
+			Security.allowInsecureDomain("*"); 
 			new MenuController();
 			new MessageController();
 			super(parent, xpos, ypos);
@@ -61,6 +68,10 @@ package
 			
 			//发送初始化消息
 			WebAJMessage.sendInitParam();
+			Logger.getLogger().info("is_pres:"+Model.userInfo.is_pres);
+			if(!Model.userInfo.is_pres){
+				NResponder.dispatch(AppCMD.MEDIA_SWITCH_LINE);
+			}
 			onTest();
 		}
 

@@ -335,8 +335,8 @@ package com.vhall.app.view.video
 					}
 				}else{
 					send(AppCMD.MEDIA_STATES_BUFFER_FULL);
-					send(AppCMD.UI_HIDE_LOADING);
-					send(AppCMD.UI_HIDE_WARN);
+//					send(AppCMD.UI_HIDE_LOADING);
+//					send(AppCMD.UI_HIDE_WARN);
 				}
 			}
 			_loading = bool;
