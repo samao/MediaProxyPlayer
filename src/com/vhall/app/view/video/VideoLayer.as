@@ -186,7 +186,7 @@ package com.vhall.app.view.video
 			{
 				videoMode = info.videoMode;
 			}
-			const server:String = Model.userInfo.is_pres?MediaModel.me().publishUrl:MediaModel.me().netOrFileUrl;
+			const server:String = (Model.userInfo.is_pres?MediaModel.me().publishUrl:MediaModel.me().netOrFileUrl);
 			const stream:String = Model.userInfo.is_pres?MediaModel.me().publishStreamName:MediaModel.me().streamName;
 			log("连接地址：",protocol(server),server,stream,"用户isPres:",Model.userInfo.is_pres);
 			if(_videoPlayer.type == null)

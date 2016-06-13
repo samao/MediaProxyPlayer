@@ -103,7 +103,7 @@ package com.vhall.app.model
 				for (var i:int = 0; i < lines.length; i++) 
 				{
 					tmpLinevo = lines[i];
-					if(tmpLinevo[tmpLinevo.serverUrl] == null && tmpLinevo.serverUrl != currentUrl){
+					if(fail[tmpLinevo.serverUrl] == null && tmpLinevo.serverUrl != currentUrl){
 						Model.videoInfo.selectLineVo = tmpLinevo;
 						return true;
 					}
