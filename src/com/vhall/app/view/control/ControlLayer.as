@@ -62,15 +62,15 @@ package com.vhall.app.view.control
 		
 		private function setToHost():void
 		{
-			//if(bar) bar.removeFromParent();
-			bar = _hostBar ||= new HostControlBar(this);
+			if(bar) bar.removeFromParent();
+			bar = _hostBar ||= new HostControlBar();
 			this.addChild(bar);
 		}
 		
 		private function setToView():void
 		{
 			if(bar) bar.removeFromParent();
-			bar = _viewBar ||= new ViewerControlBar(this);
+			bar = _viewBar ||= new ViewerControlBar();
 			this.addChild(bar);
 		}
 		
