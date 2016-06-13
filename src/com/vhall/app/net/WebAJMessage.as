@@ -58,7 +58,7 @@ package com.vhall.app.net
 			info.type = MessageType.AJ_INITPARAMS;
 			var a:Array = Camera.names;
 			a.push("禁用视频设备/无设备");
-			info.caremars = a;
+			info.cameras = a;
 			info.mics = Microphone.names;
 			var obj:Object = SOManager.getInstance().getValue("setting");
 			info.currCamera = obj.cameraName;
