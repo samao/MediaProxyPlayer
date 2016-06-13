@@ -1,6 +1,7 @@
 package com.vhall.app.view.video
 {
 	import com.vhall.app.common.Layer;
+	import com.vhall.app.model.DataService;
 	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.model.Model;
 	import com.vhall.app.net.AppCMD;
@@ -62,14 +63,15 @@ package com.vhall.app.view.video
 			addEventListener(MouseEvent.DOUBLE_CLICK,mouseHandler)
 			
 			var l:ResourceLoader =new ResourceLoader();
-			l.load({type:1,url:"MicrophoneActivity.swf"},function(item:Object, content:Object, domain:ApplicationDomain):void
+			l.load({type:1,url:"live/MicrophoneActivity.swf"},function(item:Object, content:Object, domain:ApplicationDomain):void
 			{
+				log("加载语音状态资源成功");
 				_micActivity = new AudioModelPicComp();
 				_micActivity.skin = content as MovieClip;
 				autoStart();
 			},null,function():void
 			{
-				
+				log("加载语音状态资源失败");
 				autoStart();
 			});
 		}
@@ -302,9 +304,14 @@ package com.vhall.app.view.video
 			}
 			log("连接失败:",result,"尝试重连：",_retryTimes);
 			//调用更新数据方法
-			
-			//重新播放
-			connectServer();
+			if(DataService.connFailed2ChangeServerLine())
+			{
+				DataService.updateMediaInfo();
+				//重新播放
+				connectServer();
+			}else{
+				log("全部线路都失败了");
+			}
 		}
 		
 		/**

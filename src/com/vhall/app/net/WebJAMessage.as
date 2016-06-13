@@ -96,7 +96,7 @@ package com.vhall.app.net
 				return;
 			}
 			//发送弹幕
-			dispatch(AppCMD.BARRAGE_ADD,data.data);
+			dispatch(AppCMD.BARRAGE_ADD,[data.data]);
 		}
 		
 		private function onActivedPres(data:Object = null):void
