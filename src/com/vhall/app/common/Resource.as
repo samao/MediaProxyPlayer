@@ -35,7 +35,7 @@ package com.vhall.app.common
 		
 		public static function getCode(id:*):String
 		{
-			tempUrl = id + ".swf";
+			tempUrl = id + ".swf" + "?ver=" + Math.random().toFixed(5);
 			return parsePath(tempUrl);
 		}
 		
