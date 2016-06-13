@@ -7,7 +7,7 @@ package com.vhall.app.view.warn
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
 	
-	public class WarnPanel extends BlackBox
+	public class WarnPanel extends RectBox
 	{
 		private var label:Label;
 		public function WarnPanel(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)

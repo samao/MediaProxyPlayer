@@ -29,6 +29,7 @@ package com.vhall.app.view.popup
 			super.createChildren();
 			
 			loadLine = new LoadingLine();
+			loadLine.y = 10;
 			loadMian = new MainLoading();
 		}
 		

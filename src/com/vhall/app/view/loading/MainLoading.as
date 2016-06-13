@@ -21,7 +21,6 @@ package com.vhall.app.view.loading
 			var cla:Class = getDefinitionByName("logo4") as Class;
 			lineLoading = new cla();
 			this.addChild(lineLoading);
-			this.move(135,17);
 		}
 	}
 }

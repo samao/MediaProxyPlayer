@@ -1,7 +1,5 @@
 package com.vhall.app.view.control
 {
-	import appkit.responders.NResponder;
-	
 	import com.vhall.app.model.DataService;
 	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.model.Model;
@@ -24,6 +22,8 @@ package com.vhall.app.view.control
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
 	import flash.events.MouseEvent;
+	
+	import appkit.responders.NResponder;
 
 	public class ViewerControlBar extends AbstractControlBar implements IResponder
 	{
@@ -43,6 +43,7 @@ package com.vhall.app.view.control
 		protected var definationBox:SwitchListBox;
 		/**切换线路组件**/		
 		protected var serverLinke:SwitchListBox;
+		
 		/**切换视频 音频 模式组件**/			
 		protected var changeVideoMode:VideoAudioChangeBtn;
 		
@@ -78,19 +79,13 @@ package com.vhall.app.view.control
 			_volumeBar.volumeValue = MediaModel.me().volume * 100;
 			
 			// 切换线路
-			if(Model.playerStatusInfo.hideLineSwitch == false)
-			{
-				onInitServerLine();
-			}
+			onInitServerLine();
 			
 			// 切换音视频
 			onInitVideoModeBtn();
 			
 			// 切换画质
-			if(Model.playerStatusInfo.hideQualitySwitch == false)
-			{
-				onInitDefination();
-			}
+			onInitDefination();
 			
 			if(Model.playerStatusInfo.hideBarrage == false)
 			{
@@ -115,7 +110,6 @@ package com.vhall.app.view.control
 			btnFullscreen.addEventListener(MouseEvent.CLICK,onToggleClickHandler);
 		}
 		
-		
 		private function volumeChange(e:DragEvent):void
 		{
 			MediaModel.me().volume = e.percent;
@@ -137,6 +131,19 @@ package com.vhall.app.view.control
 			btnFullscreen.setSelected(e.fullScreen);
 		}
 		
+		override protected function onHide():void
+		{
+			// TODO Auto Generated method stub
+			super.onHide();
+			if(definationBox){
+				definationBox.hideList();
+			}
+			if(serverLinke){
+				serverLinke.hideList();
+			}
+		}
+		
+		
 		
 		protected function muteHandler(event:Event):void
 		{
@@ -157,7 +164,7 @@ package com.vhall.app.view.control
 		 */		
 		protected function onInitDefination():void{
 		
-//			if(Model.Me().hideQualitySwitch) return;
+			if(Model.playerStatusInfo.hideQualitySwitch) return;
 			var sdata:Array = Model.videoInfo.definitionInfo;
 			definationBox = new SwitchListBox(hb);
 			var showData:Array = []
@@ -177,11 +184,11 @@ package com.vhall.app.view.control
 		}
 		
 		/**
-		 *初始化线路组件 
+		 *初始化线路组件 会判断是否需要显示
 		 * 
 		 */		
 		protected function onInitServerLine():void{
-//			if(Model.Me().hideLineSwitch) return;
+			if(Model.playerStatusInfo.hideLineSwitch) return;
 			var sdata:Array = Model.videoInfo.serverLineInfo;
 			var showData:Array = []
 			if(sdata && sdata.length > 0){
@@ -205,11 +212,11 @@ package com.vhall.app.view.control
 		}
 		
 		/**
-		 *初始化视频音频模式组件 
+		 *初始化视频音频模式组件  会判断是否需要显示
 		 * 
 		 */		
 		protected function onInitVideoModeBtn():void{
-//			if(!Model.Me().streamType)return;
+			if(!Model.playerStatusInfo.streamType)return;
 			changeVideoMode = new VideoAudioChangeBtn(hb)
 			changeVideoMode.addEventListener(Event.CHANGE,onVideoModeChange);
 		}

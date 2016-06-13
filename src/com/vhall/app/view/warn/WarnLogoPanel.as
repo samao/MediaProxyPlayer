@@ -4,7 +4,7 @@ package com.vhall.app.view.warn
 	
 	import flash.display.DisplayObjectContainer;
 
-	public class WarnLogoPanel extends BlackLogoBox
+	public class WarnLogoPanel extends LogoBox
 	{
 		private var label:Label;
 
