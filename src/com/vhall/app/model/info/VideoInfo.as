@@ -41,10 +41,7 @@ package com.vhall.app.model.info
 		 */		
 		public var selectDefVo:DefinitionVo;
 		
-		/**
-		 *推流服务器地址
-		 */		
-		public var media_srv:String;
+		private var _media_srv:String;
 		/**
 		 *token 
 		 */		
@@ -64,6 +61,22 @@ package com.vhall.app.model.info
 		 *清晰度数据 
 		 */		
 		public var definitionInfo:Array = [];
+
+		/**
+		 *推流服务器地址
+		 */
+		public function get media_srv():String
+		{
+			return _media_srv;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set media_srv(value:String):void
+		{
+			_media_srv = value;
+		}
 
 		/*** 推起流的名称*/
 		public function get streamname():String

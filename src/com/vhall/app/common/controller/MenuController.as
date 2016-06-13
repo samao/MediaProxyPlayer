@@ -28,7 +28,7 @@ package com.vhall.app.common.controller
 		{
 			super.initController();
 			var cropName:String = "[微吼直播]";
-			var verion:String = Version.ver;
+			var verion:String = Version.app + " " +Version.ver;
 			
 			// 实例化右键菜单类
 			var cm:ContextMenu = new ContextMenu();

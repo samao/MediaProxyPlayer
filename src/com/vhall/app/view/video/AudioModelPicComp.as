@@ -99,13 +99,13 @@ package com.vhall.app.view.video
 			var vocmc:MovieClip = _skin.getChildByName("voc") as MovieClip;
 			var micVolume:int = activity;
 			if(micVolume <=0){
-				vocmc.gotoAndStop(0);
-			}else if(micVolume > 0 && micVolume <= 30){
 				vocmc.gotoAndStop(1);
-			}else if(micVolume > 30 && micVolume <= 60){
+			}else if(micVolume > 0 && micVolume <= 30){
 				vocmc.gotoAndStop(2);
-			}else if(micVolume > 60){
+			}else if(micVolume > 30 && micVolume <= 60){
 				vocmc.gotoAndStop(3);
+			}else if(micVolume > 60){
+				vocmc.gotoAndStop(4);
 			}
 		}
 		
@@ -113,28 +113,32 @@ package com.vhall.app.view.video
 		{
 			var left:Number = 0;
 			var right:Number = 0;
-			const PLOT_HEIGHT:int = 200; 
+			const PLOT_HEIGHT:int = 100; 
 			const CHANNEL_LENGTH:int = 256; 
 			
 			try
 			{
-				SoundMixer.computeSpectrum(byte, false, 0); 
+				SoundMixer.computeSpectrum(byte, true, 0); 
 				//left;
-				for (var i:int = 0; i < CHANNEL_LENGTH; i++) 
+				var max:Number=  0;
+				var min:Number = 0;
+				var n:Number;
+				for (var i:int = 0; i < CHANNEL_LENGTH*2; i++) 
 				{
-					left += (byte.readFloat() * PLOT_HEIGHT);
-				}
-				
-				for (i=0; i < CHANNEL_LENGTH; i++) 
-				{
-					right += (byte.readFloat() * PLOT_HEIGHT);
+					
+					n= (byte.readFloat() * PLOT_HEIGHT);
+					if(n >0){
+						max += n;
+					}else{
+						min +=n;
+					}
 				}
 			} 
 			catch(error:Error) 
 			{
 				
 			}
-			return (Math.abs(left) + Math.abs(right));
+			return (max - min)/CHANNEL_LENGTH/2.2*10;
 		}
 	}	
 }
