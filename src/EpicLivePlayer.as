@@ -35,12 +35,8 @@ package
 		{
 			Logger.getLogger("init").info("测试是否接受到");
 			removeEventListener(App.INIT_END, onInited);
-			
 			StageManager.stage.addEventListener(Event.RESIZE, onResize);
-			
 			Security.allowDomain("*");
-			
-			
 			// load live.swf
 			var arr:Array = [];
 			arr.push({type:2,id:"ui", url:Resource.getResource("ui")});
