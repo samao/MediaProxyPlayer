@@ -25,7 +25,7 @@ package com.vhall.app.net
 			register(MessageType.JA_UNPUBLISH,unpublish);
 		}
 		
-		private function unpublish():void
+		private function unpublish(value:*):void
 		{
 			dispatch(AppCMD.PUBLISH_END);
 			/** 通知直播助手数据代码去关闭直播助手 **/
@@ -96,8 +96,8 @@ package com.vhall.app.net
 						dispatch(AppCMD.SHOW_AUDIOLIVE_PIC);
 					}
 				}
-				dispatch(AppCMD.PUBLISH_START);
 			}
+			dispatch(AppCMD.PUBLISH_START);
 		}
 		
 		private function bufferLengthReq(value:*):void
