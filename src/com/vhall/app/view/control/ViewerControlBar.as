@@ -9,6 +9,7 @@ package com.vhall.app.view.control
 	import com.vhall.app.view.control.ui.VolumeBar;
 	import com.vhall.app.view.control.ui.component.SwitchListBox;
 	import com.vhall.app.view.control.ui.component.VideoAudioChangeBtn;
+	import com.vhall.framework.app.manager.RenderManager;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.app.mvc.ResponderMediator;
@@ -16,8 +17,10 @@ package com.vhall.app.view.control
 	import com.vhall.framework.ui.container.HBox;
 	import com.vhall.framework.ui.controls.Label;
 	import com.vhall.framework.ui.controls.ToggleButton;
+	import com.vhall.framework.ui.controls.UIComponent;
 	import com.vhall.framework.ui.event.DragEvent;
 	
+	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
@@ -63,20 +66,7 @@ package com.vhall.app.view.control
 			hb.horizontalAlign = "right";
 			
 			// 静音
-			var volumeBox:HBox = new HBox(this);
-			volumeBox.left = 10;
-			volumeBox.verticalCenter = 0;
-			volumeBox.verticalAlign = "center";
-			_muteBut = new ToggleButton(volumeBox);
-			_muteBut.skin = "assets/ui/mic2.png";
-			_muteBut.downSkin = "assets/ui/mic1.png";
-			_muteBut.tooltip = "静音";
-			_muteBut.callOut = "top";
-			_muteBut.addEventListener(Event.SELECT,muteHandler);
-			_volumeBar = new VolumeBar(volumeBox);
-			_volumeBar.volumeSlipComp.addEventListener(DragEvent.CHANGE,volumeChange);
-			_volumeBeforeMute = MediaModel.me().volume * 100;
-			_volumeBar.volumeValue = MediaModel.me().volume * 100;
+			onInitVolume();
 			
 			// 切换线路
 			onInitServerLine();
@@ -87,19 +77,8 @@ package com.vhall.app.view.control
 			// 切换画质
 			onInitDefination();
 			
-			if(Model.playerStatusInfo.hideBarrage == false)
-			{
-				// 弹幕按钮
-				var hbarrage:HBox = new HBox(hb);
-				hb.verticalAlign = "center";
-				var lblBarrage:Label = new Label(hbarrage);
-				lblBarrage.text = "弹幕";
-				lblBarrage.color = 0xFFFFFF;
-				btnBarrage = new ToggleButton(hbarrage);
-				btnBarrage.downSkin = "assets/ui/t1.png";
-				btnBarrage.skin = "assets/ui/t2.png";
-				btnBarrage.addEventListener(Event.SELECT, onBarrageSelect);
-			}
+			//弹幕按钮
+			onInitBarrage();
 			
 			// 全屏按钮
 			btnFullscreen = new ToggleButton(hb);
@@ -108,6 +87,9 @@ package com.vhall.app.view.control
 			btnFullscreen.tooltip = "全屏";
 			btnFullscreen.callOut = "top";
 			btnFullscreen.addEventListener(MouseEvent.CLICK,onToggleClickHandler);
+			btnFullscreen.userData = 9990;
+			
+//			RenderManager.getInstance().invalidate(invalidate);
 		}
 		
 		private function volumeChange(e:DragEvent):void
@@ -122,8 +104,15 @@ package com.vhall.app.view.control
 		override protected function sizeChanged():void
 		{
 			super.sizeChanged();
-			hb.width = width / 2;
+			//计算是否需要隐藏控件
+			autoHide();
 		}
+		
+//		override protected function updateDisplay():void
+//		{
+//			super.updateDisplay();
+//			autoHide();
+//		}
 		
 		override protected function onFull(e:FullScreenEvent):void
 		{
@@ -142,8 +131,43 @@ package com.vhall.app.view.control
 				serverLinke.hideList();
 			}
 		}
+		/**
+		 *自动隐藏 
+		 * 
+		 */		
+		protected function autoHide():void{
+			var cWidth:int = StageManager.stageWidth - 130;
+			if(cWidth < hb.width){
+				var hideCd:UIComponent = getNeedHideChild();
+				if(hideCd && hideCd.visible){ 
+					hideCd.visible = false;
+					hb.validateNow();
+				}
+				autoHide();
+				//
+			}
+		}
 		
-		
+		public function getNeedHideChild():UIComponent{
+			var i:int = 0;
+			var min:int = 999;
+			var maxCd:UIComponent;
+			var tmpCd:UIComponent;
+			var cmin:int = 999;
+			while(i<hb.numChildren){
+				tmpCd = hb.getChildAt(i) as UIComponent;
+				if(tmpCd is UIComponent){
+					cmin = int((tmpCd as UIComponent).userData);
+					if(cmin < min && tmpCd.visible){
+						min = cmin;
+						maxCd = tmpCd;
+					}
+				}
+				i++;
+			}
+			return maxCd;
+		}
+			
 		
 		protected function muteHandler(event:Event):void
 		{
@@ -156,6 +180,51 @@ package com.vhall.app.view.control
 			}
 			MediaModel.me().volume = _volumeBar.volumeValue/100;
 			NResponder.dispatch(AppCMD.MEDIA_SET_VOLUME);
+		}
+		
+		/**
+		 *初始化弹幕 
+		 * 
+		 */		
+		protected function onInitBarrage():void{
+			if(Model.playerStatusInfo.hideBarrage == false)
+			{
+				// 弹幕按钮
+				var hbarrage:HBox = new HBox(hb);
+				hbarrage.userData = 10;
+				hb.verticalAlign = "center";
+				var lblBarrage:Label = new Label(hbarrage);
+				lblBarrage.text = "弹幕";
+				lblBarrage.color = 0xFFFFFF;
+				btnBarrage = new ToggleButton(hbarrage);
+				btnBarrage.downSkin = "assets/ui/t1.png";
+				btnBarrage.skin = "assets/ui/t2.png";
+				btnBarrage.addEventListener(Event.SELECT, onBarrageSelect);
+			}
+		}
+		
+		/**
+		 *初始化音量 
+		 * @param event
+		 * 
+		 */	
+		protected function onInitVolume():void{
+			var volumeBox:HBox = new HBox(this);
+			volumeBox.left = 10;
+			volumeBox.verticalCenter = 0;
+			volumeBox.verticalAlign = "center";
+			_muteBut = new ToggleButton(volumeBox);
+			_muteBut.skin = "assets/ui/mic2.png";
+			_muteBut.downSkin = "assets/ui/mic1.png";
+			_muteBut.tooltip = "静音";
+			_muteBut.callOut = "top";
+			_muteBut.addEventListener(Event.SELECT,muteHandler);
+			_volumeBar = new VolumeBar(volumeBox);
+			_volumeBar.volumeSlipComp.addEventListener(DragEvent.CHANGE,volumeChange);
+			_volumeBeforeMute = MediaModel.me().volume * 100;
+			_volumeBar.volumeValue = MediaModel.me().volume * 100;
+			_volumeBar.setBgVisible(false);
+			_volumeBar.userData = 50;
 		}
 		
 		/**
@@ -181,6 +250,7 @@ package com.vhall.app.view.control
 			definationBox.changeCurrentSelect2Show = true;
 			definationBox.initList(showData);
 			definationBox.addEventListener(Event.CHANGE,onDefinationChange);
+			definationBox.userData = 20;
 		}
 		
 		/**
@@ -208,6 +278,7 @@ package com.vhall.app.view.control
 				serverLinke.showlabel = "切换线路";
 				
 				serverLinke.addEventListener(Event.CHANGE,onServerLineChange);
+				serverLinke.userData = 30;
 			}
 		}
 		
@@ -219,6 +290,7 @@ package com.vhall.app.view.control
 			if(!Model.playerStatusInfo.streamType)return;
 			changeVideoMode = new VideoAudioChangeBtn(hb)
 			changeVideoMode.addEventListener(Event.CHANGE,onVideoModeChange);
+			changeVideoMode.userData = 40;
 		}
 		/**
 		 *音频视频模式改变时 处理数据，及切换播放 

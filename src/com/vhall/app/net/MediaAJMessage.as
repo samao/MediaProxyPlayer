@@ -45,7 +45,7 @@ package com.vhall.app.net
 		 */		
 		public static function sendBufferLength():void
 		{
-			sender.sendCMDMsg({content:MediaModel.me().player.bufferLength});
+			sender.sendBufferMsgToJs(MessageType.AJ_SEND_BUFFER_LENGTH,{content:MediaModel.me().player.bufferLength});
 		}
 		
 		//--------流信息报告

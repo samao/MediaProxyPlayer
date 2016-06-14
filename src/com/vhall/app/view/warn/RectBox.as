@@ -9,6 +9,7 @@ package com.vhall.app.view.warn
 		public function RectBox(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super(parent, xpos, ypos);
+			this.mouseChildren = this.mouseEnabled = false;
 		}
 		
 		override protected function init():void{

@@ -4,6 +4,8 @@ package com.vhall.app.view.control.ui
 	import com.vhall.framework.ui.controls.Style;
 	import com.vhall.framework.ui.utils.ComponentUtils;
 	
+	import flash.display.Shape;
+	
 	public class VolumeDragBar extends HDragBar
 	{
 		public function VolumeDragBar()
@@ -20,7 +22,7 @@ package com.vhall.app.view.control.ui
 		
 		
 		override protected function initSkin():void{
-			bg.source = ComponentUtils.genInteractiveRect(_w, _h, null, 0, 0, 0x333333,.8);
+			bg.source = getBgSource();
 			buffer.source = ComponentUtils.genInteractiveRect(80, 3, null, 5, 10, 0x000000);
 			finished.source = ComponentUtils.genInteractiveRect(80, 3, null, 5, 10, 0x3DAC63);
 			quad.source = ComponentUtils.genInteractiveRect(21, 21, null,0,0,0x000000);
@@ -29,11 +31,20 @@ package com.vhall.app.view.control.ui
 			finished.move(5,10);
 		}
 		
-		
-		override protected function updateDisplay():void
-		{
-			super.updateDisplay();
-			
+		protected function getBgSource():Shape{
+			var shp:Shape = new Shape();
+			shp.graphics.beginFill(0x333333,.8);
+			shp.graphics.drawRoundRect(0,0,_w,_h,5,5);
+			shp.graphics.endFill();
+			return shp
+		}
+		/**
+		 *设置bg是否显示
+		 * @param visible
+		 * 
+		 */		
+		public function set bgVisible(visible:Boolean):void{
+			bg.visible = visible
 		}
 	}
 }
