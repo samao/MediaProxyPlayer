@@ -9,6 +9,7 @@
 
 package com.vhall.app.view.video
 {
+	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.ui.controls.UIComponent;
 	
 	import flash.display.MovieClip;
@@ -35,13 +36,12 @@ package com.vhall.app.view.video
 			// TODO Auto Generated method stub
 			isTimeRun = true;
 			runTime();
-			stage.addEventListener(Event.RESIZE,resize);
 			resizeHandler();
 		}
 		
 		protected function resizeHandler(e:Event = null):void
 		{
-			stage && resize(stage.stageWidth,stage.stageHeight);
+			StageManager.stage && resize(StageManager.stage.stageWidth,StageManager.stage.stageHeight);
 		}
 		
 		public function set skin(value:MovieClip):void
@@ -54,7 +54,6 @@ package com.vhall.app.view.video
 		{
 			// TODO Auto Generated method stub
 			isTimeRun = false;
-			stage.removeEventListener(Event.RESIZE,resize);
 		}
 		
 		private function runTime():void{
@@ -63,6 +62,16 @@ package com.vhall.app.view.video
 				isTimeRun = true;
 			}
 		}
+		
+		override protected function sizeChanged():void
+		{
+			// TODO Auto Generated method stub
+			super.sizeChanged();
+			var swidth:int = StageManager.stageWidth;
+			var shight:int = StageManager.stageHeight;
+			resize(swidth,shight)
+		}
+		
 		
 		public function resize(swidth:int,shight:int):void{
 			if(!_skin) return;

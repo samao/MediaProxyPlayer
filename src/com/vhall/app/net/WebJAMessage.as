@@ -43,6 +43,7 @@ package com.vhall.app.net
 				//发送切换 隐藏清晰度等组件
 				dispatch(AppCMD.SWITCHINGPRES);
 				dispatch(AppCMD.MEDIA_PLAYER_DISPOSE);
+				dispatch(AppCMD.UI_HIDE_LOADING);
 			}else{
 				//发送切换 显示清晰度等组件
 				dispatch(AppCMD.SWITCHTOGUEST);
