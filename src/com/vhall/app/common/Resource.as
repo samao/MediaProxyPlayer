@@ -1,13 +1,11 @@
 package com.vhall.app.common
 {
+	import com.vhall.framework.app.App;
+	
 	import flash.display.Bitmap;
-	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
-	import flash.display.MovieClip;
 	import flash.system.ApplicationDomain;
 	import flash.utils.getDefinitionByName;
-
-	import com.vhall.framework.app.App;
 	/**
 	 *	资源路径 
 	 * @author Sol
@@ -19,7 +17,6 @@ package com.vhall.app.common
 		
 		private static var tempUrl:String;
 		
-		private static var LOGO_CLASS_NAME:String = "Whall_Logo2";
 		
 		public static function parsePath(url:String, update:Boolean = true):String
 		{
@@ -45,7 +42,7 @@ package com.vhall.app.common
 		 * 
 		 */		
 		public static function getLogo():DisplayObject{
-			return new Bitmap(getObjectByClassName(LOGO_CLASS_NAME) as BitmapData);
+			return new Bitmap(new Whall_Logo2());
 		}
 		
 		/**

@@ -56,10 +56,9 @@ package com.vhall.app.load
 				removeChildAt(0);
 			}
 			
-			var logo:Class = getDefinitionByName("logo4") as Class;
-			var dis:DisplayObject = new logo();
-			dis.x = StageManager.stageWidth - dis.width >> 1;
-			dis.y = StageManager.stageHeight - dis.height >> 1;
+			var dis:DisplayObject = new logo4();
+			dis.x = (StageManager.stageWidth - dis.width) >> 1;
+			dis.y = (StageManager.stageHeight - dis.height) >> 1;
 			addChild(dis);
 		}
 		

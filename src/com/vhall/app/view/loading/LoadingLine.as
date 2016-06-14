@@ -1,10 +1,10 @@
 package com.vhall.app.view.loading
 {
 	import com.vhall.framework.ui.container.Box;
+	import com.vhall.view.LoadingLine;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.MovieClip;
-	import flash.utils.getDefinitionByName;
 
 	/**
 	 * 暂时不需要
@@ -24,8 +24,7 @@ package com.vhall.app.view.loading
 		{
 			// TODO Auto Generated method stub
 			super.createChildren();
-			var cla:Class = getDefinitionByName("com.vhall.view.LoadingLine") as Class;
-			lineLoading = new cla();
+			lineLoading = new com.vhall.view.LoadingLine();
 			this.addChild(lineLoading);
 		}
 		

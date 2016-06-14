@@ -6,6 +6,7 @@ package
 	import com.vhall.framework.app.App;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.load.ResourceLibrary;
+	import com.vhall.framework.log.Logger;
 	
 	import flash.display.DisplayObject;
 	import flash.events.Event;
@@ -17,23 +18,28 @@ package
 	{
 		public function EpicLivePlayer()
 		{
+			addEventListener(App.INIT_START, onInitStart);
+			addEventListener(App.INIT_END, onInited);
 			super();
-
-			addEventListener(Event.COMPLETE, onInited);
 		}
-
+		
+		protected function onInitStart(event:Event):void
+		{
+			// TODO Auto-generated method stub
+			// 初始化参数
+			var vars:Object = this.loaderInfo.parameters;
+			Model.Me().init(loaderInfo.parameters);
+		}
+		
 		protected function onInited(event:Event):void
 		{
-			removeEventListener(Event.COMPLETE, onInited);
+			Logger.getLogger("init").info("测试是否接受到");
+			removeEventListener(App.INIT_END, onInited);
 			
 			StageManager.stage.addEventListener(Event.RESIZE, onResize);
 			
 			Security.allowDomain("*");
-			Security.allowInsecureDomain("*"); 
 			
-			// 初始化参数
-			var vars:Object = this.loaderInfo.parameters;
-			Model.Me().init(loaderInfo.parameters);
 			
 			// load live.swf
 			var arr:Array = [];
