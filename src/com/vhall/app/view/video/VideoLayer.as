@@ -198,7 +198,12 @@ package com.vhall.app.view.video
 					_videoPlayer.connect(protocol(server),server,stream,videoHandler,true,0);
 				}
 			}else{
-				_videoPlayer.attachType(protocol(server),server,stream,true,_videoPlayer.time,info._soCamera,info._soMicrophone,info._soCamWidth,info._soCamHeight);
+				if(Model.userInfo.is_pres)
+				{
+					_videoPlayer.publish(info._soCamera,info._soMicrophone,server,stream,videoHandler,info._soCamWidth,info._soCamHeight);
+				}else{
+					_videoPlayer.attachType(protocol(server),server,stream,true,_videoPlayer.time,info._soCamera,info._soMicrophone,info._soCamWidth,info._soCamHeight);
+				}
 			}
 			
 			videoPausedByClick = !isLive;
@@ -263,9 +268,9 @@ package com.vhall.app.view.video
 				case MediaProxyStates.STREAM_STOP:
 					send(AppCMD.MEDIA_STATES_FINISH);
 					break;
+				case MediaProxyStates.STREAM_TRANSITION:
 				case MediaProxyStates.STREAM_FULL:
 				case MediaProxyStates.PUBLISH_NOTIFY:
-				case MediaProxyStates.STREAM_TRANSITION:
 					loading = false;
 					break;
 				case MediaProxyStates.STREAM_LOADING:
@@ -333,10 +338,6 @@ package com.vhall.app.view.video
 						send(AppCMD.UI_HIDE_LOADING);
 						send(AppCMD.UI_HIDE_WARN);
 					}
-				}else{
-					send(AppCMD.MEDIA_STATES_BUFFER_FULL);
-//					send(AppCMD.UI_HIDE_LOADING);
-//					send(AppCMD.UI_HIDE_WARN);
 				}
 			}
 			_loading = bool;
