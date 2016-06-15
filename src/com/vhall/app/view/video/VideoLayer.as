@@ -43,8 +43,6 @@ package com.vhall.app.view.video
 		
 		private var _retryTimes:uint = 0;
 		
-		private var _loading:Boolean = false;
-		
 		public function VideoLayer(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super(parent, xpos, ypos);
@@ -205,9 +203,9 @@ package com.vhall.app.view.video
 			}else{
 				log("当前正在直播用户不能拉流");
 			}
+			_videoPlayer.visible = true
 			videoPausedByClick = !isLive;
 			videoMode = info.videoMode;
-			_videoPlayer.visible = true
 		}
 		
 		private function publish():void
@@ -284,7 +282,7 @@ package com.vhall.app.view.video
 		
 		private function videoHandler(states:String,...value):void
 		{
-			//log("视频状态:",states);
+			log("视频状态:",states);
 			switch(states)
 			{
 				case MediaProxyStates.CONNECT_NOTIFY:
@@ -292,6 +290,7 @@ package com.vhall.app.view.video
 					clearTimer();
 					_postionId = setInterval(timeCheck,1000);
 					_retryTimes = 0;
+					//loading = true;
 					break;
 				case MediaProxyStates.CONNECT_FAILED:
 					clearTimer();
@@ -312,7 +311,7 @@ package com.vhall.app.view.video
 					break;
 				case MediaProxyStates.STREAM_START:
 					send(AppCMD.MEDIA_STATES_START);
-					loading = true;
+					//loading = true;
 					break;
 				case MediaProxyStates.STREAM_PAUSE:
 					send(AppCMD.MEDIA_STATES_PAUSE);
@@ -388,22 +387,18 @@ package com.vhall.app.view.video
 		 */		
 		private function set loading(bool:Boolean):void
 		{
-			if(bool != _loading)
+			if(!isPublish)
 			{
-				if(!isPublish)
+				if(bool)
 				{
-					if(bool)
-					{
-						send(AppCMD.MEDIA_STATES_BUFFER_LOADING);
-						send(AppCMD.UI_SHOW_LOADING);
-					}else{
-						send(AppCMD.MEDIA_STATES_BUFFER_FULL);
-						send(AppCMD.UI_HIDE_LOADING);
-						send(AppCMD.UI_HIDE_WARN);
-					}
+					send(AppCMD.MEDIA_STATES_BUFFER_LOADING);
+					send(AppCMD.UI_SHOW_LOADING);
+				}else{
+					send(AppCMD.MEDIA_STATES_BUFFER_FULL);
+					send(AppCMD.UI_HIDE_LOADING);
+					send(AppCMD.UI_HIDE_WARN);
 				}
 			}
-			_loading = bool;
 		}
 		
 		/**
