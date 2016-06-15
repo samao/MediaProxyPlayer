@@ -152,7 +152,7 @@ package com.vhall.app.net
 		 */		
 		public static const SHOWWARN_OVER_PIC:String = "showOverPic";
 		/**
-		 *切换中 
+		 *切换主持人
 		 */		
 		public static const SWITCHINGPRES:String = "switchingPres";
 		/**

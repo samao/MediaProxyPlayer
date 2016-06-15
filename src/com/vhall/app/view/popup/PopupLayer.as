@@ -116,7 +116,7 @@ package com.vhall.app.view.popup
 		 * 
 		 */		
 		protected function showSwitchPres():void{
-				warn.showWarn(PopUpLable_Enum.SWITCHTOYOU);
+				warn.showWarn(PopUpLable_Enum.SWITCHPRES);
 		}
 		
 		/**
@@ -131,11 +131,7 @@ package com.vhall.app.view.popup
 		 * 
 		 */		
 		protected function showSwitchGuest():void{
-			if(Model.userInfo.is_user){
-				warn.showWarn(PopUpLable_Enum.SWITCHPRES);
-			}else{
-				warn.showWarn(PopUpLable_Enum.SWITCHGUEST);
-			}
+			warn.showWarn(PopUpLable_Enum.SWITCHGUEST);
 		}
 		
 		

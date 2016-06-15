@@ -41,12 +41,12 @@ package com.vhall.app.net
 			Model.userInfo.is_pres = data.param;
 			if(Model.userInfo.is_pres){
 				//发送切换 隐藏清晰度等组件
-				dispatch(AppCMD.SWITCHINGPRES);
+				dispatch(AppCMD.SWTICHTOYOU);
 				dispatch(AppCMD.MEDIA_PLAYER_DISPOSE);
 				dispatch(AppCMD.UI_HIDE_LOADING);
 			}else{
 				//发送切换 显示清晰度等组件
-				dispatch(AppCMD.SWITCHTOGUEST);
+				dispatch(AppCMD.SWITCHINGPRES);
 				//发送停止推流
 				dispatch(AppCMD.MEDIA_PLAYER_DISPOSE);
 				//发送关闭小助手
