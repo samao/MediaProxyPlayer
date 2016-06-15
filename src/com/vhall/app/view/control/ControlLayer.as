@@ -42,8 +42,7 @@ package com.vhall.app.view.control
 		public function careList():Array
 		{
 			return [
-				AppCMD.SWITCHINGPRES,
-				AppCMD.SWITCHTOGUEST
+				AppCMD.UI_CHANGE_CONTROLBAR,
 			];
 		}
 		
@@ -51,11 +50,12 @@ package com.vhall.app.view.control
 		{
 			switch(msg)
 			{
-				case AppCMD.SWITCHINGPRES:
-					setToHost();
-					break;
-				case AppCMD.SWITCHTOGUEST:
-					setToView();
+				case AppCMD.UI_CHANGE_CONTROLBAR:
+					if(Model.userInfo.is_pres){
+						setToHost();
+					}else{
+						setToView();
+					}
 					break;
 			}
 		}

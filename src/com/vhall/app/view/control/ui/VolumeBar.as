@@ -21,7 +21,14 @@ package com.vhall.app.view.control.ui
 			volumeSlipComp = new VolumeDragBar();
 			this.addChild(volumeSlipComp);
 		}
-		
+		/**
+		 *设置bg是否可见 
+		 * @param vs
+		 * 
+		 */		
+		public function setBgVisible(vs:Boolean):void{
+			volumeSlipComp.bgVisible = vs;
+		}
 		
 		public function set volumeValue(value:int):void{
 			volumeSlipComp.percent = value/100;
