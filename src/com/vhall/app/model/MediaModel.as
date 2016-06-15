@@ -44,7 +44,7 @@ package com.vhall.app.model
 		
 		public var defaultDefination:String = "high";
 		
-		public var _soCamera:String = "";
+		public var _soCamera:String = null;
 		public var _soMicrophone:String = "";
 		public var _soCamWidth:uint = 320;
 		public var _soCamHeight:uint = 280;
@@ -57,15 +57,18 @@ package com.vhall.app.model
 		{
 			if(_instance) return;
 			
+			update();
+		}
+		
+		public function update():void
+		{
 			var obj:Object = SOManager.getInstance().getValue("setting");
-			this._soCamera = obj.cameraName;
+			this._soCamera = obj.cameraName == "禁用视频设备/无设备"?null:obj.cameraName;
+			videoMode = _soCamera!=null;
 			this._soCamWidth = obj.width||854;
 			this._soCamHeight = obj.height||480;
 			this._soMicrophone = obj.micName;
 			this.volume = obj.micVolume||.68;
-			
-			//this.defaultDefination = obj.definition;
-			//this.netOrFileUrl = obj.serverLine;
 		}
 		
 		public static function me():MediaModel

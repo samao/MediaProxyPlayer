@@ -5,6 +5,7 @@ package com.vhall.app.net
 	import com.vhall.app.model.Model;
 	import com.vhall.framework.app.manager.SOManager;
 	import com.vhall.framework.app.net.AbsMsgReceiver;
+	import com.vhall.framework.log.Logger;
 	import com.vhall.framework.utils.JsonUtil;
 	
 	import flash.media.Camera;
@@ -58,10 +59,11 @@ package com.vhall.app.net
 				}
 			}
 			
+			Logger.getLogger("mediaJA").info("Publish收到数据:",JsonUtil.encode(value));
 			//保存设置数据
 			var obj:Object = SOManager.getInstance().getValue("setting");
-			obj.cameraName = Camera.isSupported ? o.camName : "禁用视频设备/无设备";
-			obj.micName = Microphone.isSupported?o.micName:"禁用视频设备/无设备";
+			obj.cameraName = o.camName
+			obj.micName = o.micName;
 			obj.micVolume =  MediaModel.me().player.volume ;//model.microPhone.gain;
 			obj.width = o.width;
 			obj.height = o.height;
@@ -70,7 +72,9 @@ package com.vhall.app.net
 			//Logger.getLogger().info("save SO name:",obj.cameraName,",micName:",obj.micName,",micVolumn:",obj.micVolumn,",witdth:",obj.width,",height:",obj.height,",definition:",obj.definition,",serverLine:",obj.serverLine);
 			SOManager.getInstance().setValue("setting", obj);
 			
-			dispatch(AppCMD.PUBLISH_START);
+			MediaModel.me().update();
+			
+			dispatch(AppCMD.PUBLISH_PUBLISH);
 			
 			dispatch(AppCMD.REPORT_START_MIC_REPEAT);
 		}
@@ -81,23 +85,29 @@ package com.vhall.app.net
 		 */		
 		private function publishStart(value:*):void
 		{
+			Logger.getLogger("mediaJa").info("publishStart",JsonUtil.encode(value));
 			//主播开始直播
 			if(!Model.userInfo.is_pres)
 			{
 				dispatch(AppCMD.TELL_CORE_CAMERA_TO_VIDEO);
 				dispatch(AppCMD.TELL_GUEST_TO_END_REPEAT);
-				
 				var o:Object = value;
 				if(o.hasOwnProperty("isVideoMode"))
 				{
-					MediaModel.me().videoMode = o.isVideoMode;
-					if(!o.isVideoMode)
+					//MediaModel.me().videoMode = o.isVideoMode;
+					if(int(o.isVideoMode))
 					{
+						MediaModel.me().videoMode = true;
 						dispatch(AppCMD.SHOW_AUDIOLIVE_PIC);
+					}else{
+						MediaModel.me().videoMode = false;
 					}
+				}else{
+					MediaModel.me().videoMode = false;
 				}
+				dispatch(AppCMD.PUBLISH_START);
 			}
-			dispatch(AppCMD.PUBLISH_START);
+			dispatch(AppCMD.UI_HIDE_WARN);
 		}
 		
 		private function bufferLengthReq(value:*):void

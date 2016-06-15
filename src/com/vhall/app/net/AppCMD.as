@@ -91,7 +91,9 @@ package com.vhall.app.net
 		
 		/** 推流控制相关*/
 		private static const PUBLISH:String = "publish_";
-		/** 让推流端开始推流*/
+		/**主播端执行推流*/
+		public static const PUBLISH_PUBLISH:String = PUBLISH + "publish";
+		/** 让拉流端开始推流*/
 		public static const PUBLISH_START:String = PUBLISH + "start";
 		/** 让推流端结束推流*/
 		public static const PUBLISH_END:String = PUBLISH + "end";

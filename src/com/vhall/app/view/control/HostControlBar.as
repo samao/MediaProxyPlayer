@@ -73,11 +73,11 @@ package com.vhall.app.view.control
 			MediaModel.me().volume = e.percent;
 			NResponder.dispatch(AppCMD.MEDIA_SET_VOLUME,[e.percent]);
 			_muteBut.setSelected(e.percent == 0);
-			muteHandler(e);
 			_volumeBeforeMute = _volumeBar.volumeValue;
+			muteHandler();
 		}
 		
-		protected function muteHandler(event:Event):void
+		protected function muteHandler(event:Event = null):void
 		{
 			if(_muteBut.selected)
 			{
@@ -86,8 +86,11 @@ package com.vhall.app.view.control
 			}else{
 				_volumeBar.volumeValue = _volumeBeforeMute||50;
 			}
-			MediaModel.me().volume = _volumeBar.volumeValue/100;
-			NResponder.dispatch(AppCMD.MEDIA_SET_VOLUME);
+			if(event)
+			{
+				MediaModel.me().volume = _volumeBar.volumeValue/100;
+				NResponder.dispatch(AppCMD.MEDIA_SET_VOLUME);
+			}
 		}
 		
 		public function careList():Array

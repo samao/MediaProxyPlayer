@@ -80,7 +80,7 @@ package com.vhall.app.net
 		 */		
 		public static function publishStart():void
 		{
-			sender.sendCMDMsg({type:MessageType.AJ_PUBLISH_START,isVideoMode:MediaModel.me().player.usedCam?true:false});
+			sender.sendCMDMsg({type:MessageType.AJ_PUBLISH_START,isVideoMode:MediaModel.me().player.usedCam?false:true});
 		}
 		
 		/**

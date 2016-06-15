@@ -1,10 +1,8 @@
 package com.vhall.app.view.video
 {
-	import appkit.responders.NResponder;
-	
 	import com.vhall.app.common.Layer;
-	import com.vhall.app.model.DataService;
 	import com.vhall.app.common.Resource;
+	import com.vhall.app.model.DataService;
 	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.model.Model;
 	import com.vhall.app.net.AppCMD;
@@ -29,6 +27,8 @@ package com.vhall.app.view.video
 	import flash.utils.setInterval;
 	import flash.utils.setTimeout;
 	
+	import appkit.responders.NResponder;
+	
 	public class VideoLayer extends Layer implements IResponder
 	{
 		private var _videoPlayer:VideoPlayer;
@@ -39,7 +39,7 @@ package com.vhall.app.view.video
 		
 		private var _micActivity:AudioModelPicComp;
 		
-		private const MAX_RETRY:uint = 6;
+		private const MAX_RETRY:uint = 16;
 		
 		private var _retryTimes:uint = 0;
 		
@@ -112,8 +112,10 @@ package com.vhall.app.view.video
 				AppCMD.VIDEO_CONTROL_SEEK,
 				AppCMD.VIDEO_CONTROL_START,
 				AppCMD.VIDEO_CONTROL_STOP,
+				AppCMD.PUBLISH_PUBLISH,
 				AppCMD.PUBLISH_START,
-				AppCMD.PUBLISH_END
+				AppCMD.PUBLISH_END,
+				AppCMD.SHOW_AUDIOLIVE_PIC
 			];
 		}
 		
@@ -129,12 +131,13 @@ package com.vhall.app.view.video
 					MediaAJMessage.quiteServer();
 					break;
 				case AppCMD.MEDIA_SET_VOLUME:
+					//log("设置视频声音：",info.volume);
 					_videoPlayer.volume = info.volume;
 					break;
 				case AppCMD.MEDIA_CHANGEVIDEO_MODE:
 				case AppCMD.MEDIA_SWITCH_LINE:
 				case AppCMD.MEDIA_SWITCH_QUALITY:
-					connectServer();
+					play();
 					break;
 				case AppCMD.MEDIA_PLAYER_DISPOSE:
 					_videoPlayer.dispose();
@@ -168,16 +171,64 @@ package com.vhall.app.view.video
 				case AppCMD.VIDEO_CONTROL_STOP:
 					_videoPlayer.stop();
 					break;
+				case AppCMD.PUBLISH_PUBLISH:
+					publish();
+					break;
 				case AppCMD.PUBLISH_START:
 					//开始推流
-					connectServer();
+					play();
 					break;
 				case AppCMD.PUBLISH_END:
 					if(isPublish)
 						_videoPlayer.dispose();
 					break;
+				case AppCMD.SHOW_AUDIOLIVE_PIC:
+					videoMode = info.videoMode;
+					break;
 			}
 		} 
+		
+		private function play():void
+		{
+			_preTime = 0;
+			if(!Model.userInfo.is_pres)
+			{
+				const server:String = MediaModel.me().netOrFileUrl;
+				const stream:String = MediaModel.me().streamName;
+				log("拉流地址：",protocol(server),server,stream,"用户isPres:",Model.userInfo.is_pres);
+				if(_videoPlayer.type == null)
+				{
+					_videoPlayer.connect(protocol(server),server,stream,videoHandler,true,0);
+				}else{
+					_videoPlayer.attachType(protocol(server),server,stream);
+				}
+			}else{
+				log("当前正在直播用户不能拉流");
+			}
+			videoPausedByClick = !isLive;
+			videoMode = info.videoMode;
+			_videoPlayer.visible = true
+		}
+		
+		private function publish():void
+		{
+			_preTime = 0;
+			if(Model.userInfo.is_pres)
+			{
+				const server:String = Model.userInfo.is_pres?MediaModel.me().publishUrl:MediaModel.me().netOrFileUrl;
+				const stream:String = Model.userInfo.is_pres?MediaModel.me().publishStreamName:MediaModel.me().streamName;
+				log("推流地址：",protocol(server),server,stream,"用户isPres:",Model.userInfo.is_pres);
+				if(_videoPlayer.type != null)
+				{
+					_videoPlayer.dispose();
+				}
+				_videoPlayer.publish(info._soCamera,info._soMicrophone,server,stream,videoHandler,info._soCamWidth,info._soCamHeight);
+			}else{
+				log("非当前正在直播用户不能推流");
+			}
+			videoPausedByClick = false;
+			_videoPlayer.visible = true
+		}
 		
 		private function connectServer():void
 		{
@@ -186,24 +237,20 @@ package com.vhall.app.view.video
 			{
 				videoMode = info.videoMode;
 			}
-			const server:String = (Model.userInfo.is_pres?MediaModel.me().publishUrl:MediaModel.me().netOrFileUrl);
+			const server:String = Model.userInfo.is_pres?MediaModel.me().publishUrl:MediaModel.me().netOrFileUrl;
 			const stream:String = Model.userInfo.is_pres?MediaModel.me().publishStreamName:MediaModel.me().streamName;
 			log("连接地址：",protocol(server),server,stream,"用户isPres:",Model.userInfo.is_pres);
 			if(_videoPlayer.type == null)
 			{
 				if(Model.userInfo.is_pres)
 				{
+					log("推流1：",info._soCamera,info._soMicrophone,server,stream);
 					_videoPlayer.publish(info._soCamera,info._soMicrophone,server,stream,videoHandler,info._soCamWidth,info._soCamHeight);
 				}else{
 					_videoPlayer.connect(protocol(server),server,stream,videoHandler,true,0);
 				}
 			}else{
-				if(Model.userInfo.is_pres)
-				{
-					_videoPlayer.publish(info._soCamera,info._soMicrophone,server,stream,videoHandler,info._soCamWidth,info._soCamHeight);
-				}else{
-					_videoPlayer.attachType(protocol(server),server,stream,true,_videoPlayer.time,info._soCamera,info._soMicrophone,info._soCamWidth,info._soCamHeight);
-				}
+				_videoPlayer.attachType(protocol(server),server,stream,true,_videoPlayer.time,info._soCamera,info._soMicrophone,info._soCamWidth,info._soCamHeight);
 			}
 			
 			videoPausedByClick = !isLive;
@@ -222,18 +269,22 @@ package com.vhall.app.view.video
 		
 		private function set videoMode(bool:Boolean):void
 		{
-			if(info.videoMode)
+			log("videoMode:",info.videoMode);
+			if(!bool)
 			{
 				_micActivity&&contains(_micActivity)&&this.removeChild(_micActivity);
-				_videoPlayer.start();
+				//_videoPlayer.start();
+				_videoPlayer.visible = true;
 			}else{
 				_micActivity&&addChild(_micActivity);
-				_videoPlayer.stop();
+				//_videoPlayer.stop();
+				_videoPlayer.visible = false;
 			}
 		}
 		
 		private function videoHandler(states:String,...value):void
 		{
+			//log("视频状态:",states);
 			switch(states)
 			{
 				case MediaProxyStates.CONNECT_NOTIFY:
@@ -252,8 +303,12 @@ package com.vhall.app.view.video
 					MediaAJMessage.streamNotFound();
 					break;
 				case MediaProxyStates.PUBLISH_START:
-					log("推流成功");
+					log("推流成功,推流限制网速:",value[0]);
 					MediaAJMessage.publishStart();
+					if(isPublish)
+					{
+						videoMode = info.videoMode = !_videoPlayer.usedCam;
+					}
 					break;
 				case MediaProxyStates.STREAM_START:
 					send(AppCMD.MEDIA_STATES_START);
@@ -292,6 +347,9 @@ package com.vhall.app.view.video
 				case MediaProxyStates.SEEK_FAILED:
 					send(AppCMD.MEDIA_STATES_SEEK_FAIL);
 					break;
+				case MediaProxyStates.NO_HARD_WARE:
+					log("未找到硬件:",value);
+					break;
 			}
 		}
 		
@@ -300,22 +358,27 @@ package com.vhall.app.view.video
 		 */		
 		private function retry(result:String = ""):void
 		{
-			if(++_retryTimes > MAX_RETRY)
+			if(isPublish)
 			{
-				//连接失败，抛到外层
-				_retryTimes = 0;
-				log("重连尝试完毕，请手动刷新");
-				return;
-			}
-			//调用更新数据方法
-			if(DataService.connFailed2ChangeServerLine())
-			{
-				log("连接失败:",result,"尝试重连：",_retryTimes);
-				DataService.updateMediaInfo();
-				//重新播放
-				connectServer();
+				log("推流失败重推", result,_retryTimes);
+				setTimeout(publish,1000);
 			}else{
-				log("全部线路都失败了");
+				++_retryTimes;
+				if(_retryTimes > MAX_RETRY)
+				{
+					//连接失败，抛到外层
+					_retryTimes = 0;
+					log("拉流重连尝试完毕，请手动刷新");
+					return;
+				}else {
+					log("拉流失败", result,_retryTimes);
+					if(_retryTimes == (MAX_RETRY>>1)&&DataService.connFailed2ChangeServerLine())
+					{
+						DataService.updateMediaInfo();
+						log("更换拉流服务器");
+					}
+					setTimeout(play,1000);
+				}
 			}
 		}
 		
