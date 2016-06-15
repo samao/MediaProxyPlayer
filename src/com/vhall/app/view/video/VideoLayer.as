@@ -76,6 +76,7 @@ package com.vhall.app.view.video
 		
 		private function autoStart():void
 		{
+			//new StreamInfo(this);
 			//log("演讲中:",Model.userInfo.is_pres,info.netOrFileUrl,info.streamName);
 			
 			/*if(Model.userInfo.is_pres)
@@ -302,7 +303,8 @@ package com.vhall.app.view.video
 					MediaAJMessage.streamNotFound();
 					break;
 				case MediaProxyStates.PUBLISH_START:
-					log("推流成功,推流限制网速:",value[0]);
+					var streaminfo:String = _videoPlayer.stream && _videoPlayer.stream.info ? _videoPlayer.stream.info.uri:"";
+					log("推流成功,推流限制网速:",value[0],"推流地址：",streaminfo);
 					MediaAJMessage.publishStart();
 					if(isPublish)
 					{
@@ -357,12 +359,13 @@ package com.vhall.app.view.video
 		 */		
 		private function retry(result:String = ""):void
 		{
-			if(isPublish)
+			++_retryTimes;
+			if(Model.userInfo.is_pres)
 			{
 				log("推流失败重推", result,_retryTimes);
-				setTimeout(publish,1000);
+				_videoPlayer.useStrategy = true;
+				publish();
 			}else{
-				++_retryTimes;
 				if(_retryTimes > MAX_RETRY)
 				{
 					//连接失败，抛到外层
@@ -376,7 +379,7 @@ package com.vhall.app.view.video
 						DataService.updateMediaInfo();
 						log("更换拉流服务器");
 					}
-					setTimeout(play,1000);
+					play();
 				}
 			}
 		}
