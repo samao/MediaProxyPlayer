@@ -46,10 +46,13 @@ package com.vhall.app.view.control
 		protected var definationBox:SwitchListBox;
 		/**切换线路组件**/		
 		protected var serverLinke:SwitchListBox;
-		
 		/**切换视频 音频 模式组件**/			
 		protected var changeVideoMode:VideoAudioChangeBtn;
 		
+		/**
+		 *是否已经隐藏了组件 
+		 */
+		protected var isAutoHide:Boolean = false;
 		public function ViewerControlBar(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0)
 		{
 			super(parent, xpos, ypos);
@@ -105,7 +108,7 @@ package com.vhall.app.view.control
 		{
 			super.sizeChanged();
 			//计算是否需要隐藏控件
-			autoHide();
+			autoShowHide();
 		}
 		
 //		override protected function updateDisplay():void
@@ -132,42 +135,42 @@ package com.vhall.app.view.control
 			}
 		}
 		/**
-		 *自动隐藏 
-		 * 
+		 *自动显示隐藏按钮
+		 * <br><li>1.如果舞台宽度小于当前bar宽度，调用隐藏方法
+		 * <br><li>2.如果舞台宽度大于当前bar宽度，需要判断是否自动隐藏过控件
+		 * <br><li>2-1.如果自动隐藏过控件则显示控件，否则跳过</li></p>
 		 */		
-		protected function autoHide():void{
+		protected function autoShowHide():void{
 			var cWidth:int = StageManager.stageWidth - 130;
 			if(cWidth < hb.width){
-				var hideCd:UIComponent = getNeedHideChild();
-				if(hideCd && hideCd.visible){ 
-					hideCd.visible = false;
-					hb.validateNow();
+				autoHide(hb.width);
+			}else{
+				if(isAutoHide){
+					showAll();
+					autoShowHide();
 				}
-				autoHide();
-				//
 			}
 		}
 		
-		public function getNeedHideChild():UIComponent{
-			var i:int = 0;
-			var min:int = 999;
-			var maxCd:UIComponent;
-			var tmpCd:UIComponent;
-			var cmin:int = 999;
-			while(i<hb.numChildren){
-				tmpCd = hb.getChildAt(i) as UIComponent;
-				if(tmpCd is UIComponent){
-					cmin = int((tmpCd as UIComponent).userData);
-					if(cmin < min && tmpCd.visible){
-						min = cmin;
-						maxCd = tmpCd;
-					}
+		
+		/**
+		 *自动隐藏 
+		 * 
+		 */		
+		protected function autoHide(currentWd:int):void{
+			if(currentWd < 135) return;
+			var cWidth:int = StageManager.stageWidth - 130;
+			if(cWidth < currentWd){
+				var hideCd:UIComponent = getNeedHideChild();
+				if(hideCd && hideCd.visible){ 
+					hideCd.visible = false;
+					isAutoHide = true;
+					currentWd = currentWd-hideCd.width;
 				}
-				i++;
+				autoHide(currentWd);
+				//
 			}
-			return maxCd;
 		}
-			
 		
 		protected function muteHandler(event:Event = null):void
 		{
@@ -354,9 +357,88 @@ package com.vhall.app.view.control
 			StageManager.toggleFullscreen();
 		}
 		
+		/**
+		 *更新bar组件状态 
+		 * <br>组件按照业务判断显示或者隐藏状态
+		 * <br><li>只有在状态改变了（isChange），才刷新控件，否则不刷新。
+		 * @param isOnlyStatus 是否是只更新状态(外部有可能是从自动显示过来的，也有可能是从状态改变过来的,状态改变过来的需要var 立即更新，否则hb更新)
+		 */		
+		public function updateStatus(isOnlyStatus:Boolean = false):Boolean{
+			var isChange:Boolean = false;
+			if(definationBox){
+				if(!Model.playerStatusInfo.viewVideoMode){
+					if(definationBox.visible){
+						definationBox.visible = false;
+						isChange = true;
+					}
+				}else{
+					if(definationBox.visible == false){
+						definationBox.visible = true;
+						isChange = true;
+					}
+				}
+			}
+			if(isChange){
+				if(isOnlyStatus){
+					this.validateNow();
+				}else{
+					hb.validateNow();
+				}
+			}
+			return isChange;
+		}
+		
+		/**
+		 *显示所有
+		 * @return 
+		 * 
+		 */		
+		public function showAll():void{
+			var tmpCd:UIComponent;
+			var i:int = 0;
+			var isChange:Boolean = false;
+			while(i<hb.numChildren){
+				tmpCd = hb.getChildAt(i) as UIComponent;
+				if(tmpCd){
+					if(tmpCd.visible == false){
+						tmpCd.visible = true;
+						isChange = true;
+					}
+				}
+				i++;
+			}
+			isAutoHide = false;
+			if(!updateStatus() && isChange){
+				hb.validateNow()
+			}
+		}
+		
+		
+		public function getNeedHideChild():UIComponent{
+			var i:int = 0;
+			var min:int = 999;
+			var maxCd:UIComponent;
+			var tmpCd:UIComponent;
+			var cmin:int = 999;
+			while(i<hb.numChildren){
+				tmpCd = hb.getChildAt(i) as UIComponent;
+				if(tmpCd){
+					cmin = int((tmpCd as UIComponent).userData);
+					if(cmin < min && tmpCd.visible){
+						min = cmin;
+						maxCd = tmpCd;
+					}
+				}
+				i++;
+			}
+			return maxCd;
+		}
+		
 		public function careList():Array
 		{
-			var arr:Array = [];
+			var arr:Array = [
+				AppCMD.MEDIA_CHANGEVIDEO_MODE
+			];
 			return arr;
 		}
 		
@@ -364,6 +446,9 @@ package com.vhall.app.view.control
 		{
 			switch(msg)
 			{
+				case AppCMD.MEDIA_CHANGEVIDEO_MODE:
+					updateStatus(true);
+					break;
 			}
 		}
 	}
