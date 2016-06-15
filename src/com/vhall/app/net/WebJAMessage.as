@@ -36,7 +36,6 @@ package com.vhall.app.net
 		
 		private function onSetPres(data:Object = null):void
 		{
-			// TODO Auto Generated method stub
 			Logger.getLogger("WebJAMsg").info("onSetPres Enter");
 			Model.userInfo.is_pres = data.param;
 			if(Model.userInfo.is_pres){
@@ -59,16 +58,23 @@ package com.vhall.app.net
 		
 		private function onOpenAST(data:Object = null):void
 		{
+			Logger.getLogger().info("收到打开小助手消息",Model.userInfo.is_pres);
 			// 只有当前人为演讲人，才会执行以下逻辑
 			if(Model.userInfo.is_pres)
 			{
-				var self:Model = Model.Me();
 				//开启小助手消息
-				AssistantACMessage.startEngine(self.meetinginfo.pid,self.userinfo.uname,self.videoinfo.streamname,Model.playerStatusInfo.streamToken,Model.playerStatusInfo.hide_powered,self.videoinfo.cdnServers);
+				AssistantACMessage.startEngine(Model.Me().meetinginfo.pid,
+											   Model.Me().userinfo.uname,
+											   Model.Me().videoinfo.streamname,
+											   Model.Me().videoinfo.streamtoken,
+											   Model.Me().playerstatusinfo.hide_powered,
+											   Model.Me().videoinfo.allPublishServers);
 				//停止上报mic
 				dispatch(AppCMD.REPORT_JS_CLOS_VOLUME_REEPEAT);
 				// UI显示 使用小助手直播
 				dispatch(AppCMD.SWITCH_TO_ASSISTANT);
+				// 销毁当前推送流
+				dispatch(AppCMD.MEDIA_PLAYER_DISPOSE);
 			}
 		}
 		

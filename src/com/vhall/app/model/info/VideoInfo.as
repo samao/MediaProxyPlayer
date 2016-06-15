@@ -1,9 +1,9 @@
 package com.vhall.app.model.info
 {
 	import com.adobe.serialization.json.JSON;
-	import com.vhall.app.model.MediaModel;
 	import com.vhall.app.model.info.vo.DefinitionVo;
 	import com.vhall.app.model.info.vo.ServeLinevo;
+	import com.vhall.framework.log.Logger;
 	
 	import flash.utils.Dictionary;
 
@@ -61,6 +61,10 @@ package com.vhall.app.model.info
 		 *清晰度数据 
 		 */		
 		public var definitionInfo:Array = [];
+		
+		private var _publishServers:String;
+		
+		public var allPublishServers:Array = [];
 
 		/**
 		 *推流服务器地址
@@ -160,5 +164,43 @@ package com.vhall.app.model.info
 //			serverLineInfo.push(new ServeLinevo("rtmp://rtmplive01.e.vhall.com/vhall", "线路3","rtmp://rtmplive01.e.vhall.com/vhall"));
 //			selectLineVo = serverLineInfo[0];
 		}
+
+		/** 给小助手的推流地址*/
+		public function get publishServers():String
+		{
+			return _publishServers;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set publishServers(value:String):void
+		{
+			_publishServers = value;
+			allPublishServers = [];
+			try
+			{
+				Logger.getLogger().info(value);
+				var arr:Array = com.adobe.serialization.json.JSON.decode(value);
+				Logger.getLogger().info(arr);
+				for (var i:int = 0; i < arr.length; i++) 
+				{
+					var obj:Object = {};
+					obj.alias = arr[i].name;
+					obj.url = arr[i].srv;
+					allPublishServers.push(obj);
+				}
+				
+				Logger.getLogger().info(allPublishServers,allPublishServers.length);
+				var str:String = com.adobe.serialization.json.JSON.encode(allPublishServers);
+				Logger.getLogger().info(str);
+			} 
+			catch(error:Error) 
+			{
+				Logger.getLogger().info("convert publish server error",error.message);
+			}
+			
+		}
+
 	}
 }
