@@ -37,10 +37,6 @@ package com.vhall.app.view.control
 		override protected function init():void
 		{
 			super.init();
-			StageManager.stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
-			StageManager.stage.addEventListener(MouseEvent.MOUSE_DOWN,onStageMouseDown);
-			StageManager.stage.addEventListener(MouseEvent.MOUSE_MOVE, onStageMouseMove);
-			addLocalLsn();
 		}
 
 		override protected function createChildren():void
@@ -54,6 +50,7 @@ package com.vhall.app.view.control
 			// 默认来一发
 			onStageMouseMove(null);
 			StageManager.stage.addEventListener(FullScreenEvent.FULL_SCREEN, onFull);
+			this.addEventListener(Event.ADDED_TO_STAGE,onAddStage);
 		}
 		
 		override protected function sizeChanged():void
@@ -65,13 +62,47 @@ package com.vhall.app.view.control
 		override public function destory():void
 		{
 			super.destory();
-			StageManager.stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
-			StageManager.stage.removeEventListener(MouseEvent.MOUSE_DOWN,onStageMouseDown);
-			StageManager.stage.removeEventListener(MouseEvent.MOUSE_MOVE, onStageMouseMove);
+			removeStageLsn();
+		}
+		
+		protected function onAddStage(event:Event):void
+		{
+			// TODO Auto-generated method stub
+			this.addEventListener(Event.REMOVED_FROM_STAGE,onRemoveStage);
+			addStageLsn();
+		}
+		
+		protected function onRemoveStage(event:Event):void
+		{
+			// TODO Auto-generated method stub
+			removeStageLsn();
 		}
 		
 		/**
 		 *监听鼠标移入 
+		 * 
+		 */		
+		protected function addStageLsn():void{
+			StageManager.stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
+			StageManager.stage.addEventListener(MouseEvent.MOUSE_DOWN,onStageMouseDown);
+			StageManager.stage.addEventListener(MouseEvent.MOUSE_MOVE, onStageMouseMove);
+			addLocalLsn();
+			
+		}
+		/**
+		 *移除 鼠标移动，鼠标一处，鼠标移入 
+		 * 
+		 */		
+		protected function removeStageLsn():void{
+			StageManager.stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
+			StageManager.stage.removeEventListener(MouseEvent.MOUSE_DOWN,onStageMouseDown);
+			StageManager.stage.removeEventListener(MouseEvent.MOUSE_MOVE, onStageMouseMove);
+			removeLocalLsn();
+			
+		}
+		
+		/**
+		 *自身监听和stage监听分离  隐藏优化监听
 		 * 
 		 */		
 		protected function addLocalLsn():void{
@@ -79,10 +110,11 @@ package com.vhall.app.view.control
 				this.addEventListener(MouseEvent.ROLL_OVER,onMouseOver);
 			}
 		}
+		
 		/**
-		 *移除 鼠标移动，鼠标一处，鼠标移入 
+		 *自身监听和stage监听分离 
 		 * 
-		 */		
+		 */	
 		protected function removeLocalLsn():void{
 			this.removeEventListener(MouseEvent.ROLL_OVER,onMouseOver);
 			this.removeEventListener(MouseEvent.ROLL_OUT,onMouseOut);
@@ -179,19 +211,15 @@ package com.vhall.app.view.control
 			AppTween.to(this, .35, {y:this.height});
 			onHide();
 		}
-		/**
-		 *  控件隐藏 移除自身鼠标监听
-		 * 
-		 */		
-		protected function onHide():void{
-			removeLocalLsn();
-		}
-		/**
-		 *  控件显示 添加自身鼠标监听
-		 */
+		
 		protected function onShow():void{
 			addLocalLsn();
 		}
+		
+		protected function onHide():void{
+			removeLocalLsn();
+		}
+		
 		/**
 		 *停止交互检测  停止检测后，不会隐藏控制栏
 		 * 
