@@ -54,6 +54,7 @@ package com.vhall.app.net
 				//停止上报mic
 				dispatch(AppCMD.REPORT_JS_CLOS_VOLUME_REEPEAT);
 			}
+			dispatch(AppCMD.UI_CHANGE_CONTROLBAR);
 		}
 		
 		private function onOpenAST(data:Object = null):void
@@ -105,10 +106,8 @@ package com.vhall.app.net
 		{
 			Logger.getLogger("WebJAMsg").info("onActivedPres Enter");
 			// TODO Auto Generated method stub
-			if(!Model.userInfo.is_pres){
-				if(!Model.userInfo.is_guest){
-					dispatch(AppCMD.SWITCHINGPRES);
-				}
+			if(!Model.userInfo.is_pres && !Model.userInfo.is_guest){
+				dispatch(AppCMD.SWITCHTOGUEST);
 			}
 		}
 		/**

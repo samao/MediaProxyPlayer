@@ -128,6 +128,11 @@ package com.vhall.app.net
 		 */		
 		public static const UI:String = "ui_";
 		/**
+		 *更新controlbar; 
+		 */		
+		public static const UI_CHANGE_CONTROLBAR:String = UI+"change_controlbar";
+		
+		/**
 		 *显示控制栏 
 		 */		
 		public static const UI_SHOW_CONTROLBAR:String = UI+"show_controlbar";
