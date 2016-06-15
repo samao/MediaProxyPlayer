@@ -12,6 +12,7 @@ package
 	import flash.events.Event;
 	import flash.system.ApplicationDomain;
 	import flash.system.Security;
+	import flash.utils.getTimer;
 
 	[SWF(width = "960", height = "640", backgroundColor = "0xC0C0C0")]
 	public class EpicLivePlayer extends App
@@ -33,7 +34,6 @@ package
 		
 		protected function onInited(event:Event):void
 		{
-			Logger.getLogger("init").info("测试是否接受到");
 			removeEventListener(App.INIT_END, onInited);
 			StageManager.stage.addEventListener(Event.RESIZE, onResize);
 			Security.allowDomain("*");
