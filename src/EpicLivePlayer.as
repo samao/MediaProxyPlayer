@@ -26,7 +26,6 @@ package
 		
 		protected function onInitStart(event:Event):void
 		{
-			// TODO Auto-generated method stub
 			// 初始化参数
 			var vars:Object = this.loaderInfo.parameters;
 			Model.Me().init(loaderInfo.parameters);

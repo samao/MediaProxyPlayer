@@ -30,7 +30,7 @@ package com.vhall.app.net
 		{
 			dispatch(AppCMD.PUBLISH_END);
 			/** 通知直播助手数据代码去关闭直播助手 **/
-			//dispatch(AppCMD.AST_COMMAND, {"command": AstStatus.CLOSE_AST});
+			AssistantACMessage.stopEngine();
 			/** js通知关闭检测麦克风上报**/
 			dispatch(AppCMD.REPORT_JS_CLOS_VOLUME_REEPEAT);
 		}
