@@ -56,6 +56,7 @@ package com.vhall.app.view.control
 			
 			_volumeBar = new VolumeBar(volumeBox);
 			_volumeBar.volumeSlipComp.addEventListener(DragEvent.CHANGE,volumeChange);
+			_volumeBar.setBgVisible(false);
 			_volumeBeforeMute = _volumeBar.volumeValue = MediaModel.me().volume * 100;
 			
 			btnFullscreen = new ToggleButton(this);
