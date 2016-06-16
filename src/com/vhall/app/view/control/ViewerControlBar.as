@@ -241,8 +241,9 @@ package com.vhall.app.view.control
 		{
 			if(!_muteBut.selected)
 			{
-				var index:uint = _volumeBar.volumeValue <= 30 ? 1:_volumeBar.volumeValue <= 50 ? 2 : 3;
-				_muteBut.skin = "assets/ui/"+index+".png";
+				var index:uint = MediaModel.me().volume <= .3 ? 1:MediaModel.me().volume <= .55 ? 2 : 3;
+				_muteBut.setSkin("assets/ui/"+index+".png");
+				trace(MediaModel.me().volume)
 			}
 		}
 		
