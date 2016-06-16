@@ -40,7 +40,7 @@ package com.vhall.app.model
 		public var player:IVideoPlayer;
 		
 		/**默认为true视频模式，false为语音*/		
-		public var videoMode:Boolean = true;
+		public var videoMode:Boolean = false;
 		
 		public var defaultDefination:String = "high";
 		
@@ -69,6 +69,7 @@ package com.vhall.app.model
 			this._soCamHeight = obj.height||480;
 			this._soMicrophone = obj.micName;
 			this.volume = obj.micVolume||.68;
+			this.videoMode = Boolean(Model.Me().meetinginfo.videoMode);
 		}
 		
 		public static function me():MediaModel

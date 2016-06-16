@@ -312,6 +312,7 @@ package com.vhall.app.view.video
 					}
 					break;
 				case MediaProxyStates.STREAM_START:
+					log("拉流视频",_videoPlayer.stream && _videoPlayer.stream.info ? _videoPlayer.stream.info.uri+"/"+_videoPlayer.stream.info.resourceName:"");
 					send(AppCMD.MEDIA_STATES_START);
 					//loading = true;
 					break;

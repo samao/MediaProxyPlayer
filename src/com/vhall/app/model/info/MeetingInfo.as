@@ -11,5 +11,7 @@ package com.vhall.app.model.info
 		public var is_over:Boolean;
 		/*** 会议代码*/
 		public var pid:String;
+		/**直播类型*/
+		public var videoMode:Number;
 	}
 }
