@@ -201,7 +201,7 @@ package com.vhall.app.view.control
 				hb.verticalAlign = "center";
 				var lblBarrage:Label = new Label(hbarrage);
 				lblBarrage.text = "弹幕";
-				lblBarrage.color = 0xFFFFFF;
+				lblBarrage.color = 0x6B6B6B;
 				btnBarrage = new ToggleButton(hbarrage);
 				btnBarrage.downSkin = "assets/ui/barrage_off.png";
 				btnBarrage.skin = "assets/ui/barrage_on.png";
