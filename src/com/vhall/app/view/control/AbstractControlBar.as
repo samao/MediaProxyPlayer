@@ -5,6 +5,7 @@ package com.vhall.app.view.control
 	import com.vhall.framework.ui.container.Box;
 	import com.vhall.framework.ui.controls.Image;
 	
+	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.StageDisplayState;
 	import flash.events.Event;
@@ -160,10 +161,28 @@ package com.vhall.app.view.control
 		protected function onStageMouseDown(event:MouseEvent):void
 		{
 			// TODO Auto-generated method stub
-			clearTimeout(checkTimer);
-			checkTimer = setTimeout(onDelayCheckMouse, HIDE_CHECK_TIME);
-			Mouse.show();
-			showBar();
+			if(!checkSelfChild(event.target as DisplayObject)){
+				clearTimeout(checkTimer);
+				checkTimer = setTimeout(onDelayCheckMouse, HIDE_CHECK_TIME);
+				Mouse.show();
+				showBar();
+			}
+		}
+		
+		/**
+		 *检测是否自己 
+		 * 
+		 */		
+		protected function checkSelfChild(dsp:DisplayObject):Boolean{
+			var boo:Boolean = false;
+			if(dsp && dsp.parent){
+				if(dsp.parent == this){
+					return true;
+				}else{
+					return checkSelfChild(dsp.parent);
+				}
+			}
+			return false;
 		}
 		
 		protected function onStageMouseMove(event:MouseEvent):void
