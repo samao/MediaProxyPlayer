@@ -283,7 +283,7 @@ package com.vhall.app.view.video
 		
 		private function videoHandler(states:String,...value):void
 		{
-			log("视频状态:",states);
+//			log("视频状态:",states);
 			switch(states)
 			{
 				case MediaProxyStates.CONNECT_NOTIFY:

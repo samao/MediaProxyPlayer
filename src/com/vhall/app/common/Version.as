@@ -30,7 +30,7 @@ package com.vhall.app.common
 		/**
 		 *	编译版本号 
 		 */		
-		public static const Build:String = "0";
+		public static const Build:String = new Date().minutes + "." + new Date().seconds;
 		
 		/**
 		 * 获取当前APP名字 

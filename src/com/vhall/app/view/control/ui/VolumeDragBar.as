@@ -26,7 +26,8 @@ package com.vhall.app.view.control.ui
 			buffer.source = ComponentUtils.genInteractiveRect(80, 3, null, 5, 10, 0x000000);
 			finished.source = ComponentUtils.genInteractiveRect(80, 3, null, 5, 10, 0x3DAC63);
 			quad.source = ComponentUtils.genInteractiveRect(21, 21, null,0,0,0x000000);
-			quadSkin = "assets/ui/volSlipup.png";
+			quadSkin = "assets/ui/quad.png";
+			quad.setSize(18,18);
 			buffer.move(5,10);
 			finished.move(5,10);
 		}

@@ -59,8 +59,8 @@ package com.vhall.app.view.control
 			_volumeBeforeMute = _volumeBar.volumeValue = MediaModel.me().volume * 100;
 			
 			btnFullscreen = new ToggleButton(this);
-			btnFullscreen.skin = "assets/ui/f2.png";
-			btnFullscreen.downSkin = "assets/ui/f1.png";
+			btnFullscreen.skin = "assets/ui/expand.png";
+			btnFullscreen.downSkin = "assets/ui/scope.png";
 			btnFullscreen.tooltip = "全屏";
 			btnFullscreen.callOut = "top";
 			btnFullscreen.right = 10;
