@@ -1,8 +1,10 @@
 package com.vhall.app.load
 {
+	import com.vhall.app.model.Model;
 	import com.vhall.framework.app.App;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.load.QueueLoader;
+	import com.vhall.view.LoadingLine;
 	
 	import flash.display.DisplayObject;
 	import flash.display.Loader;
@@ -55,11 +57,18 @@ package com.vhall.app.load
 			{
 				removeChildAt(0);
 			}
-			
-			var dis:DisplayObject = new logo4();
-			dis.x = (StageManager.stageWidth - dis.width) >> 1;
-			dis.y = (StageManager.stageHeight - dis.height) >> 1;
-			addChild(dis);
+			var dis:DisplayObject;
+			if(Model.playerStatusInfo.hide_powered){
+				dis = new LoadingLine();
+				dis.x = (StageManager.stageWidth - dis.width) >> 1;
+				dis.y = (StageManager.stageHeight - dis.height) >> 1;
+				addChild(dis);
+			}else{
+				dis = new logo4();
+				dis.x = (StageManager.stageWidth - dis.width) >> 1;
+				dis.y = (StageManager.stageHeight - dis.height) >> 1;
+				addChild(dis);
+			}
 		}
 		
 		private function show(urls:Array, complete:Function, progress:Function = null, allComplete:Function = null):void

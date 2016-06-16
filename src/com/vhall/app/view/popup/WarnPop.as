@@ -15,7 +15,6 @@ package com.vhall.app.view.popup
 	public class WarnPop extends Box
 	{
 		public var warn_logoPanel:WarnLogoPanel;
-		public var warnPanel:WarnPanel;
 		protected var tParent:DisplayObjectContainer
 		public function WarnPop(parent:DisplayObjectContainer)
 		{
@@ -27,7 +26,6 @@ package com.vhall.app.view.popup
 		{
 			onUpdateBg();
 			warn_logoPanel = new WarnLogoPanel();
-			warnPanel = new WarnPanel();
 		}
 		
 		protected function onUpdateBg():void{
@@ -45,10 +43,6 @@ package com.vhall.app.view.popup
 			if(warn_logoPanel){
 				warn_logoPanel.x = (StageManager.stageWidth - warn_logoPanel.width)>>1;
 				warn_logoPanel.y = (StageManager.stageHeight - warn_logoPanel.height)>>1;
-			}
-			if(warnPanel){
-				warnPanel.x = (StageManager.stageWidth - warnPanel.width)>>1;
-				warnPanel.y = (StageManager.stageHeight - warnPanel.height)>>1;
 			}
 		}
 		
@@ -73,8 +67,8 @@ package com.vhall.app.view.popup
 		 */		
 		public function showWarn(warn:String):void{
 			removeAllChild();
-			warnPanel.setLabel(warn);
-			this.addChild(warnPanel);
+			warn_logoPanel.setLabel(warn);
+			this.addChild(warn_logoPanel);
 			show();
 		}
 		

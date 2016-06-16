@@ -1,6 +1,6 @@
 package com.vhall.app.view.warn
 {
-	import com.vhall.framework.app.manager.RenderManager;
+	import com.vhall.framework.ui.controls.Image;
 	import com.vhall.framework.ui.controls.Label;
 	
 	import flash.display.DisplayObjectContainer;
@@ -10,6 +10,7 @@ package com.vhall.app.view.warn
 	public class WarnPanel extends RectBox
 	{
 		private var label:Label;
+		private var pic:Image;
 		public function WarnPanel(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super(parent, xpos, ypos);
@@ -18,13 +19,18 @@ package com.vhall.app.view.warn
 		override protected function createChildren():void
 		{
 			super.createChildren();
+			pic.source=  "assets/ui/logo.png"
+			pic.x = 42;
+			pic.y = 55;
+			this.addChild(pic);
+			
 			label = new Label(this);
 			var df:TextFormat = label.textField.defaultTextFormat;
 			df.color = 0xFFFFFF;
-			df.size = 14;
+			df.size = 18;
 			df.align = TextFieldAutoSize.CENTER;
 			label.textField.defaultTextFormat = df;
-			label.move(0,71)
+			label.move(0,146)
 			label.horizontalCenter = 0;
 		}
 		
