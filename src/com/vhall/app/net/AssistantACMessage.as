@@ -34,7 +34,7 @@ package com.vhall.app.net
 			var obj:Object = {};
 			obj.pid = pid;
 			obj.uname = uname;
-			obj.steamName = streamName;
+			obj.streamName = streamName;
 			obj.token = token;
 			obj.hide_powered = hidePowered;
 			obj.address = com.adobe.serialization.json.JSON.encode(address);
