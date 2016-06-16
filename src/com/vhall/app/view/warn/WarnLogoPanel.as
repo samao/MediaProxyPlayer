@@ -1,5 +1,6 @@
 package com.vhall.app.view.warn
 {
+	import com.vhall.app.model.Model;
 	import com.vhall.framework.ui.controls.Label;
 	
 	import flash.display.DisplayObjectContainer;
@@ -18,10 +19,14 @@ package com.vhall.app.view.warn
 			super.createChildren();
 			label = new Label(this);
 			label.color = 0xFFFFFF;
-			label.fontSize = 26;
+			label.fontSize = 18;
 			label.move(0, 146);
 			label.setSize(320, 28);
 			label.align = "center";
+			
+			if(Model.playerStatusInfo.hide_powered){
+				logo && logo.visible;
+			}
 		}
 
 		public function setLabel(value:String):void

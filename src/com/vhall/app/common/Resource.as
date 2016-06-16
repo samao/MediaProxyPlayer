@@ -42,7 +42,7 @@ package com.vhall.app.common
 		 * 
 		 */		
 		public static function getLogo():DisplayObject{
-			return new Bitmap(new Whall_Logo2());
+			return new Bitmap(new Whall_Logo3());
 		}
 		
 		/**

@@ -8,7 +8,7 @@ package com.vhall.app.view.warn
 
 	public class LogoBox extends RectBox
 	{
-		private var logo:DisplayObject;
+		protected var logo:DisplayObject;
 
 		public function LogoBox(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0)
 		{

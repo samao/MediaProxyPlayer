@@ -23,13 +23,13 @@ package com.vhall.app.view.control.ui
 		
 		override protected function initSkin():void{
 			bg.source = getBgSource();
-			buffer.source = ComponentUtils.genInteractiveRect(94, 10, null, 5, 10, 0x000000);
-			finished.source = ComponentUtils.genInteractiveRect(94, 10, null, 5, 10, 0XDE403D);
+			buffer.source = ComponentUtils.genInteractiveRect(94, 6, null, 5, 10, 0x000000);
+			finished.source = ComponentUtils.genInteractiveRect(94, 6, null, 5, 10, 0XDE403D);
 			quad.source = ComponentUtils.genInteractiveRect(21, 21, null,0,0,0x000000);
 			quadSkin = "assets/ui/quad.png";
 			quad.setSize(18,18);
-			buffer.move(5,5);
-			finished.move(5,5);
+			buffer.move(5,10);
+			finished.move(5,10);
 		}
 		
 		protected function getBgSource():Shape{
