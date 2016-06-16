@@ -85,8 +85,8 @@ package com.vhall.app.view.control
 			
 			// 全屏按钮
 			btnFullscreen = new ToggleButton(hb);
-			btnFullscreen.skin = "assets/ui/f2.png";
-			btnFullscreen.downSkin = "assets/ui/f1.png";
+			btnFullscreen.skin = "assets/ui/expand.png";
+			btnFullscreen.downSkin = "assets/ui/scope.png";
 			btnFullscreen.tooltip = "全屏";
 			btnFullscreen.callOut = "top";
 			btnFullscreen.addEventListener(MouseEvent.CLICK,onToggleClickHandler);
@@ -203,8 +203,8 @@ package com.vhall.app.view.control
 				lblBarrage.text = "弹幕";
 				lblBarrage.color = 0xFFFFFF;
 				btnBarrage = new ToggleButton(hbarrage);
-				btnBarrage.downSkin = "assets/ui/t1.png";
-				btnBarrage.skin = "assets/ui/t2.png";
+				btnBarrage.downSkin = "assets/ui/barrage_off.png";
+				btnBarrage.skin = "assets/ui/barrage_on.png";
 				btnBarrage.addEventListener(Event.SELECT, onBarrageSelect);
 			}
 		}
@@ -220,8 +220,8 @@ package com.vhall.app.view.control
 			volumeBox.verticalCenter = 0;
 			volumeBox.verticalAlign = "center";
 			_muteBut = new ToggleButton(volumeBox);
-			_muteBut.skin = "assets/ui/mic2.png";
-			_muteBut.downSkin = "assets/ui/mic1.png";
+			_muteBut.skin = "assets/ui/mic_on.png";
+			_muteBut.downSkin = "assets/ui/mic_off.png";
 			_muteBut.tooltip = "静音";
 			_muteBut.callOut = "top";
 			_muteBut.addEventListener(Event.SELECT,muteHandler);
