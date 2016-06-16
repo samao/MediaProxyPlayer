@@ -48,8 +48,8 @@ package com.vhall.app.view.control
 			volumeBox.verticalCenter = 0;
 			
 			_muteBut = new ToggleButton(volumeBox);
-			_muteBut.skin = "assets/ui/mic2.png";
-			_muteBut.downSkin = "assets/ui/mic1.png";
+			_muteBut.skin = "assets/ui/mic_on.png";
+			_muteBut.downSkin = "assets/ui/mic_off.png";
 			_muteBut.tooltip = "静音";
 			_muteBut.callOut = "top";
 			_muteBut.addEventListener(Event.SELECT,muteHandler);
