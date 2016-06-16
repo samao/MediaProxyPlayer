@@ -18,6 +18,7 @@ package com.vhall.app.view.control.ui.component
 			this.setSize(74,24);
 			this.skin = btnUpBg;
 //			this.overSkin = btnOverBg;
+			this.labelSize = 14;
 			this.labelColor = 0x6b6b6b;
 		}
 		
