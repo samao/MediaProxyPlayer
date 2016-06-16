@@ -58,9 +58,9 @@ package
 			
 			var box:Sprite = this;
 			videoLayer = new VideoLayer(box);
-//			barrageLayer = new BarrageLayer(box);
-//			effectLayer = new EffectLayer(box);
-//			popupLayer = new PopupLayer(box);
+			barrageLayer = new BarrageLayer(box);
+			effectLayer = new EffectLayer(box);
+			popupLayer = new PopupLayer(box);
 			controlLayer = new ControlLayer(box);
 			controlLayer.height = 35;
 			controlLayer.bottom = 0;
