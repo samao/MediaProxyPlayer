@@ -18,8 +18,8 @@ package com.vhall.app.view.control.ui.component
 			this.setSize(80,20);
 		}
 		
-		private var _overBgColor:uint = 0x474747;
-		private var _outBgColor:uint = 0x2B2B2B;
+		private var _overBgColor:uint = 0xE5403E;
+		private var _outBgColor:uint = 0x000000;
 		/**
 		 *显示label 
 		 */		
@@ -35,13 +35,14 @@ package com.vhall.app.view.control.ui.component
 			// TODO Auto Generated method stub
 			super.createChildren();
 			lab = new Label(this);
-			lab.color = 0xffffff;
+			lab.fontSize = 14;
+			lab.color = 0x6b6b6b;
 			lab.mouseChildren = lab.mouseEnabled = false;
 		}
 		
 		protected function initDrawBg():void{
 			this.graphics.clear()
-			this.graphics.beginFill(outBgColor,85);
+			this.graphics.beginFill(outBgColor,70);
 			this.graphics.drawRect(0,0,this._width,this._height);
 			this.graphics.endFill();
 			RenderManager.getInstance().invalidate(invalidate);
@@ -59,11 +60,11 @@ package com.vhall.app.view.control.ui.component
 		 *更新显示文本 
 		 * 
 		 */		
-		protected function update4Label():void{
-			if(selected){
-				lab.color = 0xff0000;
+		protected function update4Label(move:Boolean =false):void{
+			if(selected || move){
+				lab.color = 0xFFFFFF;
 			}else{
-				lab.color = 0xffffff;
+				lab.color = 0x6b6b6b;
 			}
 		}
 		/**
@@ -95,8 +96,8 @@ package com.vhall.app.view.control.ui.component
 		{
 			// TODO Auto Generated method stub
 			super.onMouseOver();
-			overDrawBg();
-			update4Label();
+//			overDrawBg();
+			update4Label(true);
 		}
 		
 		override public function set selected(value:Boolean):void

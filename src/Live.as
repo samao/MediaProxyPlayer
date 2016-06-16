@@ -58,12 +58,12 @@ package
 			
 			var box:Sprite = this;
 			videoLayer = new VideoLayer(box);
+//			barrageLayer = new BarrageLayer(box);
+//			effectLayer = new EffectLayer(box);
+//			popupLayer = new PopupLayer(box);
 			controlLayer = new ControlLayer(box);
 			controlLayer.height = 35;
 			controlLayer.bottom = 0;
-			barrageLayer = new BarrageLayer(box);
-			effectLayer = new EffectLayer(box);
-			popupLayer = new PopupLayer(box);
 			LayerManager.initLayer(box);
 			
 			//发送初始化消息
@@ -97,8 +97,8 @@ package
 			_height = StageManager.stageHeight;
 			_width = StageManager.stageWidth;
 			controlLayer.width = StageManager.stageWidth;
-			popupLayer.setSize(StageManager.stageWidth, StageManager.stageHeight);
-			videoLayer.setSize(StageManager.stageWidth, StageManager.stageHeight);
+			popupLayer && popupLayer.setSize(StageManager.stageWidth, StageManager.stageHeight);
+			videoLayer && videoLayer.setSize(StageManager.stageWidth, StageManager.stageHeight);
 		}
 		
 		public function onTest():void{

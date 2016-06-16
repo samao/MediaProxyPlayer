@@ -266,8 +266,9 @@ package com.vhall.app.view.control
 				data.value = tmpdta.key;
 				showData[i] = data;
 			}
-			definationBox.changeCurrentSelect2Show = true;
-			definationBox.initList(showData);
+			definationBox.initList(showData,70,30);
+			definationBox.setShowItemSize(60,22);
+			definationBox.showlabel = "清晰度";
 			definationBox.addEventListener(Event.CHANGE,onDefinationChange);
 			definationBox.userData = 20;
 		}
@@ -292,8 +293,8 @@ package com.vhall.app.view.control
 					data.value = tmpdta.sName;
 					showData[i] = data;
 				}
-				serverLinke.initList(showData,92);
-				serverLinke.setShowItemSize(60,20);
+				serverLinke.initList(showData,110);
+				serverLinke.setShowItemSize(74,22);
 				serverLinke.showlabel = "切换线路";
 				
 				serverLinke.addEventListener(Event.CHANGE,onServerLineChange);
@@ -308,6 +309,7 @@ package com.vhall.app.view.control
 		protected function onInitVideoModeBtn():void{
 			if(!Model.playerStatusInfo.streamType)return;
 			changeVideoMode = new VideoAudioChangeBtn(hb)
+			changeVideoMode.setSize(74,22);
 			changeVideoMode.addEventListener(Event.CHANGE,onVideoModeChange);
 			changeVideoMode.userData = 40;
 		}

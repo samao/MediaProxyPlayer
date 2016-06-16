@@ -18,7 +18,7 @@ package com.vhall.app.view.warn
 			super.createChildren();
 			label = new Label(this);
 			label.color = 0xFFFFFF;
-			label.fontSize = 18;
+			label.fontSize = 26;
 			label.move(0, 146);
 			label.setSize(320, 28);
 			label.align = "center";
