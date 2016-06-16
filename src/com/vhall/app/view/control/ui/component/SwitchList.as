@@ -4,7 +4,6 @@ package com.vhall.app.view.control.ui.component
 	import com.vhall.framework.ui.controls.List;
 	
 	import flash.display.DisplayObjectContainer;
-	import flash.events.Event;
 
 	/**
 	 * 普通的list组件 
@@ -15,10 +14,10 @@ package com.vhall.app.view.control.ui.component
 	{
 		public function SwitchList(direction:String="vertical", parent:DisplayObjectContainer=null, gap:Number=2, xpos:Number=0, ypos:Number=0)
 		{
-			super(direction, parent, gap, xpos, ypos);
+			super(direction, parent, 1, xpos, ypos);
 			this.renderCall = itemRenderCall;
 		}
-		protected var itemSize:Array = [];
+		protected var itemSize:Array = [70,20];
 		
 		override protected function invalidate():void
 		{
@@ -52,8 +51,9 @@ package com.vhall.app.view.control.ui.component
 		 }
 		 
 		 protected function drawBg():void{
-			 this.graphics.beginFill(0x474747);
-			 this.graphics.drawRect(0,0,width,height);
+			 if(dataProvider == null) return;
+			 this.graphics.beginFill(0x272727);
+			 this.graphics.drawRect(-1,-1,itemSize[0]+2,dataProvider.length*itemSize[1] + dataProvider.length-1 * 1+ 2);
 			 this.graphics.endFill();
 		 }
 		 
@@ -65,6 +65,7 @@ package com.vhall.app.view.control.ui.component
 		  */	
 		 public function setItemSize(tw:int,th:int):void{
 			 itemSize = [tw,th];
+			 drawBg();
 		 }
 		 
 		/**

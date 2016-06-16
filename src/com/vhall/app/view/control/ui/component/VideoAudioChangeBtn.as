@@ -33,7 +33,7 @@ package com.vhall.app.view.control.ui.component
 			// TODO Auto Generated method stub
 			super.createChildren();
 			btn = new SwitchBtn(this);
-			btn.setSize(52,20);
+			btn.setSize(74,22);
 			btn.horizontalCenter = 0;
 			btn.addEventListener(MouseEvent.CLICK,onClick);
 			updateStatusByMode();
