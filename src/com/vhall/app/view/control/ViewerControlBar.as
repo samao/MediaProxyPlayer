@@ -186,6 +186,8 @@ package com.vhall.app.view.control
 				MediaModel.me().volume = _volumeBar.volumeValue/100;
 				NResponder.dispatch(AppCMD.MEDIA_SET_VOLUME);
 			}
+			
+			updateVolumeButton();
 		}
 		
 		/**
@@ -220,8 +222,8 @@ package com.vhall.app.view.control
 			volumeBox.verticalCenter = 0;
 			volumeBox.verticalAlign = "center";
 			_muteBut = new ToggleButton(volumeBox);
-			_muteBut.skin = "assets/ui/mic_on.png";
-			_muteBut.downSkin = "assets/ui/mic_off.png";
+			_muteBut.skin = "assets/ui/1.png";
+			_muteBut.downSkin = "assets/ui/0.png";
 			_muteBut.tooltip = "静音";
 			_muteBut.callOut = "top";
 			_muteBut.addEventListener(Event.SELECT,muteHandler);
@@ -231,6 +233,18 @@ package com.vhall.app.view.control
 			_volumeBar.volumeValue = MediaModel.me().volume * 100;
 			_volumeBar.setBgVisible(false);
 			_volumeBar.userData = 50;
+			
+			updateVolumeButton();
+		}
+		
+		private function updateVolumeButton():void
+		{
+			if(!_muteBut.selected)
+			{
+				var index:uint = MediaModel.me().volume <= .3 ? 1:MediaModel.me().volume <= .55 ? 2 : 3;
+				_muteBut.setSkin("assets/ui/"+index+".png");
+				trace(MediaModel.me().volume)
+			}
 		}
 		
 		/**

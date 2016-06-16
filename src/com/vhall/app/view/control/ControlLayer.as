@@ -29,7 +29,7 @@ package com.vhall.app.view.control
 		override protected function createChildren():void
 		{
 			super.createChildren();
-			if(0 && Model.Me().userinfo.is_pres)
+			if(Model.Me().userinfo.is_pres)
 			{
 				setToHost();
 			}

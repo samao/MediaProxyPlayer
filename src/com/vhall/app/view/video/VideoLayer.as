@@ -7,6 +7,7 @@ package com.vhall.app.view.video
 	import com.vhall.app.model.Model;
 	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.net.MediaAJMessage;
+	import com.vhall.framework.app.manager.SOManager;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.load.ResourceLoader;
@@ -131,7 +132,7 @@ package com.vhall.app.view.video
 					break;
 				case AppCMD.MEDIA_SET_VOLUME:
 					//log("设置视频声音：",info.volume);
-					_videoPlayer.volume = info.volume;
+					setVolume(info.volume);
 					break;
 				case AppCMD.MEDIA_CHANGEVIDEO_MODE:
 				case AppCMD.MEDIA_SWITCH_LINE:
@@ -186,6 +187,11 @@ package com.vhall.app.view.video
 					break;
 			}
 		} 
+		
+		private function setVolume(value:Number):void
+		{
+			_videoPlayer.volume = value;
+		}
 		
 		private function play():void
 		{
