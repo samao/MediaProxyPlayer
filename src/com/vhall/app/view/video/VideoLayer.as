@@ -77,7 +77,6 @@ package com.vhall.app.view.video
 		
 		private function autoStart():void
 		{
-			//new StreamInfo(this);
 			//log("演讲中:",Model.userInfo.is_pres,info.netOrFileUrl,info.streamName);
 			
 			/*if(Model.userInfo.is_pres)
@@ -297,7 +296,7 @@ package com.vhall.app.view.video
 					clearTimer();
 					_postionId = setInterval(timeCheck,1000);
 					_retryTimes = 0;
-					//loading = true;
+					loading = true;
 					break;
 				case MediaProxyStates.CONNECT_FAILED:
 					clearTimer();
