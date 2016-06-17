@@ -34,5 +34,7 @@ package com.vhall.app.model.info
 		public var streamToken:String;
 		/**	小助手是否处于打开状态*/
 		public var assistantOpened:Boolean = false;
+		
+		public var quering:Boolean = false;
 	}
 }
