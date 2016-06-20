@@ -11,6 +11,7 @@ package com.vhall.app.view.control
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
 	import flash.events.MouseEvent;
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.ui.Mouse;
 	import flash.utils.clearTimeout;
@@ -142,6 +143,12 @@ package com.vhall.app.view.control
 		protected function onMouseOut(event:MouseEvent):void
 		{
 			// TODO Auto-generated method stub
+			//加入rect判断,如果还在bar内部隐藏bar;
+			var rect:Rectangle = this.getRect(StageManager.stage);
+			if(rect.containsPoint(new Point(StageManager.stage.mouseX,StageManager.stage.mouseY)))
+			{
+				return;
+			}
 			this.removeEventListener(MouseEvent.ROLL_OUT,onMouseOut);
 			this.removeEventListener(MouseEvent.MOUSE_MOVE,onMouseMove);
 			this.startMouseCheck();

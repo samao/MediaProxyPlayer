@@ -23,6 +23,7 @@ package com.vhall.app.net
 		private function onConnect(data:Object):void
 		{
 			log("socket connect, pid:" + Model.Me().meetinginfo.pid);
+			Model.playerStatusInfo.quering = true;
 			AssistantACMessage.queryEngine(Model.Me().meetinginfo.pid);
 		}
 		
