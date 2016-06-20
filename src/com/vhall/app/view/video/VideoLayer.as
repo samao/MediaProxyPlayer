@@ -351,6 +351,9 @@ package com.vhall.app.view.video
 				case MediaProxyStates.NO_HARD_WARE:
 					log("未找到硬件:",value);
 					break;
+				case MediaProxyStates.CAMERA_IS_USING:
+					log("推流摄像头被占用，请关闭摄像头占用程序,重新推流");
+					break;
 			}
 		}
 		
