@@ -1,7 +1,6 @@
 package com.vhall.app.view.debug
 {
 	import com.vhall.app.common.components.ButtonItemRender;
-	import com.vhall.app.view.video.StreamInfo;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.ui.container.Box;
 	import com.vhall.framework.ui.container.ViewStack;

@@ -7,7 +7,7 @@
  * ===================================
  */
 
-package com.vhall.app.view.video
+package com.vhall.app.view.debug
 {
 	import com.vhall.app.model.MediaModel;
 	import com.vhall.framework.load.ResourceLoader;
@@ -119,10 +119,10 @@ package com.vhall.app.view.video
 			_statsText.htmlText += "\r视(音)频丢包: "+stream.info.videoLossRate + "("+stream.info.audioLossRate+")";
 			MediaModel.me().player && (_statsText.htmlText += "\r状态：" + MediaModel.me().player.state);
 			
-			this.move(20,20);
+			//this.move(20,20);
 			
 			_bglayer.graphics.clear();
-			_bglayer.graphics.beginFill(0x000000,.6);
+			_bglayer.graphics.beginFill(0x000000,.0);
 			_bglayer.graphics.drawRect(0,0,320,_statsText.height);
 			_bglayer.graphics.endFill();
 			

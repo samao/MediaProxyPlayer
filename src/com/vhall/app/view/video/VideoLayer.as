@@ -31,6 +31,7 @@ package com.vhall.app.view.video
 	import flash.utils.setTimeout;
 	
 	import appkit.responders.NResponder;
+	import com.vhall.app.view.debug.StreamInfo;
 	
 	public class VideoLayer extends Layer implements IResponder
 	{
@@ -80,31 +81,6 @@ package com.vhall.app.view.video
 			{
 				log("加载语音状态资源失败");
 				autoStart();
-			});
-			
-			if(stage)
-			{
-				stage.addEventListener(KeyboardEvent.KEY_UP,function(e:KeyboardEvent):void
-				{
-					if(e.shiftKey&&e.keyCode == Keyboard.I)
-					{
-						toggleStats();
-					}
-				});
-			}else{
-				this.addEventListener(Event.ADDED_TO_STAGE,onAdded);
-			}
-		}
-		
-		protected function onAdded(event:Event):void
-		{
-			this.removeEventListener(Event.ADDED_TO_STAGE,onAdded);
-			stage.addEventListener(KeyboardEvent.KEY_UP,function(e:KeyboardEvent):void
-			{
-				if(e.shiftKey&&e.keyCode == Keyboard.I)
-				{
-					toggleStats();
-				}
 			});
 		}
 		
@@ -384,21 +360,6 @@ package com.vhall.app.view.video
 					}
 					play();
 				}
-			}
-		}
-		
-		/**
-		 * 流状态统计面板切换
-		 */		
-		private function toggleStats():void
-		{
-			_streamInfo ||= new StreamInfo();
-			
-			if(this.contains(_streamInfo))
-			{
-				this.removeChild(_streamInfo);
-			}else{
-				this.addChild(_streamInfo);
 			}
 		}
 		
