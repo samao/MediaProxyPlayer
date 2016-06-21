@@ -1,11 +1,9 @@
 package  com.vhall.app.view.control.ui.component
 {
 	import com.vhall.framework.ui.container.Box;
-	import com.vhall.framework.ui.controls.Button;
-	import com.vhall.framework.ui.controls.ItemRender;
+	import com.vhall.framework.ui.event.ListEvent;
 	
 	import flash.display.DisplayObjectContainer;
-	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 
@@ -129,7 +127,7 @@ package  com.vhall.app.view.control.ui.component
 			}
 			
 			list.dataProvider = data;
-			list.addEventListener(Event.SELECT,onSelect);
+			list.addEventListener(ListEvent.SelectChanged,onSelect);
 			setShowItemSkin();
 			addLisn();
 		}
