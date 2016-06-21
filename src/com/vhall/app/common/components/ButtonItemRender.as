@@ -23,6 +23,7 @@ package com.vhall.app.common.components
 			super.createChildren();
 
 			btnToggle = new ToggleButton(this);
+			btnToggle.labelColor = 0xFF0000;
 			btnToggle.skin = ComponentUtils.genInteractiveRect(60, 24, null, 0, 0, 0x00ffe4);
 			btnToggle.overSkin = ComponentUtils.genInteractiveRect(60, 24, null, 0, 0, 0x6efff0);
 			btnToggle.downSkin = ComponentUtils.genInteractiveRect(60, 24, null, 0, 0, 008476);
