@@ -119,6 +119,14 @@ package com.vhall.app.model
 		 * <br>3.hls 视频/视频 只需要给serverUrl 没有fileName 只需要选择线路，没有清晰度
 		 */	
 		public static function updateMediaInfo():void{
+			var initfail:int = 0;
+			if(Model.playerStatusInfo == null) initfail = 1;
+			if(Model.videoInfo == null) initfail = 2;
+			if(Model.videoInfo.selectLineVo == null) initfail = 3;
+			if(initfail > 0){
+				Logger.getLogger("updateMediaInfo").info("初始化数据错误："+initfail);
+				return;
+			}
 			//判断hls还是rtmp
 			if(Model.playerStatusInfo.playMode == PlayMode.PLAY_HLS){
 				//hls视频语音路径区分
@@ -131,6 +139,10 @@ package com.vhall.app.model
 				}
 			}else{
 				if(Model.playerStatusInfo.viewVideoMode){
+					if(Model.videoInfo.selectDefVo == null){
+						Logger.getLogger("updateMediaInfo").info("初始化数据错误："+4);
+						return;
+					}
 					//当前线路视频地址
 					MediaModel.me().netOrFileUrl = Model.videoInfo.selectLineVo.serverUrl;
 					MediaModel.me().streamName = Model.videoInfo.selectDefVo.fileName;
