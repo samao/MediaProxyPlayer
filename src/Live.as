@@ -1,5 +1,7 @@
 package
 {
+	import appkit.responders.NResponder;
+	
 	import com.vhall.app.common.Layer;
 	import com.vhall.app.common.controller.MenuController;
 	import com.vhall.app.common.controller.MessageController;
@@ -9,20 +11,22 @@ package
 	import com.vhall.app.net.WebAJMessage;
 	import com.vhall.app.view.barrage.BarrageLayer;
 	import com.vhall.app.view.control.ControlLayer;
+	import com.vhall.app.view.debug.DebugLayer;
 	import com.vhall.app.view.effect.EffectLayer;
 	import com.vhall.app.view.popup.PopupLayer;
 	import com.vhall.app.view.video.VideoLayer;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.app.mvc.ResponderMediator;
+	import com.vhall.framework.keyboard.KeyboardMapper;
 	import com.vhall.framework.log.Logger;
 	import com.vhall.framework.ui.container.Box;
+	import com.vhall.framework.ui.manager.PopupManager;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.system.Security;
-	
-	import appkit.responders.NResponder;
+	import flash.ui.Keyboard;
 
 	/**
 	 * 主类
@@ -41,6 +45,8 @@ package
 		public var effectLayer:Layer;
 		// 弹框层
 		public var popupLayer:Layer;
+		
+		public var debug:DebugLayer;
 		
 		public function Live(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0)
 		{
@@ -72,7 +78,12 @@ package
 			if(!Model.userInfo.is_pres){
 				NResponder.dispatch(AppCMD.MEDIA_SWITCH_LINE);
 			}
-			onTest();
+			
+			debug = new DebugLayer();
+			
+			//注册调试信息 快捷键为ctrl+K
+			var km:KeyboardMapper = new KeyboardMapper(StageManager.stage);
+			km.mapListener(onTest, Keyboard.SHIFT, Keyboard.K);
 		}
 
 		/**	感兴趣 的消息*/
@@ -105,6 +116,8 @@ package
 //			Model.videoInfo.cdnServers = "";
 //			Model.videoInfo.playItem = "";
 //			NResponder.dispatch(AppCMD.UI_SHOW_LOGOLOADING);
+			
+			PopupManager.addPopup(debug);
 		}
 	}
 }

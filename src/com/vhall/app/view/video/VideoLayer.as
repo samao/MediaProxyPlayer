@@ -7,7 +7,6 @@ package com.vhall.app.view.video
 	import com.vhall.app.model.Model;
 	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.net.MediaAJMessage;
-	import com.vhall.framework.app.manager.SOManager;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.load.ResourceLoader;
@@ -20,28 +19,38 @@ package com.vhall.app.view.video
 	import flash.display.DisplayObjectContainer;
 	import flash.display.MovieClip;
 	import flash.display.StageDisplayState;
+	import flash.events.Event;
+	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.system.ApplicationDomain;
+	import flash.ui.Keyboard;
 	import flash.utils.clearInterval;
 	import flash.utils.clearTimeout;
 	import flash.utils.setInterval;
 	import flash.utils.setTimeout;
 	
 	import appkit.responders.NResponder;
+	import com.vhall.app.view.debug.StreamInfo;
 	
 	public class VideoLayer extends Layer implements IResponder
 	{
+		/**视频模块*/
 		private var _videoPlayer:VideoPlayer;
+		/**状态统计面板*/
+		private var _streamInfo:StreamInfo;
 		
+		/**播放时间当前位置计时器id*/
 		private var _postionId:int;
+		/**推流名称重复，重推延时id*/
 		private var _retryId:int;
+		/**上一次计时器获取的视频播放时间*/
 		private var _preTime:Number = 0;
-		
+		/**麦克状态ui*/		
 		private var _micActivity:AudioModelPicComp;
-		
+		/**拉流重试最大次数*/
 		private const MAX_RETRY:uint = 16;
-		
+		/**当前重试次数*/
 		private var _retryTimes:uint = 0;
 		
 		public function VideoLayer(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
@@ -77,20 +86,7 @@ package com.vhall.app.view.video
 		
 		private function autoStart():void
 		{
-			//log("演讲中:",Model.userInfo.is_pres,info.netOrFileUrl,info.streamName);
 			
-			/*if(Model.userInfo.is_pres)
-			{
-				_videoPlayer.publish(info._soCamera,info._soMicrophone,info.netOrFileUrl,info.streamName,videoHandler,info._soCamWidth,info._soCamHeight);
-			}else{
-				_videoPlayer.connect(protocol(info.netOrFileUrl),info.netOrFileUrl,info.streamName,videoHandler);
-			}
-			
-			//回放增加屏幕暂停功能
-			if([MediaProxyType.HLS,MediaProxyType.HTTP].indexOf(_videoPlayer.type) != -1)
-			{
-				addEventListener(MouseEvent.CLICK,mouseHandler);
-			}*/
 		}
 		
 		public function careList():Array
@@ -221,7 +217,7 @@ package com.vhall.app.view.video
 			{
 				const server:String = Model.userInfo.is_pres?MediaModel.me().publishUrl:MediaModel.me().netOrFileUrl;
 				const stream:String = Model.userInfo.is_pres?MediaModel.me().publishStreamName:MediaModel.me().streamName;
-				log("推流地址：",protocol(server),server,stream,"用户isPres:",Model.userInfo.is_pres);
+				log("推流地址：",protocol(server),server,stream,"用户isPres:",Model.userInfo.is_pres,info._soCamWidth,info._soCamHeight);
 				if(_videoPlayer.type != null)
 				{
 					_videoPlayer.dispose();
@@ -232,32 +228,6 @@ package com.vhall.app.view.video
 			}
 			videoPausedByClick = false;
 			_videoPlayer.visible = true
-		}
-		
-		private function connectServer():void
-		{
-			_preTime = 0;
-			if(!Model.userInfo.is_pres)
-			{
-				videoMode = info.videoMode;
-			}
-			const server:String = Model.userInfo.is_pres?MediaModel.me().publishUrl:MediaModel.me().netOrFileUrl;
-			const stream:String = Model.userInfo.is_pres?MediaModel.me().publishStreamName:MediaModel.me().streamName;
-			log("连接地址：",protocol(server),server,stream,"用户isPres:",Model.userInfo.is_pres);
-			if(_videoPlayer.type == null)
-			{
-				if(Model.userInfo.is_pres)
-				{
-					log("推流1：",info._soCamera,info._soMicrophone,server,stream);
-					_videoPlayer.publish(info._soCamera,info._soMicrophone,server,stream,videoHandler,info._soCamWidth,info._soCamHeight);
-				}else{
-					_videoPlayer.connect(protocol(server),server,stream,videoHandler,true,0);
-				}
-			}else{
-				_videoPlayer.attachType(protocol(server),server,stream,true,_videoPlayer.time,info._soCamera,info._soMicrophone,info._soCamWidth,info._soCamHeight);
-			}
-			
-			videoPausedByClick = !isLive;
 		}
 		
 		private function set videoPausedByClick(bool:Boolean):void
@@ -356,6 +326,9 @@ package com.vhall.app.view.video
 					break;
 				case MediaProxyStates.NO_HARD_WARE:
 					log("未找到硬件:",value);
+					break;
+				case MediaProxyStates.CAMERA_IS_USING:
+					log("推流摄像头被占用，请关闭摄像头占用程序,重新推流");
 					break;
 			}
 		}

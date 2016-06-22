@@ -7,7 +7,7 @@
  * ===================================
  */
 
-package com.vhall.app.view.video
+package com.vhall.app.view.debug
 {
 	import com.vhall.app.model.MediaModel;
 	import com.vhall.framework.load.ResourceLoader;
@@ -15,7 +15,6 @@ package com.vhall.app.view.video
 	import com.vhall.framework.media.provider.MediaProxyType;
 	import com.vhall.framework.ui.container.Box;
 	import com.vhall.framework.ui.utils.FontUtil;
-	import com.vhall.framework.utils.JsonUtil;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
@@ -27,6 +26,9 @@ package com.vhall.app.view.video
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
 	
+	/**
+	 * 流状态统计信息面板
+	 */	
 	public class StreamInfo extends Box
 	{
 		private var _statsText:TextField;
@@ -115,11 +117,12 @@ package com.vhall.app.view.video
 			_statsText.htmlText += "\r播放丢帧: "+stream.info.droppedFrames;
 			_statsText.htmlText += "\r解码帧：" + stream.decodedFrames;
 			_statsText.htmlText += "\r视(音)频丢包: "+stream.info.videoLossRate + "("+stream.info.audioLossRate+")";
-
-			this.move(20,20);
+			MediaModel.me().player && (_statsText.htmlText += "\r状态：" + MediaModel.me().player.state);
+			
+			//this.move(20,20);
 			
 			_bglayer.graphics.clear();
-			_bglayer.graphics.beginFill(0x000000,.6);
+			_bglayer.graphics.beginFill(0x000000,.0);
 			_bglayer.graphics.drawRect(0,0,320,_statsText.height);
 			_bglayer.graphics.endFill();
 			

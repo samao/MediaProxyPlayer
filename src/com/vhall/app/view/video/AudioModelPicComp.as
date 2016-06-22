@@ -9,6 +9,8 @@
 
 package com.vhall.app.view.video
 {
+	import com.vhall.app.model.MediaModel;
+	import com.vhall.app.model.Model;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.ui.controls.UIComponent;
 	
@@ -120,6 +122,21 @@ package com.vhall.app.view.video
 		
 		private function get activity():Number
 		{
+			if(Model.userInfo.is_pres && MediaModel.me().player&&MediaModel.me().player.usedMic && !MediaModel.me().player.usedCam)
+			{
+				//Logger.getLogger("[mic level:]").info("当前获取音量：",MediaModel.me().player.usedMic.activityLevel);
+				var micactvielevel:Number = MediaModel.me().player.usedMic.activityLevel;
+				if(micactvielevel < 20)
+				{
+					return 0;
+				}else if(micactvielevel < 40){
+					return 20;
+				}else if(micactvielevel < 60){
+					return 40;
+				}else{
+					return 75;
+				}
+			}
 			var left:Number = 0;
 			var right:Number = 0;
 			const PLOT_HEIGHT:int = 100; 
