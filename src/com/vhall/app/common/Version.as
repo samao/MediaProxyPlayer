@@ -15,7 +15,7 @@ package com.vhall.app.common
 		/**
 		 *	主版本号 
 		 */		
-		public static const Major:int = 0;
+		public static const Major:int = 4;
 		
 		/**
 		 *	主要功能版本 
