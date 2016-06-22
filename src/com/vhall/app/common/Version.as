@@ -15,22 +15,22 @@ package com.vhall.app.common
 		/**
 		 *	主版本号 
 		 */		
-		public static const Major:String = "0";
+		public static const Major:int = 0;
 		
 		/**
 		 *	主要功能版本 
 		 */		
-		public static const Minor:String = "0";
+		public static const Minor:int = 0;
 		
 		/**
 		 *	次要功能版本 
 		 */		
-		public static const Patch:String = "0";
+		public static const Patch:int = 0;
 		
 		/**
 		 *	编译版本号 
 		 */		
-		public static const Build:String = new Date().minutes + "." + new Date().seconds;
+		public static const Build:int = 1;//new Date().minutes + "." + new Date().seconds;
 		
 		/**
 		 * 获取当前APP名字 
