@@ -158,7 +158,7 @@ package com.vhall.app.view.control
 		 * 
 		 */		
 		protected function autoHide(currentWd:int):void{
-			if(currentWd < 135) return;
+			if(currentWd < 60) return;
 			var cWidth:int = StageManager.stageWidth - 130;
 			if(cWidth < currentWd){
 				var hideCd:UIComponent = getNeedHideChild();
