@@ -1,10 +1,10 @@
 package com.vhall.app.view.popup
 {
+	import com.vhall.app.view.popup.ui.MainLoading;
 	import com.vhall.framework.ui.container.Box;
+	import com.vhall.view.LoadingLine;
 	
 	import flash.display.DisplayObjectContainer;
-	import com.vhall.app.view.loading.LoadingLine;
-	import com.vhall.app.view.loading.MainLoading;
 
 	/**
 	 * 加载条提示板 显示时会自动到父容器的最上层显示

@@ -1,4 +1,4 @@
-package com.vhall.app.view.loading
+package com.vhall.app.view.popup.ui
 {
 	import com.vhall.framework.ui.container.Box;
 	import com.vhall.view.LoadingLine;
@@ -11,10 +11,10 @@ package com.vhall.app.view.loading
 	 * @author zqh 
 	 * 
 	 */	
-	public class LoadingLine extends Box
+	public class LineLoading extends Box
 	{
 		private var lineLoading:MovieClip;
-		public function LoadingLine(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
+		public function LineLoading(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super(parent, xpos, ypos);
 			this.mouseChildren = this.mouseEnabled = false;

@@ -1,4 +1,4 @@
-package com.vhall.app.view.warn
+package com.vhall.app.view.popup.ui
 {
 	import com.vhall.app.common.Resource;
 	import com.vhall.framework.ui.controls.Image;

@@ -1,7 +1,6 @@
 package com.vhall.app.view.popup
 {
-	import com.vhall.app.view.warn.WarnLogoPanel;
-	import com.vhall.app.view.warn.WarnPanel;
+	import com.vhall.app.view.popup.ui.WarnLogoPanel;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.ui.container.Box;
 	
