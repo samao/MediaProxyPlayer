@@ -108,8 +108,9 @@ package
 			_height = StageManager.stageHeight;
 			_width = StageManager.stageWidth;
 			controlLayer.width = StageManager.stageWidth;
-			popupLayer && popupLayer.setSize(StageManager.stageWidth, StageManager.stageHeight);
-			videoLayer && videoLayer.setSize(StageManager.stageWidth, StageManager.stageHeight);
+			popupLayer && popupLayer.setSize(_width, _height);
+			videoLayer && videoLayer.setSize(_width, _height);
+			debug.setSize(_width, _height);
 		}
 		
 		public function onTest():void{

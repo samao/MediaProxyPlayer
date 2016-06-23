@@ -37,5 +37,12 @@ package com.vhall.app.view.debug
 			txLogs.appendText("\n");
 			txLogs.scrollV = txLogs.maxScrollV;
 		}
+		
+		override protected function sizeChanged():void
+		{
+			super.sizeChanged();
+			txLogs.width = width;
+			txLogs.height = height * 0.8;
+		}
 	}
 }
