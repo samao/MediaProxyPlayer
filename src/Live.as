@@ -68,8 +68,6 @@ package
 			effectLayer = new EffectLayer(box);
 			popupLayer = new PopupLayer(box);
 			controlLayer = new ControlLayer(box);
-			controlLayer.height = 35;
-			controlLayer.bottom = 0;
 			LayerManager.initLayer(box);
 			
 			//发送初始化消息

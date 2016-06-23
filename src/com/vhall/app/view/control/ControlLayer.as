@@ -19,6 +19,8 @@ package com.vhall.app.view.control
 		public function ControlLayer(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
 		{
 			super(parent, xpos, ypos);
+			height = 35;
+			bottom = 0;
 		}
 
 		override protected function init():void
@@ -37,6 +39,27 @@ package com.vhall.app.view.control
 			{
 				setToView();
 			}
+		}
+		
+		
+		override protected function sizeChanged():void
+		{
+			super.sizeChanged();
+			bar.width = width;
+		}
+		
+		protected function setToHost():void
+		{
+			if(bar) bar.removeFromParent();
+			bar = _hostBar ||= new HostControlBar();
+			this.addChild(bar);
+		}
+		
+		protected function setToView():void
+		{
+			if(bar) bar.removeFromParent();
+			bar = _viewBar ||= new ViewerControlBar();
+			this.addChild(bar);
 		}
 		
 		public function careList():Array
@@ -58,26 +81,6 @@ package com.vhall.app.view.control
 					}
 					break;
 			}
-		}
-		
-		private function setToHost():void
-		{
-			if(bar) bar.removeFromParent();
-			bar = _hostBar ||= new HostControlBar();
-			this.addChild(bar);
-		}
-		
-		private function setToView():void
-		{
-			if(bar) bar.removeFromParent();
-			bar = _viewBar ||= new ViewerControlBar();
-			this.addChild(bar);
-		}
-		
-		override protected function sizeChanged():void
-		{
-			super.sizeChanged();
-			bar.width = width;
 		}
 	}
 }
