@@ -27,11 +27,12 @@ package com.vhall.app.common.controller
 		override protected function initController():void
 		{
 			Logger.getLogger("message init").info("initController");
+			//webbridge注册必须在 监听之前；
+			MessageManager.getInstance().initWebBridge(new LiveWebBridge());
 			// 注册接收的回调
 			MessageManager.getInstance().addWebCallBack("sendMsgToAs");
 
 			//注册消息收发
-			MessageManager.getInstance().initWebBridge(new LiveWebBridge());
 			MessageManager.getInstance().initSocket();
 
 			//注册 socket消息

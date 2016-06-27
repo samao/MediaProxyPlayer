@@ -17,7 +17,7 @@ package com.vhall.app.net
 	 */	
 	public class MediaAJMessage
 	{
-		private static var sender:WebBridge = MessageManager.getInstance().getBridge();
+		private static var sender:LiveWebBridge = MessageManager.getInstance().getBridge() as LiveWebBridge;
 		
 		//--------页面请求返回
 		
