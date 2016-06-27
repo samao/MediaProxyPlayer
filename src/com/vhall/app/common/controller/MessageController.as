@@ -1,6 +1,7 @@
 package com.vhall.app.common.controller
 {
 	import com.vhall.app.net.AssistantCAMessage;
+	import com.vhall.app.net.LiveWebBridge;
 	import com.vhall.app.net.MediaJAMessage;
 	import com.vhall.app.net.SocketCCMessage;
 	import com.vhall.app.net.WebJAMessage;
@@ -9,27 +10,32 @@ package com.vhall.app.common.controller
 	import com.vhall.framework.log.Logger;
 
 	/**
-	 * 消息注册控制 
+	 * 消息注册控制
 	 * @author Sol
-	 * 
-	 */	
+	 *
+	 */
 	public class MessageController extends Controller
 	{
 		/**
-		 * 消息注册 
-		 * 
-		 */		
+		 * 消息注册
+		 *
+		 */
 		public function MessageController()
 		{
 		}
-		
+
 		override protected function initController():void
 		{
-			// 注册接收的回调
 			Logger.getLogger("message init").info("initController");
+			// 注册接收的回调
 			MessageManager.getInstance().addWebCallBack("sendMsgToAs");
+
+			//注册消息收发
+			MessageManager.getInstance().initWebBridge(new LiveWebBridge());
+			MessageManager.getInstance().initSocket();
+
 			//注册 socket消息
-			MessageManager.getInstance().registMessage(new SocketCCMessage(),"SOCKET");
+			MessageManager.getInstance().registMessage(new SocketCCMessage(), "SOCKET");
 			MessageManager.getInstance().registMessage(new AssistantCAMessage(), "SOCKET");
 			// 注册web js消息
 			MessageManager.getInstance().registMessage(new MediaJAMessage());
