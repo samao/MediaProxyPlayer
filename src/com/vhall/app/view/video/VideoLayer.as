@@ -7,7 +7,6 @@ package com.vhall.app.view.video
 	import com.vhall.app.model.Model;
 	import com.vhall.app.net.AppCMD;
 	import com.vhall.app.net.MediaAJMessage;
-	import com.vhall.app.view.debug.StreamInfo;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.load.ResourceLoader;
@@ -15,6 +14,7 @@ package com.vhall.app.view.video
 	import com.vhall.framework.media.provider.MediaProxyStates;
 	import com.vhall.framework.media.provider.MediaProxyType;
 	import com.vhall.framework.media.video.VideoPlayer;
+
 	import flash.display.DisplayObjectContainer;
 	import flash.display.MovieClip;
 	import flash.display.StageDisplayState;
@@ -25,6 +25,7 @@ package com.vhall.app.view.video
 	import flash.utils.clearTimeout;
 	import flash.utils.setInterval;
 	import flash.utils.setTimeout;
+
 	import appkit.responders.NResponder;
 
 	public class VideoLayer extends Layer implements IResponder
@@ -48,8 +49,6 @@ package com.vhall.app.view.video
 		private var _retryId:int;
 		/**当前重试次数*/
 		private var _retryTimes:uint = 0;
-		/**状态统计面板*/
-		private var _streamInfo:StreamInfo;
 		/**视频模块*/
 		private var _videoPlayer:VideoPlayer;
 
@@ -533,3 +532,5 @@ package com.vhall.app.view.video
 		}
 	}
 }
+
+
