@@ -4,27 +4,27 @@ package com.vhall.app.model
 	import com.vhall.app.model.info.PlayerStatusInfo;
 	import com.vhall.app.model.info.UserInfo;
 	import com.vhall.app.model.info.VideoInfo;
-	
+
 	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
 
 	/**
-	 * 数据模型 
+	 * 数据模型
 	 * @author Sol
-	 * 
+	 *
 	 */	
 	public class Model
 	{
 		private static var I:Model;
-		
+
 		/**	原始数据*/
 		private var originParmeters:Object;
 		/**	当前用户信息*/
 		public var userinfo:UserInfo;
-		
+
 		/**	当前会议的信息*/
 		public var meetinginfo:MeetingInfo;
-		
+
 		/**	当前流数据的信息*/
 		public var videoinfo:VideoInfo;
 		/***播放器状态信息 */		
@@ -38,52 +38,52 @@ package com.vhall.app.model
 			}
 			return I;
 		}
-		
+
 		/**
-		 *用户信息 
-		 * @return 
-		 * 
+		 *用户信息
+		 * @return
+		 *
 		 */		
 		public static function get userInfo():UserInfo{
 			return Me().userinfo;
 		}
 		/**
-		 *视频信息 
-		 * @return 
-		 * 
+		 *视频信息
+		 * @return
+		 *
 		 */		
 		public static function get videoInfo():VideoInfo{
 			return Me().videoinfo;
 		}
-		
+
 		/**
-		 *状态信息 
-		 * @return 
-		 * 
+		 *状态信息
+		 * @return
+		 *
 		 */		
 		public static function get playerStatusInfo():PlayerStatusInfo{
 			return Me().playerstatusinfo;
 		}
-		
+
 		public function Model()
 		{
 			if(I)
 			{
 				throw new Error("Model is singlton");
 			}
-			
+
 			I = this;
 		}
-		
+
 		public function init(data:Object):void
 		{
 			this.originParmeters = data;
 			parseData(data,this);
 			DataService.updateMediaInfo();
 			DataService.updatePublishInfo();
-			
+
 		}
-		
+
 		// 递归解析数据
 		private function parseData(data:Object, t:*):void
 		{
@@ -92,7 +92,7 @@ package com.vhall.app.model
 			var child:XML;
 			var varName:String = "";
 			var typeName:String = "";
-			
+
 			var attrList:XMLList = xml..variable;
 			// 公共属性
 			for each(child in attrList)
@@ -105,6 +105,11 @@ package com.vhall.app.model
 					case "String":
 						if(data.hasOwnProperty(varName)){
 							t[varName] = data[varName];
+						}
+						break;
+					case "int":
+						if(data.hasOwnProperty(varName)){
+							t[varName] = int(data[varName]);
 						}
 						break;
 					case "Boolean":
@@ -128,7 +133,7 @@ package com.vhall.app.model
 						break;
 				}
 			}
-			
+
 			var accList:XMLList = xml..accessor;
 			var accessName:String;
 			for each(child in accList)
@@ -145,3 +150,4 @@ package com.vhall.app.model
 		}
 	}
 }
+
