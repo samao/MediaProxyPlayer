@@ -4,15 +4,15 @@ package com.vhall.app.view.barrage
 	import com.vhall.app.net.AppCMD;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.log.Logger;
-	
+
 	import flash.display.DisplayObjectContainer;
 
 	public class BarrageLayer extends Layer implements IResponder
 	{
 
 		// 1开启，0关闭
-		private var state:int = 1;
-		
+		private var state:int = 0;
+
 		private var con:BarrageContainer;
 
 		public function BarrageLayer(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0)
