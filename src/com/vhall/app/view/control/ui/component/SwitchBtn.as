@@ -1,10 +1,10 @@
 package com.vhall.app.view.control.ui.component
 {
 	import com.vhall.framework.ui.controls.Button;
-	
+
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
-	
+
 	/**
 	 *
 	 *@author zhaoqinghao
@@ -19,9 +19,9 @@ package com.vhall.app.view.control.ui.component
 			this.skin = btnUpBg;
 //			this.overSkin = btnOverBg;
 			this.labelSize = 14;
-			this.labelColor = 0x6b6b6b;
+			this.labelColor = "0x6b6b6b~0xff0000";
 		}
-		
+
 		override public function setSize(w:Number, h:Number):void
 		{
 			// TODO Auto Generated method stub
@@ -29,8 +29,8 @@ package com.vhall.app.view.control.ui.component
 			this.skin = btnUpBg;
 //			this.overSkin = btnOverBg;
 		}
-		
-		
+
+
 		protected function get btnUpBg():Shape{
 			var shp:Shape = new Shape();
 			shp.graphics.beginFill(0x6b6b6b);
@@ -44,7 +44,7 @@ package com.vhall.app.view.control.ui.component
 			shp.graphics.endFill();
 			return shp
 		}
-		
+
 //		protected function get btnOverBg():Shape{
 //			var shp:Shape = new Shape();
 //			shp.graphics.beginFill(0xE81926);
@@ -58,15 +58,16 @@ package com.vhall.app.view.control.ui.component
 //			shp.graphics.endFill();
 //			return shp
 //		}
-		
+
 		override protected function sizeChanged():void
 		{
 			super.sizeChanged();
 		}
-		
+
 		override protected function updateDisplay():void
 		{
 			super.updateDisplay();
 		}
 	}
 }
+
