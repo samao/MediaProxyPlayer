@@ -29,6 +29,12 @@ package com.vhall.app.net
 
 		private function publish(value:*):void
 		{
+			// 如果小助手打开， 不管小助手是否正在推流。 网页端都不推
+			if(Model.playerStatusInfo.assistantOpened)
+			{
+				return;
+			}
+
 			if(MediaModel.me().player.isPlaying)
 			{
 				dispatch(AppCMD.SHOW_SWITCH_GUEST_BUFFER);
