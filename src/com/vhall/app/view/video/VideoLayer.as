@@ -287,6 +287,7 @@ package com.vhall.app.view.video
 			{
 				log("当前正在直播用户不能拉流");
 			}
+			_videoPlayer.useStrategy = false;
 			_videoPlayer.visible = true
 			videoPausedByClick = !isLive;
 			videoMode = info.videoMode;
