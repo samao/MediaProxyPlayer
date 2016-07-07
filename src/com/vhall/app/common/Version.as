@@ -1,50 +1,50 @@
 package com.vhall.app.common
 {
 	/**
-	 * 版本信息 
+	 * 版本信息
 	 * @author Sol
 	 * @date 2016-05-24 20:59:33
 	 */	
 	public class Version
 	{
 		/**
-		 *	产品名称， live,vod,doc等 
+		 *	产品名称， live,vod,doc等
 		 */		
 		public static const App:String = "Live";
-		
+
 		/**
-		 *	主版本号 
+		 *	主版本号
 		 */		
 		public static const Major:int = 4;
-		
+
 		/**
-		 *	主要功能版本 
+		 *	主要功能版本
 		 */		
 		public static const Minor:int = 0;
-		
+
 		/**
-		 *	次要功能版本 
+		 *	次要功能版本
 		 */		
 		public static const Patch:int = 0;
-		
+
 		/**
-		 *	编译版本号 
+		 *	编译版本号
 		 */		
-		public static const Build:int = 3;//new Date().minutes + "." + new Date().seconds;
-		
+		public static const Build:int = 5;//new Date().minutes + "." + new Date().seconds;
+
 		/**
-		 * 获取当前APP名字 
-		 * @return 
-		 * 
+		 * 获取当前APP名字
+		 * @return
+		 *
 		 */		
 		public static function get app():String
 		{
 			return "[" + App + "]";
 		}
-		
+
 		/**
-		 *	获取当前版本号 
-		 * 
+		 *	获取当前版本号
+		 *
 		 */		
 		public static function get ver():String
 		{
@@ -52,3 +52,4 @@ package com.vhall.app.common
 		}
 	}
 }
+

@@ -4,11 +4,11 @@ package com.vhall.app.net
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.net.AbsMsgReceiver;
 	import com.vhall.framework.log.Logger;
-	
+
 	import flash.display.StageDisplayState;
-	
+
 	/**
-	 * web端传过来的js消息 js to as 
+	 * web端传过来的js消息 js to as
 	 * @author Sol
 	 * @date 2016-05-24 21:19:42
 	 */	
@@ -25,15 +25,15 @@ package com.vhall.app.net
 			register(MessageType.JA_OPENAST,onOpenAST);
 			register(MessageType.JA_SET_ISPRES,onSetPres);
 		}
-		
+
 		private function onSetBitRate(data:Object = null):void
 		{
 			// TODO Auto Generated method stub
 			Logger.getLogger("WebJAMsg").info("onSetBitRate Enter");
 			dispatch(AppCMD.VIDEO_SET_BITRATE,data.param)
 		}		
-		
-		
+
+
 		private function onSetPres(data:Object = null):void
 		{
 			Logger.getLogger("WebJAMsg").info("onSetPres Enter");
@@ -55,7 +55,7 @@ package com.vhall.app.net
 			}
 			dispatch(AppCMD.UI_CHANGE_CONTROLBAR);
 		}
-		
+
 		private function onOpenAST(data:Object = null):void
 		{
 			Logger.getLogger().info("收到打开小助手消息",Model.userInfo.is_pres);
@@ -64,11 +64,11 @@ package com.vhall.app.net
 			{
 				//开启小助手消息
 				AssistantACMessage.startEngine(Model.Me().meetinginfo.pid,
-											   Model.Me().userinfo.uname,
-											   Model.Me().videoinfo.streamname,
-											   Model.Me().videoinfo.streamtoken,
-											   Model.Me().playerstatusinfo.hide_powered,
-											   Model.Me().videoinfo.allPublishServers);
+					Model.Me().userinfo.uname,
+					Model.Me().videoinfo.streamname,
+					Model.Me().videoinfo.streamtoken,
+					Model.Me().playerstatusinfo.hide_powered,
+					Model.Me().videoinfo.allPublishServers);
 				//停止上报mic
 				dispatch(AppCMD.REPORT_JS_CLOS_VOLUME_REEPEAT);
 				// UI显示 使用小助手直播
@@ -77,14 +77,14 @@ package com.vhall.app.net
 				dispatch(AppCMD.MEDIA_PLAYER_DISPOSE);
 			}
 		}
-		
+
 		private function onGetInitParams(data:Object = null):void
 		{
 			Logger.getLogger("WebJAMsg").info("onGetInitParams Enter");
 			// TODO Auto Generated method stub
 			WebAJMessage.sendInitParam();
 		}
-		
+
 		private function onFullScreen(data:Object = null):void
 		{
 			if(Boolean(data.param))
@@ -96,7 +96,7 @@ package com.vhall.app.net
 				StageManager.stage.displayState = StageDisplayState.NORMAL;
 			}
 		}
-		
+
 		private function onBarrage(data:Object = null):void
 		{
 			// 如果关闭弹幕功能， 返回
@@ -107,7 +107,7 @@ package com.vhall.app.net
 			//发送弹幕
 			dispatch(AppCMD.BARRAGE_ADD,[data.data]);
 		}
-		
+
 		private function onActivedPres(data:Object = null):void
 		{
 			Logger.getLogger("WebJAMsg").info("onActivedPres Enter");
@@ -117,8 +117,8 @@ package com.vhall.app.net
 			}
 		}
 		/**
-		 *会议结束 
-		 * 
+		 *会议结束
+		 *
 		 */		
 		private function onMettingOver(data:Object = null):void
 		{
@@ -126,9 +126,11 @@ package com.vhall.app.net
 			// TODO Auto Generated method stub
 			Model.Me().meetinginfo.is_over = true;
 			dispatch(AppCMD.SHOWWARN_OVER_PIC);
+			dispatch(AppCMD.UI_HIDE_CONTROLBAR);
 			//关闭推流或者拉流
 			dispatch(AppCMD.MEDIA_PLAYER_DISPOSE);
 			dispatch(AppCMD.REPORT_JS_CLOS_VOLUME_REEPEAT);
 		}
 	}
 }
+

@@ -19,24 +19,24 @@ package com.vhall.app.view.control
 	import com.vhall.framework.ui.controls.ToggleButton;
 	import com.vhall.framework.ui.controls.UIComponent;
 	import com.vhall.framework.ui.event.DragEvent;
-	
+
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
 	import flash.events.MouseEvent;
-	
+
 	import appkit.responders.NResponder;
 
 	public class ViewerControlBar extends AbstractControlBar implements IResponder
 	{
 		/**	容器*/
 		private var hb:HBox;
-		
+
 		private var btnFullscreen:ToggleButton;
-		
+
 		private var btnBarrage:ToggleButton;
-		
+
 		private var _volumeBar:VolumeBar;
 		/**静音按钮*/
 		private var _muteBut:ToggleButton;
@@ -48,9 +48,9 @@ package com.vhall.app.view.control
 		protected var serverLinke:SwitchListBox;
 		/**切换视频 音频 模式组件**/			
 		protected var changeVideoMode:VideoAudioChangeBtn;
-		
+
 		/**
-		 *是否已经隐藏了组件 
+		 *是否已经隐藏了组件
 		 */
 		protected var isAutoHide:Boolean = false;
 		public function ViewerControlBar(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0)
@@ -58,7 +58,7 @@ package com.vhall.app.view.control
 			super(parent, xpos, ypos);
 			new ResponderMediator(this);
 		}
-		
+
 		override protected function createChildren():void
 		{
 			super.createChildren();
@@ -67,22 +67,22 @@ package com.vhall.app.view.control
 			hb.right = 10;
 			hb.verticalAlign = "center";
 			hb.horizontalAlign = "right";
-			
+
 			// 静音
 			onInitVolume();
-			
+
 			// 切换线路
 			onInitServerLine();
-			
+
 			// 切换音视频
 			onInitVideoModeBtn();
-			
+
 			// 切换画质
 			onInitDefination();
-			
+
 			//弹幕按钮
 			onInitBarrage();
-			
+
 			// 全屏按钮
 			btnFullscreen = new ToggleButton(hb);
 			btnFullscreen.skin = "assets/ui/expand.png";
@@ -91,10 +91,10 @@ package com.vhall.app.view.control
 			btnFullscreen.callOut = "top";
 			btnFullscreen.addEventListener(MouseEvent.CLICK,onToggleClickHandler);
 			btnFullscreen.userData = 9990;
-			
+
 //			RenderManager.getInstance().invalidate(invalidate);
 		}
-		
+
 		private function volumeChange(e:DragEvent):void
 		{
 			MediaModel.me().volume = e.percent;
@@ -103,26 +103,26 @@ package com.vhall.app.view.control
 			_volumeBeforeMute = _volumeBar.volumeValue;
 			muteHandler();
 		}
-		
+
 		override protected function sizeChanged():void
 		{
 			super.sizeChanged();
 			//计算是否需要隐藏控件
 			autoShowHide();
 		}
-		
+
 //		override protected function updateDisplay():void
 //		{
 //			super.updateDisplay();
 //			autoHide();
 //		}
-		
+
 		override protected function onFull(e:FullScreenEvent):void
 		{
 			super.onFull(e);
 			btnFullscreen.setSelected(e.fullScreen);
 		}
-		
+
 		override protected function onHide():void
 		{
 			// TODO Auto Generated method stub
@@ -151,11 +151,11 @@ package com.vhall.app.view.control
 				}
 			}
 		}
-		
-		
+
+
 		/**
-		 *自动隐藏 
-		 * 
+		 *自动隐藏
+		 *
 		 */		
 		protected function autoHide(currentWd:int):void{
 			if(currentWd < 60) return;
@@ -168,10 +168,10 @@ package com.vhall.app.view.control
 					currentWd = currentWd-hideCd.width;
 				}
 				autoHide(currentWd);
-				//
+					//
 			}
 		}
-		
+
 		protected function muteHandler(event:Event = null):void
 		{
 			if(_muteBut.selected)
@@ -186,13 +186,13 @@ package com.vhall.app.view.control
 				MediaModel.me().volume = _volumeBar.volumeValue/100;
 				NResponder.dispatch(AppCMD.MEDIA_SET_VOLUME);
 			}
-			
+
 			updateVolumeButton();
 		}
-		
+
 		/**
-		 *初始化弹幕 
-		 * 
+		 *初始化弹幕
+		 *
 		 */		
 		protected function onInitBarrage():void{
 			if(Model.playerStatusInfo.hideBarrage == false)
@@ -210,11 +210,11 @@ package com.vhall.app.view.control
 				btnBarrage.addEventListener(Event.SELECT, onBarrageSelect);
 			}
 		}
-		
+
 		/**
-		 *初始化音量 
+		 *初始化音量
 		 * @param event
-		 * 
+		 *
 		 */	
 		protected function onInitVolume():void{
 			var volumeBox:HBox = new HBox(this);
@@ -233,10 +233,10 @@ package com.vhall.app.view.control
 			_volumeBar.volumeValue = MediaModel.me().volume * 100;
 			_volumeBar.setBgVisible(false);
 			_volumeBar.userData = 50;
-			
+
 			updateVolumeButton();
 		}
-		
+
 		private function updateVolumeButton():void
 		{
 			if(!_muteBut.selected)
@@ -246,13 +246,13 @@ package com.vhall.app.view.control
 				trace(MediaModel.me().volume)
 			}
 		}
-		
+
 		/**
 		 *初始化清晰度组件
-		 * 
+		 *
 		 */		
 		protected function onInitDefination():void{
-		
+
 			if(Model.playerStatusInfo.hideQualitySwitch) return;
 			var sdata:Array = Model.videoInfo.definitionInfo;
 			definationBox = new SwitchListBox(hb);
@@ -273,10 +273,10 @@ package com.vhall.app.view.control
 			definationBox.addEventListener(Event.CHANGE,onDefinationChange);
 			definationBox.userData = 20;
 		}
-		
+
 		/**
 		 *初始化线路组件 会判断是否需要显示
-		 * 
+		 *
 		 */		
 		protected function onInitServerLine():void{
 			if(Model.playerStatusInfo.hideLineSwitch) return;
@@ -297,15 +297,15 @@ package com.vhall.app.view.control
 				serverLinke.initList(showData,110);
 				serverLinke.setShowItemSize(74,22);
 				serverLinke.showlabel = "切换线路";
-				
+
 				serverLinke.addEventListener(Event.CHANGE,onServerLineChange);
 				serverLinke.userData = 30;
 			}
 		}
-		
+
 		/**
 		 *初始化视频音频模式组件  会判断是否需要显示
-		 * 
+		 *
 		 */		
 		protected function onInitVideoModeBtn():void{
 			if(!Model.playerStatusInfo.streamType)return;
@@ -315,9 +315,9 @@ package com.vhall.app.view.control
 			changeVideoMode.userData = 40;
 		}
 		/**
-		 *音频视频模式改变时 处理数据，及切换播放 
+		 *音频视频模式改变时 处理数据，及切换播放
 		 * @param event
-		 * 
+		 *
 		 */		
 		protected function onVideoModeChange(event:Event):void
 		{
@@ -330,9 +330,9 @@ package com.vhall.app.view.control
 			NResponder.dispatch(AppCMD.UI_SHOW_LOADING);
 		}
 		/**
-		 *清晰度改变时 处理数据 切换播放 
+		 *清晰度改变时 处理数据 切换播放
 		 * @param event
-		 * 
+		 *
 		 */		
 		protected function onDefinationChange(event:Event):void
 		{
@@ -346,9 +346,9 @@ package com.vhall.app.view.control
 			}
 		}
 		/**
-		 * 线路改变时 处理数据 切换播放 
+		 * 线路改变时 处理数据 切换播放
 		 * @param event
-		 * 
+		 *
 		 */		
 		protected function onServerLineChange(event:Event):void
 		{
@@ -361,20 +361,20 @@ package com.vhall.app.view.control
 				NResponder.dispatch(AppCMD.UI_SHOW_LOADING);
 			}
 		}
-		
+
 		protected function onBarrageSelect(event:Event):void
 		{
 			var cmd:String = btnBarrage.selected ? AppCMD.BARRAGE_CLOSE : AppCMD.BARRAGE_OPEN;
 			NResponder.dispatch(cmd);
 		}
-		
+
 		protected function onToggleClickHandler(e:MouseEvent):void
 		{
 			StageManager.toggleFullscreen();
 		}
-		
+
 		/**
-		 *更新bar组件状态 
+		 *更新bar组件状态
 		 * <br>组件按照业务判断显示或者隐藏状态
 		 * <br><li>只有在状态改变了（isChange），才刷新控件，否则不刷新。
 		 * @param isOnlyStatus 是否是只更新状态(外部有可能是从自动显示过来的，也有可能是从状态改变过来的,状态改变过来的需要var 立即更新，否则hb更新)
@@ -403,11 +403,11 @@ package com.vhall.app.view.control
 			}
 			return isChange;
 		}
-		
+
 		/**
 		 *显示所有
-		 * @return 
-		 * 
+		 * @return
+		 *
 		 */		
 		public function showAll():void{
 			var tmpCd:UIComponent;
@@ -428,8 +428,8 @@ package com.vhall.app.view.control
 				hb.validateNow()
 			}
 		}
-		
-		
+
+
 		public function getNeedHideChild():UIComponent{
 			var i:int = 0;
 			var min:int = 999;
@@ -449,15 +449,15 @@ package com.vhall.app.view.control
 			}
 			return maxCd;
 		}
-		
+
 		public function careList():Array
 		{
 			var arr:Array = [
 				AppCMD.MEDIA_CHANGEVIDEO_MODE
-			];
+				];
 			return arr;
 		}
-		
+
 		public function handleCare(msg:String, ... args):void
 		{
 			switch(msg)
@@ -469,3 +469,5 @@ package com.vhall.app.view.control
 		}
 	}
 }
+
+

@@ -104,6 +104,7 @@ package com.vhall.app.net
 				dispatch(AppCMD.PUBLISH_START);
 			}
 			dispatch(AppCMD.UI_HIDE_WARN);
+			dispatch(AppCMD.UI_SHOW_CONTROLBAR);
 		}
 
 		private function unpublish(value:*):void
@@ -116,3 +117,5 @@ package com.vhall.app.net
 		}
 	}
 }
+
+

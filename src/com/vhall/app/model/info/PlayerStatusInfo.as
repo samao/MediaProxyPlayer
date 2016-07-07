@@ -26,15 +26,20 @@ package com.vhall.app.model.info
 		public var viewVideoMode:Boolean = true;
 		/***当前播放模式（RTMP/HLS） */		
 		public var playMode:String = PlayMode.PLAY_RTMP;
-		
+
 		/*** 获取初始化的摄像头和麦克风等信息并上报给页面*/
 		public var scanHardwareLock:Boolean;
-		
+
 		/*** 推流时传递给服务器的验证码*/
 		public var streamToken:String;
 		/**	小助手是否处于打开状态*/
 		public var assistantOpened:Boolean = false;
-		
+
 		public var quering:Boolean = false;
+		/**
+		 *是否是语音模式（语音文档）
+		 */		
+		public var videoMode:int = 0;
 	}
 }
+

@@ -1,7 +1,7 @@
 package
 {
 	import appkit.responders.NResponder;
-	
+
 	import com.vhall.app.common.Layer;
 	import com.vhall.app.common.controller.MenuController;
 	import com.vhall.app.common.controller.MessageController;
@@ -22,7 +22,7 @@ package
 	import com.vhall.framework.log.Logger;
 	import com.vhall.framework.ui.container.Box;
 	import com.vhall.framework.ui.manager.PopupManager;
-	
+
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.system.Security;
@@ -45,9 +45,9 @@ package
 		public var effectLayer:Layer;
 		// 弹框层
 		public var popupLayer:Layer;
-		
+
 		public var debug:DebugLayer;
-		
+
 		public function Live(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0)
 		{
 			Security.allowDomain("*");
@@ -61,7 +61,7 @@ package
 		override protected function createChildren():void
 		{
 			super.createChildren();
-			
+
 			var box:Sprite = this;
 			videoLayer = new VideoLayer(box);
 			barrageLayer = new BarrageLayer(box);
@@ -69,16 +69,16 @@ package
 			popupLayer = new PopupLayer(box);
 			controlLayer = new ControlLayer(box);
 			LayerManager.initLayer(box);
-			
+
 			//发送初始化消息
 			WebAJMessage.sendInitParam();
 			Logger.getLogger().info("is_pres:"+Model.userInfo.is_pres);
 			if(!Model.userInfo.is_pres){
 				NResponder.dispatch(AppCMD.MEDIA_SWITCH_LINE);
 			}
-			
+
 			debug = new DebugLayer();
-			
+
 			//注册调试信息 快捷键为ctrl+K
 			var km:KeyboardMapper = new KeyboardMapper(StageManager.stage);
 			km.mapListener(onTest, Keyboard.SHIFT, Keyboard.K);
@@ -110,13 +110,15 @@ package
 			videoLayer && videoLayer.setSize(_width, _height);
 			debug.setSize(_width, _height);
 		}
-		
+
 		public function onTest():void{
 //			Model.videoInfo.cdnServers = "";
 //			Model.videoInfo.playItem = "";
 //			NResponder.dispatch(AppCMD.UI_SHOW_LOGOLOADING);
-			
+
 			PopupManager.addPopup(debug);
 		}
 	}
 }
+
+
