@@ -127,9 +127,12 @@ package com.vhall.app.net
 			// TODO Auto Generated method stub
 			Model.Me().meetinginfo.is_over = true;
 			dispatch(AppCMD.SHOWWARN_OVER_PIC);
+			dispatch(AppCMD.UI_HIDE_CONTROLBAR);
 			//关闭推流或者拉流
 			dispatch(AppCMD.MEDIA_PLAYER_DISPOSE);
 			dispatch(AppCMD.REPORT_JS_CLOS_VOLUME_REEPEAT);
 		}
 	}
 }
+
+
