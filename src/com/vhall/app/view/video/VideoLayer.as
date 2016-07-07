@@ -287,6 +287,7 @@ package com.vhall.app.view.video
 			{
 				log("当前正在直播用户不能拉流");
 			}
+			_videoPlayer.useStrategy = false;
 			_videoPlayer.visible = true
 			videoPausedByClick = !isLive;
 			videoMode = info.videoMode;
@@ -346,6 +347,7 @@ package com.vhall.app.view.video
 		 */
 		private function publishForBadName():void
 		{
+			log("服务器已存在对应流，尝试重推");
 			_videoPlayer.changeVideoUrl(info.publishUrl, info.publishStreamName);
 		}
 

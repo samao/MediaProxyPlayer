@@ -116,7 +116,7 @@ package com.vhall.app.view.debug
 				_statsText.htmlText += "\r视频缓存长度: "+uint(stream.info.videoBufferByteLength);
 				_statsText.htmlText += "\r音频缓存长度: "+uint(stream.info.audioBufferByteLength);
 			}else{
-				if(type == MediaProxyType.HTTP) _statsText.htmlText += "\r下载网速: "+ uint(stream.info.currentBytesPerSecond/1024).toFixed(2) + " kbps";
+				if(type == MediaProxyType.HTTP||type == MediaProxyType.RTMP) _statsText.htmlText += "\r下载网速: "+ uint(stream.info.currentBytesPerSecond/1024).toFixed(2) + " kbps";
 			}
 
 			_statsText.htmlText += "\r播放帧频: "+stream.currentFPS.toFixed(1);
