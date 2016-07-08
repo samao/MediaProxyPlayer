@@ -197,7 +197,6 @@ package  com.vhall.app.view.control.ui.component
 			if(findData){
 				list.selectData = findData;
 			}
-
 		}
 
 		public function get gap():int

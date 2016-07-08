@@ -104,7 +104,6 @@ package com.vhall.app.view.video
 			if(!_skin) return;
 			var vocmc:MovieClip = _skin.getChildByName("voc") as MovieClip;
 			var micVolume:int = activity;
-			micVolume = Math.random() * 100;
 			if(micVolume <=0){
 				vocmc.gotoAndStop(1);
 			}else if(micVolume > 0 && micVolume <= 30){

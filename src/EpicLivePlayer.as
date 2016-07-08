@@ -15,7 +15,7 @@ package
 	import flash.system.Security;
 	import flash.utils.getTimer;
 
-	[SWF(width = "960", height = "640", backgroundColor = "0xC0C0C0")]
+	[SWF(width = "960", height = "640", backgroundColor = "0x000000")]
 	public class EpicLivePlayer extends App
 	{
 		public function EpicLivePlayer()

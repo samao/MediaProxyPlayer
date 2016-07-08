@@ -351,8 +351,8 @@ package com.vhall.app.view.control
 			DataService.onVideoModelChange(changeVideoMode.isVideoMode);
 			DataService.updateMediaInfo();
 			MediaModel.me().videoMode = !Model.playerStatusInfo.viewVideoMode;
-			NResponder.dispatch(AppCMD.MEDIA_CHANGEVIDEO_MODE);
 			NResponder.dispatch(AppCMD.UI_SHOW_LOADING);
+			NResponder.dispatch(AppCMD.MEDIA_CHANGEVIDEO_MODE);
 		}
 
 		/**
@@ -363,13 +363,13 @@ package com.vhall.app.view.control
 		protected function onDefinationChange(event:Event):void
 		{
 			// TODO Auto-generated method stub
-			Logger.getLogger("ViewerControlBar").info("onServerLineChange :", definationBox.getSelectData().value);
+			Logger.getLogger("ViewerControlBar").info("onDefinationChange :", definationBox.getSelectData().value);
 			var selectDef:String = definationBox.getSelectData().value
 			if(DataService.onSelectDef(selectDef))
 			{
 				DataService.updateMediaInfo();
-				NResponder.dispatch(AppCMD.MEDIA_SWITCH_QUALITY);
 				NResponder.dispatch(AppCMD.UI_SHOW_LOADING);
+				NResponder.dispatch(AppCMD.MEDIA_SWITCH_QUALITY);
 			}
 		}
 
@@ -386,8 +386,8 @@ package com.vhall.app.view.control
 			if(DataService.onSelectServerLine(selectSl))
 			{
 				DataService.updateMediaInfo();
-				NResponder.dispatch(AppCMD.MEDIA_SWITCH_LINE);
 				NResponder.dispatch(AppCMD.UI_SHOW_LOADING);
+				NResponder.dispatch(AppCMD.MEDIA_SWITCH_LINE);
 			}
 		}
 
