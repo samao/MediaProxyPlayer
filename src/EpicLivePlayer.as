@@ -8,7 +8,7 @@ package
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.load.ResourceLibrary;
 	import com.vhall.framework.log.Logger;
-	
+
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.system.ApplicationDomain;
@@ -24,14 +24,14 @@ package
 			addEventListener(App.INIT_END, onInited);
 			super();
 		}
-		
+
 		protected function onInitStart(event:Event):void
 		{
 			// 初始化参数
 			var vars:Object = this.loaderInfo.parameters;
 			Model.Me().init(loaderInfo.parameters);
 		}
-		
+
 		protected function onInited(event:Event):void
 		{
 			removeEventListener(App.INIT_END, onInited);
@@ -51,9 +51,14 @@ package
 
 		protected function onResize(event:Event):void
 		{
-			var obj:DisplayObject = this.getChildAt(0);
-			obj.width = StageManager.stageWidth;
-			obj.height = StageManager.stageHeight;
+			try{
+				var obj:DisplayObject = this.getChildAt(0);
+				obj.width = StageManager.stageWidth;
+				obj.height = StageManager.stageHeight;
+			}catch(e:Error){
+				Logger.getLogger("EpicLivePlayer onResize Error");
+			}
+
 		}
 
 		protected function itemComplete(item:Object, content:Object, domain:ApplicationDomain):void
@@ -82,3 +87,5 @@ package
 		}
 	}
 }
+
+
