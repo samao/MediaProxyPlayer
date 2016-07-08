@@ -1,5 +1,7 @@
 package  com.vhall.app.view.control.ui.component
 {
+	import com.vhall.app.model.info.vo.ServeLinevo;
+	import com.vhall.framework.log.Logger;
 	import com.vhall.framework.ui.container.Box;
 	import com.vhall.framework.ui.event.ListEvent;
 
@@ -180,6 +182,23 @@ package  com.vhall.app.view.control.ui.component
 			}
 		}
 
+
+		public function changeSelect(data:ServeLinevo):void{
+			var len:int = datas.length;
+			var findData:Object;
+			for (var i:int = 0; i < len; i++) 
+			{
+				findData = datas[i];
+				if(findData.label == data.sName)
+				{
+					break;
+				}
+			}
+			if(findData){
+				list.selectData = findData;
+			}
+
+		}
 
 		public function get gap():int
 		{

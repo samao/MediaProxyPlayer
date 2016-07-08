@@ -129,6 +129,12 @@ package com.vhall.app.net
 		 *ui相关 
 		 */		
 		public static const UI:String = "ui_";
+		
+		/**
+		 *自动更新serverline 
+		 */		
+		public static const UI_AUTO_CHANGE_SERVERLINE:String = "ui_auto_change_serverline";
+		
 		/**
 		 *更新controlbar; 
 		 */		

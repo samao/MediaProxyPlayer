@@ -45,7 +45,7 @@ package com.vhall.app.view.control
 		/***切换清晰度组件*/
 		protected var definationBox:SwitchListBox;
 		/**切换线路组件**/
-		protected var serverLinke:SwitchListBox;
+		protected var serverLine:SwitchListBox;
 		/**切换视频 音频 模式组件**/
 		protected var changeVideoMode:VideoAudioChangeBtn;
 
@@ -132,9 +132,9 @@ package com.vhall.app.view.control
 			{
 				definationBox.hideList();
 			}
-			if(serverLinke)
+			if(serverLine)
 			{
-				serverLinke.hideList();
+				serverLine.hideList();
 			}
 		}
 
@@ -305,7 +305,7 @@ package com.vhall.app.view.control
 			var showData:Array = []
 			if(sdata && sdata.length > 0)
 			{
-				serverLinke = new SwitchListBox(hb);
+				serverLine = new SwitchListBox(hb);
 				var tmpdta:ServeLinevo;
 				var data:Object;
 				for(var i:int = 0; i < sdata.length; i++)
@@ -316,12 +316,12 @@ package com.vhall.app.view.control
 					data.value = tmpdta.sName;
 					showData[i] = data;
 				}
-				serverLinke.initList(showData, 110);
-				serverLinke.setShowItemSize(74, 22);
-				serverLinke.showlabel = "切换线路";
+				serverLine.initList(showData, 110);
+				serverLine.setShowItemSize(74, 22);
+				serverLine.showlabel = "切换线路";
 
-				serverLinke.addEventListener(Event.CHANGE, onServerLineChange);
-				serverLinke.userData = 30;
+				serverLine.addEventListener(Event.CHANGE, onServerLineChange);
+				serverLine.userData = 30;
 			}
 		}
 
@@ -381,8 +381,8 @@ package com.vhall.app.view.control
 		protected function onServerLineChange(event:Event):void
 		{
 			// TODO Auto-generated method stub
-			Logger.getLogger("ViewerControlBar").info("onServerLineChange :", serverLinke.getSelectData().value);
-			var selectSl:String = serverLinke.getSelectData().value;
+			Logger.getLogger("ViewerControlBar").info("onServerLineChange :", serverLine.getSelectData().value);
+			var selectSl:String = serverLine.getSelectData().value;
 			if(DataService.onSelectServerLine(selectSl))
 			{
 				DataService.updateMediaInfo();
@@ -505,6 +505,16 @@ package com.vhall.app.view.control
 			return arr;
 		}
 
+		/**
+		 *自动切线
+		 *
+		 */		
+		public function onAutoChangeServeLine():void{
+			if(serverLine){
+				serverLine.changeSelect(Model.videoInfo.selectLineVo);
+			}
+		}
+
 		public function handleCare(msg:String, ... args):void
 		{
 			switch(msg)
@@ -516,3 +526,5 @@ package com.vhall.app.view.control
 		}
 	}
 }
+
+

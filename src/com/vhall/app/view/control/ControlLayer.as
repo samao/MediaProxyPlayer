@@ -67,7 +67,8 @@ package com.vhall.app.view.control
 			return [
 				AppCMD.UI_CHANGE_CONTROLBAR,
 				AppCMD.UI_SHOW_CONTROLBAR,
-				AppCMD.UI_HIDE_CONTROLBAR
+				AppCMD.UI_HIDE_CONTROLBAR,
+				AppCMD.UI_AUTO_CHANGE_SERVERLINE
 				];
 		}
 
@@ -90,6 +91,11 @@ package com.vhall.app.view.control
 				case 	AppCMD.UI_HIDE_CONTROLBAR:
 					if(bar){
 						bar.visible = false;
+					}
+					break;
+				case 	AppCMD.UI_AUTO_CHANGE_SERVERLINE:
+					if(bar && bar is ViewerControlBar){
+						(bar as ViewerControlBar).onAutoChangeServeLine();
 					}
 					break;
 			}
