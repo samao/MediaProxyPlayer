@@ -334,10 +334,7 @@ package com.vhall.app.view.video
 				const server:String = Model.userInfo.is_pres ? MediaModel.me().publishUrl : MediaModel.me().netOrFileUrl;
 				const stream:String = Model.userInfo.is_pres ? MediaModel.me().publishStreamName : MediaModel.me().streamName;
 				log("推流地址：", protocol(server), server, stream, "用户isPres:", Model.userInfo.is_pres, info._soCamWidth, info._soCamHeight);
-				if(_videoPlayer.type != null)
-				{
-					_videoPlayer.dispose();
-				}
+				_videoPlayer.dispose();
 				_videoPlayer.publish(info._soCamera, info._soMicrophone, server, stream, videoHandler, info._soCamWidth, info._soCamHeight);
 			}
 			else
@@ -363,6 +360,8 @@ package com.vhall.app.view.video
 		 */
 		private function retry(result:String = ""):void
 		{
+			_videoPlayer.dispose();
+
 			++_retryTimes;
 			if(Model.userInfo.is_pres)
 			{
@@ -462,25 +461,7 @@ package com.vhall.app.view.video
 					{
 						log("推流模式：",info.videoMode,_videoPlayer.usedCam,_videoPlayer.usedMic);
 						videoMode = info.videoMode || !_videoPlayer.usedCam;
-
-						var publishUrl:String = escape(info.publishUrl + "/" + info.publishStreamName);
-						if(!UniquePublishKeeper.keeper.add(publishUrl))
-						{
-							log("上一次推流还在进行，自动断掉老推流,重试推流");
-							UniquePublishKeeper.keeper.send(publishUrl,"dispose",info.publishStreamName);
-							publish();
-						}else{
-							UniquePublishKeeper.keeper.client = {
-									"dispose":function(streamName:String):void
-									{
-										if(isPublish && streamName == info.publishStreamName)
-										{
-											_videoPlayer.dispose();
-											UniquePublishKeeper.keeper.close();
-										}
-									}
-								};
-						}
+						uniquePublishCheck();
 					}
 					break;
 				case MediaProxyStates.STREAM_START:
@@ -527,6 +508,30 @@ package com.vhall.app.view.video
 				case MediaProxyStates.CAMERA_IS_USING:
 					log("推流摄像头被占用，请关闭摄像头占用程序,重新推流");
 					break;
+			}
+		}
+
+		private function uniquePublishCheck():void
+		{
+			//暂时不启用
+			return;
+			var publishUrl:String = escape(info.publishUrl + "/" + info.publishStreamName);
+			if(!UniquePublishKeeper.keeper.add(publishUrl))
+			{
+				log("上一次推流还在进行，自动断掉老推流,重试推流");
+				UniquePublishKeeper.keeper.send(publishUrl,"dispose",info.publishStreamName);
+				publish();
+			}else{
+				UniquePublishKeeper.keeper.client = {
+						"dispose":function(streamName:String):void
+						{
+							if(isPublish && streamName == info.publishStreamName)
+							{
+								_videoPlayer.dispose();
+								UniquePublishKeeper.keeper.close();
+							}
+						}
+					};
 			}
 		}
 
