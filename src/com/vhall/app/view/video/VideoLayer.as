@@ -13,6 +13,7 @@ package com.vhall.app.view.video
 	import com.vhall.framework.log.Logger;
 	import com.vhall.framework.media.provider.MediaProxyStates;
 	import com.vhall.framework.media.provider.MediaProxyType;
+	import com.vhall.framework.media.provider.UniquePublishKeeper;
 	import com.vhall.framework.media.video.VideoPlayer;
 
 	import flash.display.DisplayObjectContainer;
@@ -169,8 +170,11 @@ package com.vhall.app.view.video
 			var l:ResourceLoader = new ResourceLoader();
 			l.load({type:1, url:Resource.getResource("MicrophoneActivity")}, function(item:Object, content:Object, domain:ApplicationDomain):void
 			{
+				log("加载语音状态资源成功");
 				_micActivity = new AudioModelPicComp();
 				_micActivity.skin = content as MovieClip;
+
+				videoMode = info.videoMode;
 				autoStart();
 			}, null, function():void
 			{
@@ -268,6 +272,7 @@ package com.vhall.app.view.video
 
 		private function play():void
 		{
+			UniquePublishKeeper.keeper.close();
 			_preTime = 0;
 			if(!Model.userInfo.is_pres)
 			{
@@ -322,6 +327,7 @@ package com.vhall.app.view.video
 
 		private function publish():void
 		{
+			UniquePublishKeeper.keeper.close();
 			_preTime = 0;
 			if(Model.userInfo.is_pres)
 			{
@@ -339,7 +345,8 @@ package com.vhall.app.view.video
 				log("非当前正在直播用户不能推流");
 			}
 			videoPausedByClick = false;
-			_videoPlayer.visible = true
+			_videoPlayer.visible = true;
+			videoMode = info.videoMode
 		}
 
 		/**
@@ -428,7 +435,7 @@ package com.vhall.app.view.video
 
 		private function videoHandler(states:String, ... value):void
 		{
-//			log("视频状态:",states);
+			//log("视频状态:",states);
 			switch(states)
 			{
 				case MediaProxyStates.CONNECT_NOTIFY:
@@ -453,7 +460,27 @@ package com.vhall.app.view.video
 					MediaAJMessage.publishStart();
 					if(isPublish)
 					{
-						videoMode = info.videoMode = !_videoPlayer.usedCam;
+						log("推流模式：",info.videoMode,_videoPlayer.usedCam,_videoPlayer.usedMic);
+						videoMode = info.videoMode || !_videoPlayer.usedCam;
+
+						var publishUrl:String = escape(info.publishUrl + "/" + info.publishStreamName);
+						if(!UniquePublishKeeper.keeper.add(publishUrl))
+						{
+							log("上一次推流还在进行，自动断掉老推流,重试推流");
+							UniquePublishKeeper.keeper.send(publishUrl,"dispose",info.publishStreamName);
+							publish();
+						}else{
+							UniquePublishKeeper.keeper.client = {
+									"dispose":function(streamName:String):void
+									{
+										if(isPublish && streamName == info.publishStreamName)
+										{
+											_videoPlayer.dispose();
+											UniquePublishKeeper.keeper.close();
+										}
+									}
+								};
+						}
 					}
 					break;
 				case MediaProxyStates.STREAM_START:
@@ -505,7 +532,7 @@ package com.vhall.app.view.video
 
 		private function set videoMode(bool:Boolean):void
 		{
-			log("videoMode:", info.videoMode);
+			log("videoMode:", info.videoMode,Model.playerStatusInfo.videoMode);
 			if(!bool)
 			{
 				_micActivity && contains(_micActivity) && this.removeChild(_micActivity);
