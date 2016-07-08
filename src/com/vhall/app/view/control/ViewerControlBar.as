@@ -508,9 +508,11 @@ package com.vhall.app.view.control
 		/**
 		 *自动切线
 		 *
-		 */		
-		public function onAutoChangeServeLine():void{
-			if(serverLine){
+		 */
+		public function onAutoChangeServeLine():void
+		{
+			if(serverLine)
+			{
 				serverLine.changeSelect(Model.videoInfo.selectLineVo);
 			}
 		}
