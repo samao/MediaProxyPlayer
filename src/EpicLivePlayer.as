@@ -39,23 +39,26 @@ package
 			Security.allowDomain("*");
 			// load live.swf
 			var arr:Array = [];
-			arr.push({type:2,id:"ui", url:Resource.getResource("ui")});
+			arr.push({type:2, id:"ui", url:Resource.getResource("ui")});
 			var codepath:String = "Live";
 			if(CONFIG::RELEASE)
 			{
 				codepath += Version.ver;
 			}
-			arr.push({type:2,id:"live", url:Resource.getCode(codepath)});
+			arr.push({type:2, id:"live", url:Resource.getCode(codepath)});
 			ResourceLoadingView.show(arr, itemComplete, progress, allComplete);
 		}
 
 		protected function onResize(event:Event):void
 		{
-			try{
+			try
+			{
 				var obj:DisplayObject = this.getChildAt(0);
 				obj.width = StageManager.stageWidth;
 				obj.height = StageManager.stageHeight;
-			}catch(e:Error){
+			}
+			catch(e:Error)
+			{
 				Logger.getLogger("EpicLivePlayer onResize Error");
 			}
 
