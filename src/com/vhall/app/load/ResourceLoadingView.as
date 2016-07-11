@@ -49,7 +49,7 @@ package com.vhall.app.load
 		private function createAndConfigUI():void
 		{
 			graphics.clear();
-			graphics.beginFill(0x363636);
+			graphics.beginFill(0x000000);
 			graphics.drawRect(0,0,StageManager.stageWidth,StageManager.stageHeight);
 			graphics.endFill();
 

@@ -91,10 +91,10 @@ package com.vhall.app.net
 			{
 				return;
 			}
-			// 隐藏图片
-			dispatch(AppCMD.UI_HIDE_WARN);
-			// 调取当前摄像头进行再次推送
-			dispatch(AppCMD.PUBLISH_PUBLISH);
+//			// 隐藏图片
+//			dispatch(AppCMD.UI_HIDE_WARN);
+//			// 调取当前摄像头进行再次推送
+//			dispatch(AppCMD.PUBLISH_PUBLISH);
 		}
 	}
 }

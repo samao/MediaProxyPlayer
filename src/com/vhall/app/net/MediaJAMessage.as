@@ -109,9 +109,10 @@ package com.vhall.app.net
 					MediaModel.me().videoMode = false;
 				}
 				dispatch(AppCMD.PUBLISH_START);
+				dispatch(AppCMD.UI_HIDE_WARN);
+				dispatch(AppCMD.UI_SHOW_CONTROLBAR);
 			}
-			dispatch(AppCMD.UI_HIDE_WARN);
-			dispatch(AppCMD.UI_SHOW_CONTROLBAR);
+
 		}
 
 		private function unpublish(value:*):void
