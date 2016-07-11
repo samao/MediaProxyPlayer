@@ -21,6 +21,7 @@ package com.vhall.app.view.video
 	import flash.display.StageDisplayState;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
+	import flash.net.NetStreamPlayTransitions;
 	import flash.system.ApplicationDomain;
 	import flash.utils.clearInterval;
 	import flash.utils.clearTimeout;
@@ -160,6 +161,7 @@ package com.vhall.app.view.video
 
 			info.player = _videoPlayer ||= VideoPlayer.create();
 			_videoPlayer.volume = info.volume;
+			_videoPlayer.transition = NetStreamPlayTransitions.STOP;
 			addChild(_videoPlayer);
 
 			doubleClickEnabled = true;
