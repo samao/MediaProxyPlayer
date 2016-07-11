@@ -32,6 +32,7 @@ package com.vhall.app.net
 			// 如果小助手打开， 不管小助手是否正在推流。 网页端都不推
 			if(Model.playerStatusInfo.assistantOpened)
 			{
+				Logger.getLogger("publish").info("小助手开着，不能推流");
 				return;
 			}
 

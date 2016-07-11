@@ -65,6 +65,7 @@ package com.vhall.app.net
 			// 只有当前人为演讲人，才会执行以下逻辑
 			if(Model.userInfo.is_pres)
 			{
+				dispatch(AppCMD.MEDIA_PLAYER_DISPOSE);
 				//开启小助手消息
 				AssistantACMessage.startEngine(Model.Me().meetinginfo.pid, Model.Me().userinfo.uname, Model.Me().videoinfo.streamname, Model.Me().videoinfo.streamtoken, Model.Me().playerstatusinfo.hide_powered,
 					Model.Me().videoinfo.allPublishServers);
@@ -72,8 +73,7 @@ package com.vhall.app.net
 				dispatch(AppCMD.REPORT_JS_CLOS_VOLUME_REEPEAT);
 				// UI显示 使用小助手直播
 				dispatch(AppCMD.SWITCH_TO_ASSISTANT);
-				// 销毁当前推送流
-				dispatch(AppCMD.MEDIA_PLAYER_DISPOSE);
+					// 销毁当前推送流
 			}
 		}
 

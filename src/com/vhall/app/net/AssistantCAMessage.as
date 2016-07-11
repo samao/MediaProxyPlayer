@@ -2,6 +2,7 @@ package com.vhall.app.net
 {
 	import com.vhall.app.model.Model;
 	import com.vhall.framework.app.net.AbsMsgReceiver;
+	import com.vhall.framework.log.Logger;
 
 	/**
 	 * 小助手发给as的消息 client to as
@@ -27,6 +28,7 @@ package com.vhall.app.net
 			{
 				return;
 			}
+			Logger.getLogger("CAMSG").info("小助手连着");
 			Model.playerStatusInfo.assistantOpened = true;
 			dispatch(AppCMD.SWITCH_TO_ASSISTANT);
 		}
@@ -38,9 +40,9 @@ package com.vhall.app.net
 			{
 				return;
 			}
-			
+			Logger.getLogger("CAMSG").info("小助手挂了");
 			Model.playerStatusInfo.assistantOpened = false;
-			
+
 			if(Model.playerStatusInfo.quering)
 			{
 				Model.playerStatusInfo.quering = false;
@@ -70,7 +72,7 @@ package com.vhall.app.net
 			{
 				return;
 			}
-			
+
 			//小助手推流之前，会停止当前流的发送
 			dispatch(AppCMD.MEDIA_PLAYER_DISPOSE);
 		}
@@ -89,7 +91,6 @@ package com.vhall.app.net
 			{
 				return;
 			}
-			
 			// 隐藏图片
 			dispatch(AppCMD.UI_HIDE_WARN);
 			// 调取当前摄像头进行再次推送
@@ -97,3 +98,5 @@ package com.vhall.app.net
 		}
 	}
 }
+
+

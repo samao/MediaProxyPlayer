@@ -1,7 +1,9 @@
 package com.vhall.app.net
 {
+	import com.vhall.app.model.Model;
 	import com.vhall.framework.app.net.MessageManager;
 	import com.vhall.framework.app.net.SocketBridge;
+	import com.vhall.framework.log.Logger;
 
 	/**
 	 * flash 发给小助手的消息  as to client
@@ -35,6 +37,7 @@ package com.vhall.app.net
 			obj.hide_powered = hidePowered;
 //			obj.address = com.adobe.serialization.json.JSON.encode(address);
 			obj.address = JSON.stringify(address);
+			Model.playerStatusInfo.assistantOpened = true;
 			sender.sendMsg(MessageType.AC_START_ENGINE, obj);
 		}
 
@@ -43,7 +46,11 @@ package com.vhall.app.net
 		 */
 		public static function stopEngine():void
 		{
+			Logger.getLogger("CAMSG").info("关闭小助手了");
 			sender.sendMsg(MessageType.AC_STOP_ENGINE);
+			Model.playerStatusInfo.assistantOpened = false;
 		}
 	}
 }
+
+
