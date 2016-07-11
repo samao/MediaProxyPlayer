@@ -160,7 +160,6 @@ package com.vhall.app.view.video
 			super.createChildren();
 
 			info.player = _videoPlayer ||= VideoPlayer.create();
-			_videoPlayer.backgroundColor = 0x363636;
 			_videoPlayer.volume = info.volume;
 			_videoPlayer.transition = null;
 			addChild(_videoPlayer);
