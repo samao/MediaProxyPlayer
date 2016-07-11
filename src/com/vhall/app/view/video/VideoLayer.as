@@ -21,6 +21,7 @@ package com.vhall.app.view.video
 	import flash.display.StageDisplayState;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
+	import flash.net.NetStreamPlayTransitions;
 	import flash.system.ApplicationDomain;
 	import flash.utils.clearInterval;
 	import flash.utils.clearTimeout;
@@ -159,7 +160,9 @@ package com.vhall.app.view.video
 			super.createChildren();
 
 			info.player = _videoPlayer ||= VideoPlayer.create();
+			_videoPlayer.backgroundColor = 0x363636;
 			_videoPlayer.volume = info.volume;
+			_videoPlayer.transition = null;
 			addChild(_videoPlayer);
 
 			doubleClickEnabled = true;
@@ -331,8 +334,8 @@ package com.vhall.app.view.video
 			_preTime = 0;
 			if(Model.userInfo.is_pres)
 			{
-				const server:String = Model.userInfo.is_pres ? MediaModel.me().publishUrl : MediaModel.me().netOrFileUrl;
-				const stream:String = Model.userInfo.is_pres ? MediaModel.me().publishStreamName : MediaModel.me().streamName;
+				const server:String = MediaModel.me().publishUrl;
+				const stream:String = MediaModel.me().publishStreamName;
 				log("推流地址：", protocol(server), server, stream, "用户isPres:", Model.userInfo.is_pres, info._soCamWidth, info._soCamHeight);
 				_videoPlayer.dispose();
 				_videoPlayer.publish(info._soCamera, info._soMicrophone, server, stream, videoHandler, info._soCamWidth, info._soCamHeight);

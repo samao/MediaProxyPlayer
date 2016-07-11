@@ -33,6 +33,7 @@ package
 	 * @author Sol
 	 * @date 2016-05-24 21:25:26
 	 */
+	[SWF(backgroundColor="#363636")]
 	public class Live extends Box implements IResponder
 	{
 		// 整个视频层
