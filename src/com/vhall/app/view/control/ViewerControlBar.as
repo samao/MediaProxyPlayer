@@ -269,7 +269,7 @@ package com.vhall.app.view.control
 		protected function onInitDefination():void
 		{
 
-			if(Model.playerStatusInfo.hideQualitySwitch  || Model.playerStatusInfo.videoMode == 1)
+			if(Model.playerStatusInfo.hideQualitySwitch || Model.playerStatusInfo.videoMode == 1)
 			{
 				return;
 			}
@@ -331,10 +331,11 @@ package com.vhall.app.view.control
 		 */
 		protected function onInitVideoModeBtn():void
 		{
-			if(Model.playerStatusInfo.videoMode == 1){
+			if(Model.playerStatusInfo.videoMode == 1)
+			{
 				return;
 			}
-			if(!Model.playerStatusInfo.streamType )
+			if(!Model.playerStatusInfo.streamType)
 				return;
 			changeVideoMode = new VideoAudioChangeBtn(hb)
 			changeVideoMode.setSize(74, 22);

@@ -16,7 +16,7 @@ package com.vhall.app.view.control
 
 		private var _viewBar:AbstractControlBar;
 
-		public function ControlLayer(parent:DisplayObjectContainer=null, xpos:Number=0, ypos:Number=0)
+		public function ControlLayer(parent:DisplayObjectContainer = null, xpos:Number = 0, ypos:Number = 0)
 		{
 			super(parent, xpos, ypos);
 			height = 35;
@@ -50,51 +50,54 @@ package com.vhall.app.view.control
 
 		protected function setToHost():void
 		{
-			if(bar) bar.removeFromParent();
+			if(bar)
+				bar.removeFromParent();
 			bar = _hostBar ||= new HostControlBar();
 			this.addChild(bar);
 		}
 
 		protected function setToView():void
 		{
-			if(bar) bar.removeFromParent();
+			if(bar)
+				bar.removeFromParent();
 			bar = _viewBar ||= new ViewerControlBar();
 			this.addChild(bar);
 		}
 
 		public function careList():Array
 		{
-			return [
-				AppCMD.UI_CHANGE_CONTROLBAR,
-				AppCMD.UI_SHOW_CONTROLBAR,
-				AppCMD.UI_HIDE_CONTROLBAR,
-				AppCMD.UI_AUTO_CHANGE_SERVERLINE
-				];
+			return [AppCMD.UI_CHANGE_CONTROLBAR, AppCMD.UI_SHOW_CONTROLBAR, AppCMD.UI_HIDE_CONTROLBAR, AppCMD.UI_AUTO_CHANGE_SERVERLINE];
 		}
 
-		public function handleCare(msg:String, ...args):void
+		public function handleCare(msg:String, ... args):void
 		{
 			switch(msg)
 			{
 				case AppCMD.UI_CHANGE_CONTROLBAR:
-					if(Model.userInfo.is_pres){
+					if(Model.userInfo.is_pres)
+					{
 						setToHost();
-					}else{
+					}
+					else
+					{
 						setToView();
 					}
 					break;
-				case 	AppCMD.UI_SHOW_CONTROLBAR:
-					if(bar){
+				case AppCMD.UI_SHOW_CONTROLBAR:
+					if(bar)
+					{
 						bar.visible = true;
 					}
 					break;
-				case 	AppCMD.UI_HIDE_CONTROLBAR:
-					if(bar){
+				case AppCMD.UI_HIDE_CONTROLBAR:
+					if(bar)
+					{
 						bar.visible = false;
 					}
 					break;
-				case 	AppCMD.UI_AUTO_CHANGE_SERVERLINE:
-					if(bar && bar is ViewerControlBar){
+				case AppCMD.UI_AUTO_CHANGE_SERVERLINE:
+					if(bar && bar is ViewerControlBar)
+					{
 						(bar as ViewerControlBar).onAutoChangeServeLine();
 					}
 					break;
