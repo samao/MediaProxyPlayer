@@ -35,7 +35,6 @@ package com.vhall.app.net
 				Logger.getLogger("publish").info("小助手开着，不能推流");
 				return;
 			}
-
 			if(MediaModel.me().player.isPlaying)
 			{
 				dispatch(AppCMD.SHOW_SWITCH_GUEST_BUFFER);
@@ -74,7 +73,6 @@ package com.vhall.app.net
 			MediaModel.me().update();
 
 			dispatch(AppCMD.PUBLISH_PUBLISH);
-
 			dispatch(AppCMD.REPORT_START_MIC_REPEAT);
 		}
 
@@ -109,6 +107,9 @@ package com.vhall.app.net
 					MediaModel.me().videoMode = false;
 				}
 				dispatch(AppCMD.PUBLISH_START);
+			}
+
+			if(!Model.playerStatusInfo.assistantOpened){
 				dispatch(AppCMD.UI_HIDE_WARN);
 				dispatch(AppCMD.UI_SHOW_CONTROLBAR);
 			}
