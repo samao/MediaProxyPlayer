@@ -9,7 +9,6 @@ package com.vhall.app.view.control
 	import com.vhall.app.view.control.ui.VolumeBar;
 	import com.vhall.app.view.control.ui.component.SwitchListBox;
 	import com.vhall.app.view.control.ui.component.VideoAudioChangeBtn;
-	import com.vhall.framework.app.manager.RenderManager;
 	import com.vhall.framework.app.manager.StageManager;
 	import com.vhall.framework.app.mvc.IResponder;
 	import com.vhall.framework.app.mvc.ResponderMediator;
@@ -20,7 +19,6 @@ package com.vhall.app.view.control
 	import com.vhall.framework.ui.controls.UIComponent;
 	import com.vhall.framework.ui.event.DragEvent;
 
-	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
@@ -271,8 +269,10 @@ package com.vhall.app.view.control
 		protected function onInitDefination():void
 		{
 
-			if(Model.playerStatusInfo.hideQualitySwitch)
+			if(Model.playerStatusInfo.hideQualitySwitch  || Model.playerStatusInfo.videoMode == 1)
+			{
 				return;
+			}
 			var sdata:Array = Model.videoInfo.definitionInfo;
 			definationBox = new SwitchListBox(hb);
 			var showData:Array = []
@@ -331,7 +331,10 @@ package com.vhall.app.view.control
 		 */
 		protected function onInitVideoModeBtn():void
 		{
-			if(!Model.playerStatusInfo.streamType)
+			if(Model.playerStatusInfo.videoMode == 1){
+				return;
+			}
+			if(!Model.playerStatusInfo.streamType )
 				return;
 			changeVideoMode = new VideoAudioChangeBtn(hb)
 			changeVideoMode.setSize(74, 22);
