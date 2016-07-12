@@ -31,7 +31,7 @@ package com.vhall.app.common
 		/**
 		 *	编译版本号
 		 */
-		public static const Build:int = 6; //new Date().minutes + "." + new Date().seconds;
+		public static const Build:int = 7; //new Date().minutes + "." + new Date().seconds;
 
 		/**
 		 * 获取当前APP名字
