@@ -1,8 +1,7 @@
 package com.vhall.app.view.popup.ui
 {
 	import com.vhall.app.common.Resource;
-	import com.vhall.framework.ui.controls.Image;
-	
+
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 
@@ -19,7 +18,7 @@ package com.vhall.app.view.popup.ui
 		{
 			super.createChildren();
 			logo =  Resource.getLogo();
-			logo.x = 42;
+			logo.x = 65;
 			logo.y = 55;
 			this.addChild(logo);
 		}
@@ -31,3 +30,5 @@ package com.vhall.app.view.popup.ui
 		}
 	}
 }
+
+
