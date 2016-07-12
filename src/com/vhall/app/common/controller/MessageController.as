@@ -27,7 +27,7 @@ package com.vhall.app.common.controller
 
 		override protected function initController():void
 		{
-			Logger.getLogger("message init").info("initController");
+			Logger.getLogger("INIT").info("initController");
 			//webbridge注册必须在 监听之前；
 			MessageManager.getInstance().initWebBridge(new LiveWebBridge());
 
@@ -46,3 +46,5 @@ package com.vhall.app.common.controller
 		}
 	}
 }
+
+
